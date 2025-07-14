@@ -2,6 +2,6 @@ services:
   - type: web
     name: FYP-25-S3-15P
     branch: main
-    plan: free
+    rootDir: FYP-25-S3-15P
     buildCommand: dotnet publish -c Release -o out
     startCommand: dotnet out/FYP_25_S3_15P.dll
