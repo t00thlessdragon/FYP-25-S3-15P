@@ -1,6 +1,7 @@
 services:
   - type: web
     name: FYP-25-S3-15P
+    runtime: dotnet
     branch: main
     rootDir: FYP-25-S3-15P
     buildCommand: dotnet publish -c Release -o out
