@@ -10,4 +10,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
-ENTRYPOINT ["dotnet", "FYP_25_S3_15P.dll"]
+ENTRYPOINT ["dotnet", "FYP-25-S3-15P.dll"]
+
