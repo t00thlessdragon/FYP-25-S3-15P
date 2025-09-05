@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Core Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/FYP-25-S3-15P/bin/Debug/net6.0/FYP-25-S3-15P.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/FYP-25-S3-15P",
+      "stopAtEntry": false,
+      "env": { "ASPNETCORE_ENVIRONMENT": "Development" },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      }
+    }
+  ]
+}
