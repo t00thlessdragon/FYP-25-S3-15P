@@ -1,176 +1,108 @@
-/* styles.css */
-/* Reset */
+/* =========================
+   Reset + Base
+   ========================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 html, body {
-  background: #f0f0f0;
-  color: #333;
   height: 100%;
+  margin: 0;
 }
 body {
   font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  color: #333;
+  line-height: 1.5;
 }
 
-/* Container */
+/* =========================
+   Layout Helpers
+   ========================= */
+.pt-nav {
+  padding-top: 72px; /* Space for fixed navbar (Bootstrap ~56px) */
+}
+
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Header/Nav */
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-}
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
-nav ul li a {
-  text-decoration: none;
-  color: #333;
-  padding: 8px 16px;
-  border: 1px solid #333;
-  border-radius: 4px;
-  transition: background 0.3s;
-}
-nav ul li a:hover {
-  background: rgba(0,0,0,0.1);
+/* Wider container for landing cards */
+.container-wide {
+  width: 95%;
+  max-width: 1600px;  /* wider but still centered */
+  margin: 0 auto;
 }
 
-/* Hero Full-Width */
-.hero {
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  width: 100vw;
-  background: url('background.jpg') center/cover no-repeat;
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
+/* =========================
+   Cards as Sections
+   ========================= */
+.card-xxl {
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
 }
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-}
-.hero-content {
-  position: relative;
-  z-index: 1;
-  padding: 0 20px;
-  width: 100%;
-}
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #fff;
-}
-.hero .highlight {
-  color: #4CAF50;
-}
-.subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  color: #ddd;
-}
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.btn {
-  text-decoration: none;
-  padding: 12px 30px;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: background 0.3s, color 0.3s;
-}
-.btn-primary {
-  background: #4CAF50;
-  color: #fff;
-  border: none;
-}
-.btn-primary:hover {
-  background: #45a049;
-}
-.btn-outline {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-.btn-outline:hover {
-  background: #fff;
-  color: #222;
+.card-xl {
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
 }
 
-/* Features Section */
-.features-section {
-  padding: 60px 0;
-  text-align: center;
-  background: transparent;
-}
-.features-section h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  color: #333;
-}
-.features {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.feature {
-  flex: 1 1 30%;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.feature h3 {
-  margin-bottom: 15px;
-  color: #4CAF50;
-}
-.feature p {
-  color: #555;
+.card.rounded-4 {
+  border-radius: 1.25rem !important;
 }
 
-/* Footer */
-footer {
+/* =========================
+   Hero Carousel
+   ========================= */
+.hero-slide {
+  height: 70vh;          /* Big “hero card” feel */
+  object-fit: cover;
+}
+
+/* =========================
+   Pricing Plans
+   ========================= */
+.plan .display-5 {
+  letter-spacing: -1px;
+}
+
+/* =========================
+   Testimonials
+   ========================= */
+.card-body img.rounded-circle {
+  object-fit: cover;
+  border: 3px solid #eee;
+}
+
+/* =========================
+   Footer
+   ========================= */
+footer.footer {
   background: #f0f0f0;
-  padding: 20px 0;
   text-align: center;
+  padding: 1rem 0;
   color: #333;
 }
 
-/* Responsive */
+/* =========================
+   Responsive Tweaks
+   ========================= */
 @media (max-width: 768px) {
-  .features {
-    flex-direction: column;
+  .hero-slide {
+    height: 50vh;
   }
-  .hero h1 {
-    font-size: 2rem;
+  .display-5 {
+    font-size: 1.75rem;
   }
+}
+
+.accordion-item {
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+.accordion-button {
+  font-weight: 500;
 }

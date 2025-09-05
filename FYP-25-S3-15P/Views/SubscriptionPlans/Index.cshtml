@@ -1,0 +1,55 @@
+@model IEnumerable<FYP_25_S3_15P.Models.SubscriptionPlan>
+@{
+    var plans = Model.OrderBy(p => p.Price).ToList();
+    var featureNames = plans
+        .SelectMany(p => p.Features.Select(f => f.Name))
+        .Distinct()
+        .OrderBy(n => n)
+        .ToList();
+}
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Plans to suit your institution</h2>
+
+        <div class="row g-4 mb-4">
+            @foreach (var p in plans)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 rounded-4 shadow-sm @(plans.IndexOf(p)==1 ? "border-primary" : "")">
+                        <div class="card-body text-center p-4">
+                            <h3 class="h4">@p.Name</h3>
+                            <div class="display-5 fw-bold my-2">$@p.Price</div>
+                            <div class="text-muted mb-3">SGD / month</div>
+                            <p class="small">@p.Description</p>
+                            <a class="btn btn-outline-primary mt-2" asp-controller="SubscriptionPlans" asp-action="Index">See full pricing detail</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="table-light">
+                <tr>
+                    <th>Feature</th>
+                    @foreach (var p in plans) { <th>@p.Name</th> }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var fname in featureNames)
+                {
+                    <tr>
+                        <td>@fname</td>
+                        @foreach (var p in plans)
+                        {
+                            var hasIt = p.Features.Any(f => f.Name == fname);
+                            <td>@(hasIt ? "✓" : "✗")</td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

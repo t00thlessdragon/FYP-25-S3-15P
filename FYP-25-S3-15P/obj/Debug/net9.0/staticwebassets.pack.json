@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/landingbg.jpg",
+      "PackagePath": "staticwebassets/images/landingbg.jpg"
+    },
+    {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

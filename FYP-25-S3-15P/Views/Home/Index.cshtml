@@ -1,38 +1,212 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<FYP_25_S3_15P.Models.SubscriptionPlan>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Year Project Landing Page</title>
-    <link rel="stylesheet" href="site.css">
-</head>
-<body>
+<!-- Hero Carousel Card -->
+<section class="card-xxl container-wide">
+    <div class="card rounded-4 overflow-hidden shadow-lg">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="~/images/hero-1.jpg" class="d-block w-100 hero-slide" alt="Feature 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 class="display-5 fw-bold">Smart Project Allocation System</h1>
+                        <p class="lead">Automate matching between students, supervisors, and projects.</p>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a class="btn btn-light btn-lg" asp-action="About">Learn More</a>
+                            <a class="btn btn-outline-light btn-lg" href="#plans">View Plans</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="~/images/hero-2.jpg" class="d-block w-100 hero-slide" alt="Feature 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 class="fw-bold">Rule Templates & AI-assisted Matching</h2>
+                        <p>Weighting, constraints, prerequisites — all configurable.</p>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="~/images/hero-3.jpg" class="d-block w-100 hero-slide" alt="Feature 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h2 class="fw-bold">Dashboards & Reports</h2>
+                        <p>Visibility for Platform Admins, University Admins, and Coordinators.</p>
+                    </div>
+                </div>
+            </div>
 
-<section class="hero">
-    <div class="hero-content container">
-        <h1>Welcome to our <span class="highlight"><br/>Smart Project Allocation System!</span></h1>
-        <p class="subtitle">Group FYP-25-S3-15P</p>
-        <p class="subtitle">
-            Members:<br>
-            Kaung Wai Yan Hein (Project Leader)<br>
-            Tan Tee Bing<br>
-            Tan Hui Keng<br>
-            Teo Yang Lin<br>
-            Oh Shan Ge
-        </p>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
 
-
-        <div class="hero-buttons">
-            <a href="#features" class="btn btn-primary">Learn More</a>
-            <a href="#contact" class="btn btn-outline">Contact Us</a>
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
         </div>
     </div>
 </section>
 
-</body>
-</html>
+<!-- Pricing Plans Card -->
+<section id="plans" class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Plans to suit your institution</h2>
+
+        <div class="row g-4">
+            @foreach (var p in Model)
+            {
+                <div class="col-md-4">
+                    <div class="plan card h-100 rounded-4 shadow-sm @(p.Name == "Standard" ? "border-primary" : "")">
+                        <div class="card-body p-4 text-center">
+                            <h3 class="h4">@p.Name</h3>
+                            <div class="display-5 fw-bold my-2">$@p.Price</div>
+                            <div class="text-muted mb-3">SGD / month</div>
+                            @if (!string.IsNullOrWhiteSpace(p.Description))
+                            {
+                                <p class="small">@p.Description</p>
+                            }
+                            <a class="btn @(p.Name == "Standard" ? "btn-primary" : "btn-outline-primary") mt-2"
+                               asp-controller="SubscriptionPlans" asp-action="Index">
+                                See full pricing detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Card -->
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Testimonials</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-1.jpg" class="rounded-circle mb-3" width="90" height="90" alt="Founder">
+                        <h5 class="mb-1">James D. Kelly</h5>
+                        <div class="text-muted small">Founder</div>
+                        <div class="my-2">★★★★★</div>
+                        <p class="small mb-0">“Allocation used to take days. Now it’s minutes.”</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-2.jpg" class="rounded-circle mb-3" width="90" height="90" alt="CEO">
+                        <h5 class="mb-1">Joanna S. Brown</h5>
+                        <div class="text-muted small">CEO</div>
+                        <div class="my-2">★★★★☆</div>
+                        <p class="small mb-0">“Fair, transparent matching with great reporting.”</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-3.jpg" class="rounded-circle mb-3" width="90" height="90" alt="Manager">
+                        <h5 class="mb-1">Jason E. George</h5>
+                        <div class="text-muted small">Manager</div>
+                        <div class="my-2">★★★★☆</div>
+                        <p class="small mb-0">“Setup was simple; templates saved us weeks.”</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Card -->
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            
+            <!-- FAQ 1 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeading1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+                        What is SMART Project Allocation System?
+                    </button>
+                </h2>
+                <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is a platform that helps universities automatically match students, supervisors, and projects based on customizable criteria.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeading2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                        How does it work?
+                    </button>
+                </h2>
+                <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        By using predefined rules, weightages, and AI-assisted suggestions, the system allocates projects fairly and efficiently.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeading3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                        Who can use the system?
+                    </button>
+                </h2>
+                <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Platform Admins, University Admins, Subject Coordinators, Supervisors, and Students can all access role-specific features.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeading4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+                        Can the rules be customized?
+                    </button>
+                </h2>
+                <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, institutions can configure allocation rules, weightages, and prerequisites according to their academic needs.
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeading5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse5" aria-expanded="false" aria-controls="faqCollapse5">
+                        How can I get started?
+                    </button>
+                </h2>
+                <div id="faqCollapse5" class="accordion-collapse collapse" aria-labelledby="faqHeading5" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Contact our team to set up your institution’s profile. You can begin with the Starter plan and scale up as needed.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,165 @@
+@model FYP_25_S3_15P.Models.ContentMaster
+@{
+    // We already have plans inside Model.Plans, no need for ViewBag here
+    var plans = Model.Plans ?? new List<FYP_25_S3_15P.Models.SubscriptionPlan>();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Features</h4>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFeatureModal">
+    + Add Feature
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Plans</th>
+        <th style="width:80px;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    @foreach (var f in Model.Features)
+    {
+      // Gather the plan names for this feature
+      var planNames = f.PlanFeatures?
+          .Select(pf => pf.Plan?.Name)
+          .Where(n => !string.IsNullOrWhiteSpace(n))
+          .ToList() ?? new List<string>();
+
+      // Also gather the numeric plan IDs so the edit modal can preselect them
+      var planIdsCsv = string.Join(",", f.PlanFeatures?.Select(pf => pf.PlanID) ?? Array.Empty<int>());
+
+      <tr>
+        <td>@f.Name</td>
+        <td>@f.Description</td>
+        <td>@(planNames.Any() ? string.Join(", ", planNames) : "-")</td>
+        <td class="text-end">
+          <div class="dropdown">
+            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+              <i class="bi-three-dots-vertical fs-5"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button type="button"
+                        class="dropdown-item"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editFeatureModal"
+                        data-id="@f.FeatureID"
+                        data-name="@f.Name"
+                        data-description="@f.Description"
+                        data-planids="@planIdsCsv">
+                  View / Edit
+                </button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <form asp-action="Delete" asp-controller="Features" method="post">
+                  <input type="hidden" name="id" value="@f.FeatureID" />
+                  <button type="submit" class="dropdown-item text-danger">Delete</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Feature Modal -->
+<div class="modal fade" id="addFeatureModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form asp-controller="Features" asp-action="Create" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Feature</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input name="Name" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="Description" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Plans</label>
+            <!-- MULTI-SELECT: name must match controller param (e.g. selectedPlanIds) -->
+            <select name="selectedPlanIds" class="form-select" multiple size="3" required>
+              @foreach (var p in plans)
+              {
+                <option value="@p.PlanID">@p.Name</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Feature Modal -->
+<div class="modal fade" id="editFeatureModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form asp-controller="Features" asp-action="Edit" method="post" id="editFeatureForm">
+        <div class="modal-header">
+          <h5 class="modal-title">View / Edit Feature</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="f_Id" name="FeatureID" />
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input id="f_Name" name="Name" class="form-control" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea id="f_Description" name="Description" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Plans</label>
+            <!-- MULTI-SELECT -->
+            <select id="f_PlanIDs" name="selectedPlanIds" class="form-select" multiple size="3" required>
+              @foreach (var p in plans)
+              {
+                <option value="@p.PlanID">@p.Name</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+document.getElementById('editFeatureModal')?.addEventListener('show.bs.modal', function (event) {
+  const btn = event.relatedTarget;
+  document.getElementById('f_Id').value = btn.getAttribute('data-id');
+  document.getElementById('f_Name').value = btn.getAttribute('data-name');
+  document.getElementById('f_Description').value = btn.getAttribute('data-description') || '';
+
+  // Preselect the plans
+  const csv = (btn.getAttribute('data-planids') || '').split(',').filter(Boolean);
+  const select = document.getElementById('f_PlanIDs');
+  [...select.options].forEach(o => o.selected = csv.includes(o.value));
+});
+</script>
+}
