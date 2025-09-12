@@ -10,6 +10,7 @@
 
     <!-- Your site CSS (contains .container-wide etc.) -->
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/choices.min.css" asp-append-version="true" />
 </head>
 <body>
 <!-- Fixed top navbar -->
@@ -25,8 +26,10 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="#plans">Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="#testimonial">Testimonials</a></li>
                 <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
             </ul>
         </div>
@@ -40,6 +43,8 @@
 
 <!-- Bootstrap JS (bundle includes Popper, required for collapse/accordion) -->
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/choices.js" asp-append-version="true"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
 @RenderSection("Scripts", required: false)
 </body>

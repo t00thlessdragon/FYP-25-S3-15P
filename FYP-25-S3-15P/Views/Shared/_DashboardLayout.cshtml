@@ -12,9 +12,7 @@
 
     <!-- Shared site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
-    <!-- Optional: add a dashboard-specific CSS if you want -->
-    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/choices.min.css" asp-append-version="true" />
 </head>
 
 <body data-active-modal="@ViewBag.ActiveModal">
@@ -28,11 +26,12 @@
 
         <div class="collapse navbar-collapse" id="dashboardNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" asp-controller="SubscriptionPlans" asp-action="Index">Plans</a></li>
-                @* add more dashboard links here *@
-                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Public Site</a></li>
+                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Main Site</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="PADashboard" asp-action="Index">PA Dashboard</a>
+                    <a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a>
                 </li>
 
             </ul>
@@ -46,7 +45,12 @@
 
 <!-- JS -->
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/choices.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/features-admin.js" asp-append-version="true"></script>
+
+
+
 @RenderSection("Scripts", required: false)
 </body>
 </html>

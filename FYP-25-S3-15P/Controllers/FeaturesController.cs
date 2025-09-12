@@ -3,65 +3,121 @@ using Microsoft.EntityFrameworkCore;
 using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;
 
-namespace FYP_25_S3_15P.Controllers
+namespace FYP_25_S3_15P.Controllers;
+
+public class FeaturesController : Controller
 {
-    public class FeaturesController : Controller
+    private readonly SmartDbContext _db;
+    private readonly IWebHostEnvironment _env;
+
+    public FeaturesController(SmartDbContext db, IWebHostEnvironment env)
     {
-        private readonly SmartDbContext _db;
-        public FeaturesController(SmartDbContext db) => _db = db;
+        _db = db;
+        _env = env;
+    }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description")] Feature f, int[] selectedPlanIds)
+    // POST /Features/Create
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(string name, string? description, List<int>? selectedPlanIds)
+    {
+        var f = new Feature { Name = name, Description = description?.Trim() };
+        _db.Features.Add(f);
+        await _db.SaveChangesAsync();
+
+        if (selectedPlanIds is { Count: > 0 })
         {
-            if (!ModelState.IsValid)
-                return RedirectToAction("Index", "PADashboard", new { tab = "features" });
-
-            _db.Features.Add(f);
-            await _db.SaveChangesAsync(); // get FeatureID
-
             foreach (var pid in selectedPlanIds.Distinct())
-                _db.PlanFeatures.Add(new PlanFeature { PlanID = pid, FeatureID = f.FeatureID });
+                _db.PlanFeatures.Add(new PlanFeature { FeatureID = f.FeatureID, PlanID = pid });
 
             await _db.SaveChangesAsync();
-            return RedirectToAction("Index", "PADashboard", new { tab = "features" });
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("FeatureID,Name,Description")] Feature f, int[] selectedPlanIds)
+        return RedirectToAction("Index", "PADashboard", new { tab = "features" });
+    }
+
+    // Toggle the ShowOnHome flag from the table switch
+    // POST /Features/ToggleHome
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleHome(int id, bool value)
+    {
+        var f = await _db.Features.FindAsync(id);
+        if (f == null) return NotFound();
+
+        f.ShowOnHome = value;
+        await _db.SaveChangesAsync();
+
+        return RedirectToAction("Index", "PADashboard", new { tab = "features" });
+    }
+
+    // POST /Features/Edit (from the View/Edit modal)
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        int featureId,
+        string name,
+        string? description,
+        int? homeOrder,
+        string? homeTitle,
+        string? homeSummary,
+        IFormFile? homeImage,                 // uploaded file
+        string? existingHomeImagePath,        // keep old path if no upload
+        List<int>? selectedPlanIds)
+    {
+        var feature = await _db.Features
+            .Include(x => x.PlanFeatures)
+            .FirstOrDefaultAsync(x => x.FeatureID == featureId);
+
+        if (feature == null) return NotFound();
+
+        feature.Name         = name?.Trim();
+        feature.Description  = description?.Trim();
+        feature.HomeOrder    = homeOrder;
+        feature.HomeTitle    = homeTitle?.Trim();
+        feature.HomeSummary  = homeSummary?.Trim();
+
+        // Save uploaded image (if any) to /wwwroot/images/features/
+        if (homeImage is { Length: > 0 })
         {
-            var existing = await _db.Features
-                .Include(x => x.PlanFeatures)
-                .FirstOrDefaultAsync(x => x.FeatureID == f.FeatureID);
+            var uploadsRoot = Path.Combine(_env.WebRootPath, "images", "features");
+            Directory.CreateDirectory(uploadsRoot);
 
-            if (existing == null) return NotFound();
+            var fileName = $"{Guid.NewGuid():N}{Path.GetExtension(homeImage.FileName)}";
+            var filePath = Path.Combine(uploadsRoot, fileName);
 
-            existing.Name = f.Name;
-            existing.Description = f.Description;
+            await using (var fs = System.IO.File.Create(filePath))
+                await homeImage.CopyToAsync(fs);
 
-            var newSet       = selectedPlanIds?.ToHashSet() ?? new HashSet<int>();
-            var currentSet   = existing.PlanFeatures.Select(pf => pf.PlanID).ToHashSet();
-
-            // remove unselected
-            _db.PlanFeatures.RemoveRange(existing.PlanFeatures.Where(pf => !newSet.Contains(pf.PlanID)).ToList());
-
-            // add newly selected
-            foreach (var pid in newSet.Except(currentSet))
-                existing.PlanFeatures.Add(new PlanFeature { PlanID = pid, FeatureID = existing.FeatureID });
-
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index", "PADashboard", new { tab = "features" });
+            // store as web path
+            feature.HomeImagePath = $"/images/features/{fileName}";
         }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        else
         {
-            var f = await _db.Features.FindAsync(id);
-            if (f != null)
-            {
-                _db.Features.Remove(f);
-                await _db.SaveChangesAsync();
-            }
-            return RedirectToAction("Index", "PADashboard", new { tab = "features" });
+            // keep what UI sent as existing (or what’s already on the entity)
+            if (!string.IsNullOrWhiteSpace(existingHomeImagePath))
+                feature.HomeImagePath = existingHomeImagePath;
         }
+
+        // Reconcile many-to-many PlanFeatures
+        var newIds   = (selectedPlanIds ?? new List<int>()).Distinct().ToHashSet();
+        var toRemove = feature.PlanFeatures.Where(pf => !newIds.Contains(pf.PlanID)).ToList();
+        _db.PlanFeatures.RemoveRange(toRemove);
+
+        var existing = feature.PlanFeatures.Select(pf => pf.PlanID).ToHashSet();
+        foreach (var pid in newIds.Except(existing))
+            _db.PlanFeatures.Add(new PlanFeature { FeatureID = feature.FeatureID, PlanID = pid });
+
+        await _db.SaveChangesAsync();
+        return RedirectToAction("Index", "PADashboard", new { tab = "features" });
+    }
+
+    // POST /Features/Delete
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var feature = await _db.Features.FindAsync(id);
+        if (feature == null) return NotFound();
+
+        _db.Features.Remove(feature);
+        await _db.SaveChangesAsync();
+        return RedirectToAction("Index", "PADashboard", new { tab = "features" });
     }
 }

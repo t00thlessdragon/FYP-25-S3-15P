@@ -38,12 +38,11 @@
                         data-id="@p.PlanID"
                         data-name="@p.Name"
                         data-price="@p.Price"
-                        data-description="@p.Description"
-                        data-features="@p.Features">
+                        data-description="@p.Description">
                   View / Edit
                 </button>
               </li>
-              <li><hr class="dropdown-divider"/></li>
+              <li><hr class="dropdown-divider" /></li>
               <li>
                 <button type="button"
                         class="dropdown-item text-danger btn-delete"
@@ -86,10 +85,6 @@
               <label class="form-label">Description</label>
               <input name="Description" class="form-control" />
             </div>
-            <div class="col-12">
-              <label class="form-label">Features (one per line)</label>
-              <textarea name="Features" rows="6" class="form-control"></textarea>
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -125,10 +120,6 @@
               <label class="form-label">Description</label>
               <input name="Description" id="edit_Description" class="form-control" readonly />
             </div>
-            <div class="col-12">
-              <label class="form-label">Features (one per line)</label>
-              <textarea name="Features" id="edit_Features" rows="6" class="form-control" readonly></textarea>
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -162,3 +153,40 @@
     </div>
   </div>
 </div>
+
+@section Scripts {
+<script>
+// View/Edit modal population
+document.getElementById('viewEditModal')?.addEventListener('show.bs.modal', function (event) {
+  const btn = event.relatedTarget;
+  document.getElementById('edit_PlanID').value = btn.getAttribute('data-id');
+  document.getElementById('edit_Name').value = btn.getAttribute('data-name');
+  document.getElementById('edit_Price').value = btn.getAttribute('data-price');
+  document.getElementById('edit_Description').value = btn.getAttribute('data-description');
+  // lock fields by default
+  setReadOnly(true);
+});
+
+// Enable edit
+document.getElementById('enableEditBtn')?.addEventListener('click', function () {
+  setReadOnly(false);
+  document.getElementById('saveChangesBtn').disabled = false;
+});
+
+function setReadOnly(lock) {
+  ['edit_Name','edit_Price','edit_Description'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lock) el.setAttribute('readonly', 'readonly');
+    else el.removeAttribute('readonly');
+  });
+}
+
+// Delete modal population
+document.getElementById('deleteModal')?.addEventListener('show.bs.modal', function (event) {
+  const btn = event.relatedTarget;
+  document.getElementById('delete_Id').value = btn.getAttribute('data-id');
+  document.getElementById('delete_Name').textContent = btn.getAttribute('data-name');
+});
+</script>
+}

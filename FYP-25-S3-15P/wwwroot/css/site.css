@@ -106,3 +106,17 @@ footer.footer {
 .accordion-button {
   font-weight: 500;
 }
+
+/* Simple pill style for the Join button */
+.btn-join-now{
+  background: linear-gradient(90deg,#2c6ef2,#1a4dd6);
+  border: 0;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(44,110,242,.25);
+  letter-spacing: .2px;
+}
+.btn-join-now:hover{
+  color:#fff;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(44,110,242,.35);
+}

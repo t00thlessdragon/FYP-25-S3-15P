@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "zNQ3C7+HE6mDjIEo/li8mEvCj82de1QRBpTxYQkRGTI=",
+  "Hash": "L8z2W4qeAdwZwz5lxSI8tJCGKVTQ6Lur2RuGBf/uwiI=",
   "Source": "FYP-25-S3-15P",
   "BasePath": "_content/FYP-25-S3-15P",
   "Mode": "Default",
@@ -122,12 +122,12 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js"
     },
     {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h6xi3h7l75.gz",
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "css/site#[.{fingerprint=h6xi3h7l75}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=h2hi0r9ls2}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -136,8 +136,8 @@
       "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "f8cm87co0e",
-      "Integrity": "kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc=",
+      "Fingerprint": "lzlj8rblzg",
+      "Integrity": "ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css"
@@ -183,6 +183,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4jnydgf3tt-zqn7tfv5u7.gz",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/features-admin#[.{fingerprint=zqn7tfv5u7}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "u96r9vc5nq",
+      "Integrity": "fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4sscu6nfs0-y7v9cxd14o.gz",
@@ -351,6 +372,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/7mwfuh0mz9-6d121mrg4l.gz",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/choices#[.{fingerprint=6d121mrg4l}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "91ryuy0zg0",
+      "Integrity": "o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/8cxbkwmxda-2z0ns9nrw6.gz",
@@ -668,6 +710,27 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/jquery-validation/LICENSE.md"
     },
     {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "css/choices.min#[.{fingerprint=bcf5mh17ol}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "afu7o0y9fq",
+      "Integrity": "OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css"
+    },
+    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Computed",
@@ -687,6 +750,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/choices.min#[.{fingerprint=oiupf4v8wd}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "5vlq3w1shp",
+      "Integrity": "MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/flvzc8s536-h1s4sie4z3.gz",
@@ -836,12 +920,12 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/jquery/LICENSE.txt"
     },
     {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-98hb5g8hj3.gz",
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-b4dfmbbqxc.gz",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "js/site#[.{fingerprint=98hb5g8hj3}]?.js.gz",
+      "RelativePath": "js/site#[.{fingerprint=b4dfmbbqxc}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -850,8 +934,8 @@
       "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "uu9u2572pf",
-      "Integrity": "mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs=",
+      "Fingerprint": "0b0cbb8das",
+      "Integrity": "jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js"
@@ -1403,6 +1487,27 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css"
     },
     {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "css/choices.min#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "bcf5mh17ol",
+      "Integrity": "FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/choices.min.css"
+    },
+    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -1417,8 +1522,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "h6xi3h7l75",
-      "Integrity": "ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A=",
+      "Fingerprint": "h2hi0r9ls2",
+      "Integrity": "F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
@@ -1445,6 +1550,111 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/features/3080e6fa9fcf419d9158b4acbb49994f#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fayqk0gtyu",
+      "Integrity": "6ftTx074i+vUNRV8WIEAAUoogGGI+BcMixEFgYcTFBg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/b59f051758b744c2999d164fa5bda89d.png",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/features/b59f051758b744c2999d164fa5bda89d#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fs9lt7x0o2",
+      "Integrity": "z+2BQ9JedJQiIO1WMB42P++pt3ZBDKwn+9yojXc84WM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/features/b59f051758b744c2999d164fa5bda89d.png"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/features/c87a55dc71a24cfc945f7a7e88c22011#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0a2t08wk61",
+      "Integrity": "yNDi0Yg7peR4OxzJyqDZoPssdEHseVpDyKXn3q2hQlw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/d797934718b747f0892ea954facc69ef.jpeg",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/features/d797934718b747f0892ea954facc69ef#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "vqirxfkyau",
+      "Integrity": "WUtLFsJjFpLuZER3Qy+Jjwr6Gtb9SNk29jYJPF9EFW0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/features/d797934718b747f0892ea954facc69ef.jpeg"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/fe992cac396e4f2cad447771b911ae9f.png",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/features/fe992cac396e4f2cad447771b911ae9f#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "62krg6cdfq",
+      "Integrity": "ToaiVHFPIX8VsNNs9jo34LGYNco+wq9yADatFuM5j+U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/features/fe992cac396e4f2cad447771b911ae9f.png"
+    },
+    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/landingbg.jpg",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -1466,6 +1676,69 @@
       "OriginalItemSpec": "wwwroot/images/landingbg.jpg"
     },
     {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/choices#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6d121mrg4l",
+      "Integrity": "liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/choices.js"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/choices.min#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "oiupf4v8wd",
+      "Integrity": "QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/choices.min.js"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "js/features-admin#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "zqn7tfv5u7",
+      "Integrity": "BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/features-admin.js"
+    },
+    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -1480,8 +1753,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "98hb5g8hj3",
-      "Integrity": "B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o=",
+      "Fingerprint": "b4dfmbbqxc",
+      "Integrity": "1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/site.js"
@@ -2749,13 +3022,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h6xi3h7l75.gz",
+      "Route": "css/choices.min.bcf5mh17ol.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001392757660"
+          "Quality": "0.000024949477"
         }
       ],
       "ResponseHeaders": [
@@ -2765,15 +3038,176 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "717"
+          "Value": "40080"
         },
         {
           "Name": "ETag",
-          "Value": "\"kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc=\""
+          "Value": "\"OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bcf5mh17ol"
+        },
+        {
+          "Name": "label",
+          "Value": "css/choices.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y="
+        }
+      ]
+    },
+    {
+      "Route": "css/choices.min.bcf5mh17ol.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "200005"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bcf5mh17ol"
+        },
+        {
+          "Name": "label",
+          "Value": "css/choices.min.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y="
+        }
+      ]
+    },
+    {
+      "Route": "css/choices.min.bcf5mh17ol.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40080"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bcf5mh17ol"
+        },
+        {
+          "Name": "label",
+          "Value": "css/choices.min.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE="
+        }
+      ]
+    },
+    {
+      "Route": "css/choices.min.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000024949477"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40080"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2793,13 +3227,150 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A=\""
+          "Value": "W/\"FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A="
+          "Value": "sha256-FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y="
+        }
+      ]
+    },
+    {
+      "Route": "css/choices.min.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "200005"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FZkUkZTNA0WxAhu636Peik4Kk4hd4WlwGZuMM9QxU8Y="
+        }
+      ]
+    },
+    {
+      "Route": "css/choices.min.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40080"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:48:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001144164760"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "873"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
         }
       ]
     },
@@ -2814,7 +3385,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1880"
+          "Value": "2212"
         },
         {
           "Name": "Content-Type",
@@ -2822,11 +3393,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A=\""
+          "Value": "\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2836,13 +3407,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A="
+          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h6xi3h7l75.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2851,7 +3422,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "717"
+          "Value": "873"
         },
         {
           "Name": "Content-Type",
@@ -2859,11 +3430,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc=\""
+          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2881,18 +3452,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc="
+          "Value": "sha256-ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk="
         }
       ]
     },
     {
-      "Route": "css/site.h6xi3h7l75.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h6xi3h7l75.gz",
+      "Route": "css/site.h2hi0r9ls2.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001392757660"
+          "Quality": "0.001144164760"
         }
       ],
       "ResponseHeaders": [
@@ -2902,15 +3473,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "717"
+          "Value": "873"
         },
         {
           "Name": "ETag",
-          "Value": "\"kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc=\""
+          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2930,13 +3501,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A=\""
+          "Value": "W/\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "h6xi3h7l75"
+          "Value": "h2hi0r9ls2"
         },
         {
           "Name": "label",
@@ -2944,12 +3515,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A="
+          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
         }
       ]
     },
     {
-      "Route": "css/site.h6xi3h7l75.css",
+      "Route": "css/site.h2hi0r9ls2.css",
       "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2959,7 +3530,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1880"
+          "Value": "2212"
         },
         {
           "Name": "Content-Type",
@@ -2967,11 +3538,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A=\""
+          "Value": "\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2981,7 +3552,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "h6xi3h7l75"
+          "Value": "h2hi0r9ls2"
         },
         {
           "Name": "label",
@@ -2989,13 +3560,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ee+OcKYQqptLE2vvbQO/+CdQ1PMdh9evDTPlWcU/P4A="
+          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
         }
       ]
     },
     {
-      "Route": "css/site.h6xi3h7l75.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h6xi3h7l75.gz",
+      "Route": "css/site.h2hi0r9ls2.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3004,7 +3575,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "717"
+          "Value": "873"
         },
         {
           "Name": "Content-Type",
@@ -3012,11 +3583,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc=\""
+          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 04 Sep 2025 23:35:09 GMT"
+          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3034,7 +3605,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "h6xi3h7l75"
+          "Value": "h2hi0r9ls2"
         },
         {
           "Name": "label",
@@ -3042,7 +3613,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-kdR1ByHPRVKSRYrjtjxlMotTGaY0KLr+FvS8Ky0WiEc="
+          "Value": "sha256-ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk="
         }
       ]
     },
@@ -3941,6 +4512,416 @@
       ]
     },
     {
+      "Route": "images/features/3080e6fa9fcf419d9158b4acbb49994f.fayqk0gtyu.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6326"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6ftTx074i+vUNRV8WIEAAUoogGGI+BcMixEFgYcTFBg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:07:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fayqk0gtyu"
+        },
+        {
+          "Name": "label",
+          "Value": "images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6ftTx074i+vUNRV8WIEAAUoogGGI+BcMixEFgYcTFBg="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6326"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6ftTx074i+vUNRV8WIEAAUoogGGI+BcMixEFgYcTFBg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:07:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6ftTx074i+vUNRV8WIEAAUoogGGI+BcMixEFgYcTFBg="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/b59f051758b744c2999d164fa5bda89d.fs9lt7x0o2.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/b59f051758b744c2999d164fa5bda89d.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "282315"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z+2BQ9JedJQiIO1WMB42P++pt3ZBDKwn+9yojXc84WM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:55:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fs9lt7x0o2"
+        },
+        {
+          "Name": "label",
+          "Value": "images/features/b59f051758b744c2999d164fa5bda89d.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-z+2BQ9JedJQiIO1WMB42P++pt3ZBDKwn+9yojXc84WM="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/b59f051758b744c2999d164fa5bda89d.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/b59f051758b744c2999d164fa5bda89d.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "282315"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z+2BQ9JedJQiIO1WMB42P++pt3ZBDKwn+9yojXc84WM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:55:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-z+2BQ9JedJQiIO1WMB42P++pt3ZBDKwn+9yojXc84WM="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/c87a55dc71a24cfc945f7a7e88c22011.0a2t08wk61.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yNDi0Yg7peR4OxzJyqDZoPssdEHseVpDyKXn3q2hQlw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:11:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0a2t08wk61"
+        },
+        {
+          "Name": "label",
+          "Value": "images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yNDi0Yg7peR4OxzJyqDZoPssdEHseVpDyKXn3q2hQlw="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yNDi0Yg7peR4OxzJyqDZoPssdEHseVpDyKXn3q2hQlw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:11:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yNDi0Yg7peR4OxzJyqDZoPssdEHseVpDyKXn3q2hQlw="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/d797934718b747f0892ea954facc69ef.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/d797934718b747f0892ea954facc69ef.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "184185"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WUtLFsJjFpLuZER3Qy+Jjwr6Gtb9SNk29jYJPF9EFW0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 08:04:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-WUtLFsJjFpLuZER3Qy+Jjwr6Gtb9SNk29jYJPF9EFW0="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/d797934718b747f0892ea954facc69ef.vqirxfkyau.jpeg",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/d797934718b747f0892ea954facc69ef.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "184185"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"WUtLFsJjFpLuZER3Qy+Jjwr6Gtb9SNk29jYJPF9EFW0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 08:04:11 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vqirxfkyau"
+        },
+        {
+          "Name": "label",
+          "Value": "images/features/d797934718b747f0892ea954facc69ef.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-WUtLFsJjFpLuZER3Qy+Jjwr6Gtb9SNk29jYJPF9EFW0="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/fe992cac396e4f2cad447771b911ae9f.62krg6cdfq.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/fe992cac396e4f2cad447771b911ae9f.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "347582"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ToaiVHFPIX8VsNNs9jo34LGYNco+wq9yADatFuM5j+U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 08:13:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "62krg6cdfq"
+        },
+        {
+          "Name": "label",
+          "Value": "images/features/fe992cac396e4f2cad447771b911ae9f.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ToaiVHFPIX8VsNNs9jo34LGYNco+wq9yADatFuM5j+U="
+        }
+      ]
+    },
+    {
+      "Route": "images/features/fe992cac396e4f2cad447771b911ae9f.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/fe992cac396e4f2cad447771b911ae9f.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "347582"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ToaiVHFPIX8VsNNs9jo34LGYNco+wq9yADatFuM5j+U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 08:13:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ToaiVHFPIX8VsNNs9jo34LGYNco+wq9yADatFuM5j+U="
+        }
+      ]
+    },
+    {
       "Route": "images/landingbg.jpg",
       "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/landingbg.jpg",
       "Selectors": [],
@@ -4023,13 +5004,13 @@
       ]
     },
     {
-      "Route": "js/site.98hb5g8hj3.js",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-98hb5g8hj3.gz",
+      "Route": "js/choices.6d121mrg4l.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/7mwfuh0mz9-6d121mrg4l.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001485884101"
+          "Quality": "0.000006850676"
         }
       ],
       "ResponseHeaders": [
@@ -4039,15 +5020,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "672"
+          "Value": "145970"
         },
         {
           "Name": "ETag",
-          "Value": "\"mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs=\""
+          "Value": "\"o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4067,13 +5048,907 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o=\""
+          "Value": "W/\"liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "98hb5g8hj3"
+          "Value": "6d121mrg4l"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.6d121mrg4l.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1052950"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6d121mrg4l"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.6d121mrg4l.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/7mwfuh0mz9-6d121mrg4l.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "145970"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6d121mrg4l"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/7mwfuh0mz9-6d121mrg4l.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000006850676"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "145970"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1052950"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-liMosvy7FWrWKgZaxmcMpCfGlBXBkGuJJbXMY37j77U="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/7mwfuh0mz9-6d121mrg4l.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "145970"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:46:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-o9zp2Iu9sD7BLtNU6q+e5/c5pYM+LlUasdCCONmWVww="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000013382760"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74722"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "391999"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.oiupf4v8wd.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000013382760"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74722"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "oiupf4v8wd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.oiupf4v8wd.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "391999"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "oiupf4v8wd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-QKrZ4cAsa2HW683wTmoGZCQ3pA077xFStBR4wrk/zdM="
+        }
+      ]
+    },
+    {
+      "Route": "js/choices.min.oiupf4v8wd.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "74722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 05 Sep 2025 12:47:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "oiupf4v8wd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/choices.min.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MWSXGjmhCNcwwaDaY4YqH1shCrizmQu3CWZxWR5fY0M="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4jnydgf3tt-zqn7tfv5u7.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000889679715"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1123"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4jnydgf3tt-zqn7tfv5u7.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1123"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.zqn7tfv5u7.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4jnydgf3tt-zqn7tfv5u7.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000889679715"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1123"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zqn7tfv5u7"
+        },
+        {
+          "Name": "label",
+          "Value": "js/features-admin.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.zqn7tfv5u7.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3376"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zqn7tfv5u7"
+        },
+        {
+          "Name": "label",
+          "Value": "js/features-admin.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-BYMP0qcwxRjt/t5t7xFOuye0qmQL6jw0VQVUnDtJeD8="
+        }
+      ]
+    },
+    {
+      "Route": "js/features-admin.zqn7tfv5u7.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/4jnydgf3tt-zqn7tfv5u7.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1123"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 07:03:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zqn7tfv5u7"
+        },
+        {
+          "Name": "label",
+          "Value": "js/features-admin.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-fiJx9H/nEGT2eZ/iwf29qcxMDKsyAke0ZgZVj0HGXoQ="
+        }
+      ]
+    },
+    {
+      "Route": "js/site.b4dfmbbqxc.js",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-b4dfmbbqxc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000648929267"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1540"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b4dfmbbqxc"
         },
         {
           "Name": "label",
@@ -4081,12 +5956,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o="
+          "Value": "sha256-1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM="
         }
       ]
     },
     {
-      "Route": "js/site.98hb5g8hj3.js",
+      "Route": "js/site.b4dfmbbqxc.js",
       "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4096,7 +5971,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2162"
+          "Value": "5790"
         },
         {
           "Name": "Content-Type",
@@ -4104,11 +5979,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o=\""
+          "Value": "\"1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4118,7 +5993,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "98hb5g8hj3"
+          "Value": "b4dfmbbqxc"
         },
         {
           "Name": "label",
@@ -4126,13 +6001,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o="
+          "Value": "sha256-1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM="
         }
       ]
     },
     {
-      "Route": "js/site.98hb5g8hj3.js.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-98hb5g8hj3.gz",
+      "Route": "js/site.b4dfmbbqxc.js.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-b4dfmbbqxc.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4141,7 +6016,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "672"
+          "Value": "1540"
         },
         {
           "Name": "Content-Type",
@@ -4149,11 +6024,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs=\""
+          "Value": "\"jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4171,7 +6046,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "98hb5g8hj3"
+          "Value": "b4dfmbbqxc"
         },
         {
           "Name": "label",
@@ -4179,18 +6054,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs="
+          "Value": "sha256-jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4="
         }
       ]
     },
     {
       "Route": "js/site.js",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-98hb5g8hj3.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-b4dfmbbqxc.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001485884101"
+          "Quality": "0.000648929267"
         }
       ],
       "ResponseHeaders": [
@@ -4200,15 +6075,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "672"
+          "Value": "1540"
         },
         {
           "Name": "ETag",
-          "Value": "\"mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs=\""
+          "Value": "\"jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4228,13 +6103,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o=\""
+          "Value": "W/\"1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o="
+          "Value": "sha256-1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM="
         }
       ]
     },
@@ -4249,7 +6124,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2162"
+          "Value": "5790"
         },
         {
           "Name": "Content-Type",
@@ -4257,11 +6132,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o=\""
+          "Value": "\"1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4271,13 +6146,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-B68zD4L33tmhaR3Vmta50HWGz9foVXKFF6O+w5JUX/o="
+          "Value": "sha256-1f3i6bbEmrfAOL52Gvs9f8aFfuvYEjuSuOAwvkhE+SM="
         }
       ]
     },
     {
       "Route": "js/site.js.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-98hb5g8hj3.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/lekrx1oa8p-b4dfmbbqxc.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4286,7 +6161,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "672"
+          "Value": "1540"
         },
         {
           "Name": "Content-Type",
@@ -4294,11 +6169,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs=\""
+          "Value": "\"jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 05 Sep 2025 00:07:51 GMT"
+          "Value": "Fri, 12 Sep 2025 08:58:47 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4316,7 +6191,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-mgwnNdySedCwyUIMUM4IK4U6UCDfMOnuh4gboJ2B8xs="
+          "Value": "sha256-jEOzynh3S5Jo11TMbLtOICpotxutwtQpBMuasizs8O4="
         }
       ]
     },

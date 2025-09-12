@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/FYP-25-S3-15P.mlat4sq1e6.bundle.scp.css"
     },
     {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
+      "PackagePath": "staticwebassets/css/choices.min.css"
+    },
+    {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
@@ -13,8 +17,40 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg",
+      "PackagePath": "staticwebassets/images/features/3080e6fa9fcf419d9158b4acbb49994f.jpeg"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/b59f051758b744c2999d164fa5bda89d.png",
+      "PackagePath": "staticwebassets/images/features/b59f051758b744c2999d164fa5bda89d.png"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg",
+      "PackagePath": "staticwebassets/images/features/c87a55dc71a24cfc945f7a7e88c22011.jpeg"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/d797934718b747f0892ea954facc69ef.jpeg",
+      "PackagePath": "staticwebassets/images/features/d797934718b747f0892ea954facc69ef.jpeg"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/features/fe992cac396e4f2cad447771b911ae9f.png",
+      "PackagePath": "staticwebassets/images/features/fe992cac396e4f2cad447771b911ae9f.png"
+    },
+    {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/landingbg.jpg",
       "PackagePath": "staticwebassets/images/landingbg.jpg"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
+      "PackagePath": "staticwebassets/js/choices.js"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.min.js",
+      "PackagePath": "staticwebassets/js/choices.min.js"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/features-admin.js",
+      "PackagePath": "staticwebassets/js/features-admin.js"
     },
     {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js",
