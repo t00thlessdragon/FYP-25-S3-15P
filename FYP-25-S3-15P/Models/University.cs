@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Models
 {
+    [Index(nameof(UEN), IsUnique = true)]
     [Table("Universities", Schema = "dbo")]
     public class University
     {

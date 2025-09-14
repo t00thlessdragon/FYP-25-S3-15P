@@ -13,6 +13,7 @@ namespace FYP_25_S3_15P.Data
         public DbSet<PlanFeature> PlanFeatures { get; set; } = default!;
         public DbSet<ApplicationForm> ApplicationForms { get; set; } = default!;
         public DbSet<University>      Universities     { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +58,9 @@ namespace FYP_25_S3_15P.Data
             {
                 e.ToTable("Universities", "dbo");
             });
+            
+
+            
         }
     }
 }

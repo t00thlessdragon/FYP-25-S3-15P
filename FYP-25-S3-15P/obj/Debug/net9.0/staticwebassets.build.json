@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "L8z2W4qeAdwZwz5lxSI8tJCGKVTQ6Lur2RuGBf/uwiI=",
+  "Hash": "VWJAcZbr7C9KuGFzt8ugFnYWfHawUPgUzZb6Dl5N7DI=",
   "Source": "FYP-25-S3-15P",
   "BasePath": "_content/FYP-25-S3-15P",
   "Mode": "Default",
@@ -708,6 +708,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ei29zoqyvh-3dvtc7jecc.gz",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "css/loginlayout#[.{fingerprint=3dvtc7jecc}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "h8kwc3pjb3",
+      "Integrity": "cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/emdw9c77td-bcf5mh17ol.gz",
@@ -1508,6 +1529,27 @@
       "OriginalItemSpec": "wwwroot/css/choices.min.css"
     },
     {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "css/loginlayout#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3dvtc7jecc",
+      "Integrity": "B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/loginlayout.css"
+    },
+    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -1674,6 +1716,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/landingbg.jpg"
+    },
+    {
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/smartlogo.png",
+      "SourceId": "FYP-25-S3-15P",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/",
+      "BasePath": "_content/FYP-25-S3-15P",
+      "RelativePath": "images/smartlogo#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "jqz4wrh50m",
+      "Integrity": "Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/smartlogo.png"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",
@@ -3316,6 +3379,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-OvLrywJMO+21GQHCr0qErrUNbZkTkZ2luIk95XVc8dE="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.3dvtc7jecc.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ei29zoqyvh-3dvtc7jecc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000773395205"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1292"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3dvtc7jecc"
+        },
+        {
+          "Name": "label",
+          "Value": "css/loginlayout.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.3dvtc7jecc.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3736"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3dvtc7jecc"
+        },
+        {
+          "Name": "label",
+          "Value": "css/loginlayout.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.3dvtc7jecc.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ei29zoqyvh-3dvtc7jecc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3dvtc7jecc"
+        },
+        {
+          "Name": "label",
+          "Value": "css/loginlayout.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ei29zoqyvh-3dvtc7jecc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000773395205"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1292"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3736"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-B/wUkq98uSM02Ta2kU3uKcnwV1oQD5PLv1yVQAl3aRg="
+        }
+      ]
+    },
+    {
+      "Route": "css/loginlayout.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ei29zoqyvh-3dvtc7jecc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1292"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 12:24:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-cfaIM8Q/AHkGe9HM7kuP0IegwaMoV4F5Y6kzWyXPuiI="
         }
       ]
     },
@@ -5000,6 +5361,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-ZOqQl9IJrlEmcQydlKYd7Y/zKx/7WyqKtIQEgYHuiiM="
+        }
+      ]
+    },
+    {
+      "Route": "images/smartlogo.jqz4wrh50m.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/smartlogo.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "606286"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 11:26:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jqz4wrh50m"
+        },
+        {
+          "Name": "label",
+          "Value": "images/smartlogo.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE="
+        }
+      ]
+    },
+    {
+      "Route": "images/smartlogo.png",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/smartlogo.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "606286"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 13 Sep 2025 11:26:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE="
         }
       ]
     },

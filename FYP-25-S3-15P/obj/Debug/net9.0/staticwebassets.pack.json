@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/css/choices.min.css"
     },
     {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/loginlayout.css",
+      "PackagePath": "staticwebassets/css/loginlayout.css"
+    },
+    {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
@@ -39,6 +43,10 @@
     {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/landingbg.jpg",
       "PackagePath": "staticwebassets/images/landingbg.jpg"
+    },
+    {
+      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/smartlogo.png",
+      "PackagePath": "staticwebassets/images/smartlogo.png"
     },
     {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/choices.js",

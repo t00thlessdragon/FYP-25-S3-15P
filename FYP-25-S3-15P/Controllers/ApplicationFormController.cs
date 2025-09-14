@@ -63,30 +63,41 @@ namespace FYP_25_S3_15P.Controllers
             if (!ModelState.IsValid)
             {
                 input.Plans = await _db.SubscriptionPlans.AsNoTracking()
-                                   .OrderBy(p => p.Price)
-                                   .Select(p => new SelectListItem(p.Name, p.PlanID.ToString()))
-                                   .ToListAsync();
+                    .OrderBy(p => p.Price)
+                    .Select(p => new SelectListItem(p.Name, p.PlanID.ToString()))
+                    .ToListAsync();
                 return View("~/Views/Forms/ApplicationForm.cshtml", input);
             }
 
-            // Upsert University by UEN
-            var uni = await _db.Universities.FirstOrDefaultAsync(u => u.UEN == input.UEN);
+            var uniName = input.UniversityName.Trim();
+            var uen     = input.UEN.Trim().ToUpperInvariant();
+
+            await using var tx = await _db.Database.BeginTransactionAsync();
+
+            // Upsert by UEN (unique)
+            var uni = await _db.Universities.FirstOrDefaultAsync(u => u.UEN == uen);
             if (uni is null)
             {
-                uni = new University { UniName = input.UniversityName, UEN = input.UEN };
+                uni = new University
+                {
+                    UniName   = uniName,
+                    UEN       = uen,
+                    CreatedAt = DateTime.UtcNow
+                };
                 _db.Universities.Add(uni);
-                await _db.SaveChangesAsync(); // to get UniID
+                await _db.SaveChangesAsync(); // get UniID
             }
-            else if (!string.Equals(uni.UniName, input.UniversityName, StringComparison.Ordinal))
+            else if (!string.Equals(uni.UniName, uniName, StringComparison.Ordinal))
             {
-                uni.UniName = input.UniversityName;
+                // keep UEN as source of truth; refresh name if changed
+                uni.UniName = uniName;
                 await _db.SaveChangesAsync();
             }
 
             var app = new ApplicationForm
             {
-                ApplicantName = input.Name,
-                Email         = input.Email,
+                ApplicantName = input.Name.Trim(),
+                Email         = input.Email.Trim(),
                 Role          = input.Role,
                 PlanID        = input.PlanID,
                 UniID         = uni.UniID,
@@ -96,10 +107,10 @@ namespace FYP_25_S3_15P.Controllers
             _db.ApplicationForms.Add(app);
             await _db.SaveChangesAsync();
 
-            // >>> change: set a one-time flag and go back to GET/Index
+            await tx.CommitAsync();
+
             TempData["AppSuccess"] = true;
             return RedirectToAction(nameof(Index));
-            // <<< end change
         }
     }
 }

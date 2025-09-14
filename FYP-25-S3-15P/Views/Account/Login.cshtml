@@ -1,0 +1,41 @@
+@model FYP_25_S3_15P.Models.Login
+@{
+    ViewData["Title"] = "Login – SMART";
+    Layout = "~/Views/Shared/_LoginPageLayout.cshtml";
+}
+
+<div class="login-container">
+    <div class="login-box">
+        <div class="brand">
+            <img src="~/images/smartlogo.png" alt="SMART logo" />
+        </div>
+        <h3 class="login-title">Login</h3>
+
+        <!-- Validation summary will show the "Invalid email or password." message -->
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <div class="options">
+                <div class="remember-me">
+                    <input asp-for="RememberMe" />
+                    <label asp-for="RememberMe"></label>
+                </div>
+                <a asp-action="ForgotPassword" class="forgot-password">Forgot Password?</a>
+            </div>
+            
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

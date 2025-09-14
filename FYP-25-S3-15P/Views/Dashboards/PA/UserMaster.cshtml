@@ -1,0 +1,48 @@
+@model FYP_25_S3_15P.Models.ContentMaster
+@{
+    ViewData["Title"] = "Content Master Dashboard";
+    var tab = Model.ActiveTab ?? "features";
+}
+
+<section class="container-wide card-xl">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="mb-4">Content Master Dashboard</h2>
+
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link @(tab=="features"?"active":"")"
+                   asp-controller="PADashboard" asp-action="Index" asp-route-tab="features">Features Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(tab=="plans"?"active":"")"
+                   asp-controller="PADashboard" asp-action="Index" asp-route-tab="plans">Plans Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(tab=="testimonials"?"active":"")"
+                   asp-controller="PADashboard" asp-action="Index" asp-route-tab="testimonials">Testimonials Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(tab=="faq"?"active":"")"
+                   asp-controller="PADashboard" asp-action="Index" asp-route-tab="faq">FAQ Management</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade @(tab=="features"?"show active":"")" id="tab-features">
+                @await Html.PartialAsync("~/Views/Dashboards/PA/_FeaturesTab.cshtml", Model)
+            </div>
+
+            <div class="tab-pane fade @(tab=="plans"?"show active":"")" id="tab-plans">
+                @await Html.PartialAsync("~/Views/Dashboards/PA/_PlansTab.cshtml", Model.Plans)
+            </div>
+
+            <div class="tab-pane fade @(tab=="testimonials"?"show active":"")" id="tab-testimonials">
+                <div class="text-muted">Testimonials management UI goes here.</div>
+            </div>
+
+            <div class="tab-pane fade @(tab=="faq"?"show active":"")" id="tab-faq">
+                <div class="text-muted">FAQ management UI goes here.</div>
+            </div>
+        </div>
+    </div>
+</section>
