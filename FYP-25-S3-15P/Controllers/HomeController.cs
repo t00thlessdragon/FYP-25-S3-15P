@@ -41,11 +41,10 @@ namespace FYP_25_S3_15P.Controllers
             return View(vm);
         }
 
-        // GET: /Home/About
-        public IActionResult About()
-        {
-            return View();
-        }
+        // GET: /Home/Contact
+        [HttpGet]
+        public IActionResult Contact() => View();
+
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

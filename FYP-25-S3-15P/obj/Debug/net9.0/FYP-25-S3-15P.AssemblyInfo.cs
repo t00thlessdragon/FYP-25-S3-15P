@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+251c65e9bc01356d08ce035550ae117c8b796a16")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8c5063c96e6c218fcda9f05fe344b8f885407d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
