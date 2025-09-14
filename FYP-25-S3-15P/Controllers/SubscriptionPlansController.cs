@@ -10,42 +10,49 @@ public class SubscriptionPlansController : Controller
     private readonly SmartDbContext _db;
     public SubscriptionPlansController(SmartDbContext db) => _db = db;
 
-    // PUBLIC pricing page
+    // PUBLIC pricing page (unchanged)
     public async Task<IActionResult> Index()
     {
         var plans = await _db.SubscriptionPlans
             .AsNoTracking()
-            .Include(p => p.PlanFeatures)
-                .ThenInclude(pf => pf.Feature)
+            .Include(p => p.PlanFeatures).ThenInclude(pf => pf.Feature)
             .OrderBy(p => p.Price)
             .ToListAsync();
 
-        return View(plans); // Views/SubscriptionPlans/Index.cshtml
+        return View(plans);
     }
 
     // ===== CRUD used by the dashboard (Plans tab) =====
+
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Price,Description")] SubscriptionPlan plan)
     {
         if (!ModelState.IsValid)
             return RedirectToAction("Index", "PADashboard", new { tab = "plans" });
 
-        _db.Add(plan);
+        _db.SubscriptionPlans.Add(plan);
         await _db.SaveChangesAsync();
         return RedirectToAction("Index", "PADashboard", new { tab = "plans" });
     }
 
+    // NOTE: no separate id param anymore (prevents 404 when id isn't posted)
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("PlanID,Name,Price,Description")] SubscriptionPlan plan)
+    public async Task<IActionResult> Edit([Bind("PlanID,Name,Price,Description")] SubscriptionPlan plan)
     {
-        if (id != plan.PlanID) return NotFound();
         if (!ModelState.IsValid)
             return RedirectToAction("Index", "PADashboard", new { tab = "plans" });
 
-        _db.Update(plan);
+        var existing = await _db.SubscriptionPlans.FindAsync(plan.PlanID);
+        if (existing == null) return NotFound();
+
+        existing.Name        = plan.Name?.Trim() ?? "";
+        existing.Price       = plan.Price;
+        existing.Description = plan.Description?.Trim();
+
         await _db.SaveChangesAsync();
         return RedirectToAction("Index", "PADashboard", new { tab = "plans" });
     }
+
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)

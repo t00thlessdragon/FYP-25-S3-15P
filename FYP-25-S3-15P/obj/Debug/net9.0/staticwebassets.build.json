@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "VWJAcZbr7C9KuGFzt8ugFnYWfHawUPgUzZb6Dl5N7DI=",
+  "Hash": "goSErKsWQiJVxHMCUop6CpGFpfssVbJCZ2CON1JSnFw=",
   "Source": "FYP-25-S3-15P",
   "BasePath": "_content/FYP-25-S3-15P",
   "Mode": "Default",
@@ -122,12 +122,12 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js"
     },
     {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
+      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-6dil4ir4h7.gz",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "css/site#[.{fingerprint=h2hi0r9ls2}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=6dil4ir4h7}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -136,8 +136,8 @@
       "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "lzlj8rblzg",
-      "Integrity": "ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=",
+      "Fingerprint": "s1uy61yvse",
+      "Integrity": "oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css"
@@ -752,27 +752,6 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css"
     },
     {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
-      "SourceId": "FYP-25-S3-15P",
-      "SourceType": "Computed",
-      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "FYP-25-S3-15P#[.{fingerprint=mlat4sq1e6}]?.styles.css.gz",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "spvu5q52ew",
-      "Integrity": "8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css"
-    },
-    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/ewzwib6sns-oiupf4v8wd.gz",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -960,27 +939,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/js/site.js"
-    },
-    {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/mzlgkw8tdc-mlat4sq1e6.gz",
-      "SourceId": "FYP-25-S3-15P",
-      "SourceType": "Computed",
-      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "FYP-25-S3-15P#[.{fingerprint=mlat4sq1e6}]!.bundle.scp.css.gz",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "spvu5q52ew",
-      "Integrity": "8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css"
     },
     {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/n0yhod2yrk-ilo7uva0vt.gz",
@@ -1466,48 +1424,6 @@
       "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css",
-      "SourceId": "FYP-25-S3-15P",
-      "SourceType": "Computed",
-      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/",
-      "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "FYP-25-S3-15P#[.{fingerprint}]?.styles.css",
-      "AssetKind": "All",
-      "AssetMode": "CurrentProject",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "mlat4sq1e6",
-      "Integrity": "FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css"
-    },
-    {
-      "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css",
-      "SourceId": "FYP-25-S3-15P",
-      "SourceType": "Computed",
-      "ContentRoot": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/",
-      "BasePath": "_content/FYP-25-S3-15P",
-      "RelativePath": "FYP-25-S3-15P#[.{fingerprint}]!.bundle.scp.css",
-      "AssetKind": "All",
-      "AssetMode": "Reference",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "ScopedCss",
-      "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "mlat4sq1e6",
-      "Integrity": "FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css"
-    },
-    {
       "Identity": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
       "SourceId": "FYP-25-S3-15P",
       "SourceType": "Discovered",
@@ -1564,8 +1480,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "h2hi0r9ls2",
-      "Integrity": "F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=",
+      "Fingerprint": "6dil4ir4h7",
+      "Integrity": "xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
@@ -1732,8 +1648,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "jqz4wrh50m",
-      "Integrity": "Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=",
+      "Fingerprint": "nasnbi9qdd",
+      "Integrity": "AY5aXvPqvov8OWT4gOCmZ6Ak11mepMBTB9HW17sr7dI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/smartlogo.png"
@@ -3681,13 +3597,13 @@
       ]
     },
     {
-      "Route": "css/site.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
+      "Route": "css/site.6dil4ir4h7.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-6dil4ir4h7.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001144164760"
+          "Quality": "0.000724637681"
         }
       ],
       "ResponseHeaders": [
@@ -3697,19 +3613,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "873"
+          "Value": "1379"
         },
         {
           "Name": "ETag",
-          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
+          "Value": "\"oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -3725,18 +3641,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
+          "Value": "W/\"xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "6dil4ir4h7"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
+          "Value": "sha256-xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g="
         }
       ]
     },
     {
-      "Route": "css/site.css",
+      "Route": "css/site.6dil4ir4h7.css",
       "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3746,7 +3670,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2212"
+          "Value": "3657"
         },
         {
           "Name": "Content-Type",
@@ -3754,121 +3678,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
+          "Value": "\"xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "873"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.h2hi0r9ls2.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001144164760"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "873"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "h2hi0r9ls2"
+          "Value": "6dil4ir4h7"
         },
         {
           "Name": "label",
@@ -3876,13 +3700,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
+          "Value": "sha256-xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g="
         }
       ]
     },
     {
-      "Route": "css/site.h2hi0r9ls2.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
+      "Route": "css/site.6dil4ir4h7.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-6dil4ir4h7.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3891,7 +3715,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2212"
+          "Value": "1379"
         },
         {
           "Name": "Content-Type",
@@ -3899,56 +3723,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc=\""
+          "Value": "\"oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "h2hi0r9ls2"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-F73cnfOi42ioSiFlS5WfXaxjvUxKxR5n5bF2OZ1duZc="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.h2hi0r9ls2.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-h2hi0r9ls2.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "873"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 12 Sep 2025 03:10:01 GMT"
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3966,7 +3745,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "h2hi0r9ls2"
+          "Value": "6dil4ir4h7"
         },
         {
           "Name": "label",
@@ -3974,7 +3753,144 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ETq+Er8eKcsgFC8Z2S3I7TwGganAx2eJEAE4K2ml1wk="
+          "Value": "sha256-oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-6dil4ir4h7.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000724637681"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1379"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3657"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xvM9XanPkG+zPpAtuOqU7iKkM9X6UxmErUeBphePH2g="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css.gz",
+      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/3gqjp92pgk-6dil4ir4h7.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1379"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 14 Sep 2025 10:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oBbrLAjNRXQPj15MeLOgMzASIe8RjfH9fivDwhQOCGI="
         }
       ]
     },
@@ -4273,602 +4189,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-+/824NtfTA0L7Mr42Fo+86YJP4R5cigdi9S7Fx5VVl4="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.bundle.scp.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/mzlgkw8tdc-mlat4sq1e6.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001841620626"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.bundle.scp.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1082"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.bundle.scp.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/mzlgkw8tdc-mlat4sq1e6.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.bundle.scp.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/mzlgkw8tdc-mlat4sq1e6.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001841620626"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.bundle.scp.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.bundle.scp.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1082"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.bundle.scp.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.bundle.scp.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/mzlgkw8tdc-mlat4sq1e6.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.bundle.scp.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.styles.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001841620626"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.styles.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.styles.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1082"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.styles.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.mlat4sq1e6.styles.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mlat4sq1e6"
-        },
-        {
-          "Name": "label",
-          "Value": "FYP-25-S3-15P.styles.css.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.styles.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.001841620626"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.styles.css",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/bundle/FYP-25-S3-15P.styles.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1082"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-FtE+7BlBTa3QvNOPlaFdejzc7+2v2QD2xVm32Id9pUU="
-        }
-      ]
-    },
-    {
-      "Route": "FYP-25-S3-15P.styles.css.gz",
-      "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/compressed/euc7swmuxz-mlat4sq1e6.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 03:51:43 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8GZvWtWI6kSZfBOOei6PIQjOJH8E+LfvcQK7StzdBi4="
         }
       ]
     },
@@ -5365,7 +4685,7 @@
       ]
     },
     {
-      "Route": "images/smartlogo.jqz4wrh50m.png",
+      "Route": "images/smartlogo.nasnbi9qdd.png",
       "AssetFile": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/images/smartlogo.png",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5375,7 +4695,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "606286"
+          "Value": "1612126"
         },
         {
           "Name": "Content-Type",
@@ -5383,11 +4703,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=\""
+          "Value": "\"AY5aXvPqvov8OWT4gOCmZ6Ak11mepMBTB9HW17sr7dI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 13 Sep 2025 11:26:05 GMT"
+          "Value": "Sun, 14 Sep 2025 04:23:04 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5397,7 +4717,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "jqz4wrh50m"
+          "Value": "nasnbi9qdd"
         },
         {
           "Name": "label",
@@ -5405,7 +4725,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE="
+          "Value": "sha256-AY5aXvPqvov8OWT4gOCmZ6Ak11mepMBTB9HW17sr7dI="
         }
       ]
     },
@@ -5420,7 +4740,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "606286"
+          "Value": "1612126"
         },
         {
           "Name": "Content-Type",
@@ -5428,11 +4748,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE=\""
+          "Value": "\"AY5aXvPqvov8OWT4gOCmZ6Ak11mepMBTB9HW17sr7dI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 13 Sep 2025 11:26:05 GMT"
+          "Value": "Sun, 14 Sep 2025 04:23:04 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5442,7 +4762,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Fba5qo0C3ZzC20Ts1IKAOt7ugJAjYgYPr4kKbtbsqHE="
+          "Value": "sha256-AY5aXvPqvov8OWT4gOCmZ6Ak11mepMBTB9HW17sr7dI="
         }
       ]
     },

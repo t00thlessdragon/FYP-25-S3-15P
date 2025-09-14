@@ -1,16 +1,26 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;
+using FYP_25_S3_15P.Services; // <-- for IEmailSender
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace FYP_25_S3_15P.Controllers
 {
     public class ApplicationFormController : Controller
     {
         private readonly SmartDbContext _db;
-        public ApplicationFormController(SmartDbContext db) => _db = db;
+        private readonly IEmailSender _email; // <-- inject mailer
+
+        public ApplicationFormController(SmartDbContext db, IEmailSender email)
+        {
+            _db = db;
+            _email = email;
+        }
 
         // ----- ViewModel used only for the form -----
         public class ApplicationFormVm
@@ -108,6 +118,23 @@ namespace FYP_25_S3_15P.Controllers
             await _db.SaveChangesAsync();
 
             await tx.CommitAsync();
+
+            // --- Send the "submitted successfully" email (do not fail the UX if email fails) ---
+            try
+            {
+                var html = $@"
+<p>Dear {System.Net.WebUtility.HtmlEncode(input.Name)},</p>
+<p>Your application has been submitted successfully. Our Admin will review and you will receive our response shortly!</p>
+<p>Thank you.</p>
+<p>Regards,<br/>SMART Team</p>";
+
+                await _email.SendAsync(input.Email, "SMART: Application Submitted", html);
+            }
+            catch
+            {
+                // Optional: surface a non-blocking toast; don't throw to keep UX smooth
+                TempData["ToastExtra"] = "Application submitted. Email notification could not be sent.";
+            }
 
             TempData["AppSuccess"] = true;
             return RedirectToAction(nameof(Index));

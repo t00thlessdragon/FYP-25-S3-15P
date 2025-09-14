@@ -26,8 +26,8 @@
         <td>@p.Description</td>
         <td class="text-end">
           <div class="dropdown">
-            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
-              <i class="bi-three-dots-vertical fs-5"></i>
+            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-label="Row actions">
+              <i class="bi bi-three-dots-vertical fs-5"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
@@ -67,6 +67,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form asp-controller="SubscriptionPlans" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
         <div class="modal-header">
           <h5 class="modal-title">Add New Subscription Plan</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -101,6 +102,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form asp-controller="SubscriptionPlans" asp-action="Edit" method="post" id="editPlanForm">
+        @Html.AntiForgeryToken()
         <div class="modal-header">
           <h5 class="modal-title">View / Edit Subscription Plan</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -137,6 +139,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <form asp-controller="SubscriptionPlans" asp-action="Delete" method="post" id="deleteForm">
+        @Html.AntiForgeryToken()
         <div class="modal-header">
           <h5 class="modal-title">Delete Subscription Plan</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -154,39 +157,44 @@
   </div>
 </div>
 
-@section Scripts {
+<!-- Robust JS via event delegation -->
 <script>
-// View/Edit modal population
-document.getElementById('viewEditModal')?.addEventListener('show.bs.modal', function (event) {
-  const btn = event.relatedTarget;
-  document.getElementById('edit_PlanID').value = btn.getAttribute('data-id');
-  document.getElementById('edit_Name').value = btn.getAttribute('data-name');
-  document.getElementById('edit_Price').value = btn.getAttribute('data-price');
-  document.getElementById('edit_Description').value = btn.getAttribute('data-description');
-  // lock fields by default
-  setReadOnly(true);
-});
+  // When any Bootstrap modal is about to show…
+  document.addEventListener('show.bs.modal', function (event) {
+    const modal = event.target;
+    const trigger = event.relatedTarget;
 
-// Enable edit
-document.getElementById('enableEditBtn')?.addEventListener('click', function () {
-  setReadOnly(false);
-  document.getElementById('saveChangesBtn').disabled = false;
-});
+    if (modal.id === 'viewEditModal' && trigger) {
+      // populate fields
+      document.getElementById('edit_PlanID').value      = trigger.getAttribute('data-id') ?? '';
+      document.getElementById('edit_Name').value        = trigger.getAttribute('data-name') ?? '';
+      document.getElementById('edit_Price').value       = trigger.getAttribute('data-price') ?? '';
+      document.getElementById('edit_Description').value = trigger.getAttribute('data-description') ?? '';
 
-function setReadOnly(lock) {
-  ['edit_Name','edit_Price','edit_Description'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (lock) el.setAttribute('readonly', 'readonly');
-    else el.removeAttribute('readonly');
+      // lock + disable save by default
+      ['edit_Name','edit_Price','edit_Description'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.setAttribute('readonly','readonly');
+      });
+      const save = document.getElementById('saveChangesBtn');
+      if (save) save.disabled = true;
+    }
+
+    if (modal.id === 'deleteModal' && trigger) {
+      document.getElementById('delete_Id').value = trigger.getAttribute('data-id') ?? '';
+      document.getElementById('delete_Name').textContent = trigger.getAttribute('data-name') ?? '';
+    }
   });
-}
 
-// Delete modal population
-document.getElementById('deleteModal')?.addEventListener('show.bs.modal', function (event) {
-  const btn = event.relatedTarget;
-  document.getElementById('delete_Id').value = btn.getAttribute('data-id');
-  document.getElementById('delete_Name').textContent = btn.getAttribute('data-name');
-});
+  // Delegate clicks so it always works, even after re-renders
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#enableEditBtn')) {
+      ['edit_Name','edit_Price','edit_Description'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.removeAttribute('readonly');
+      });
+      const save = document.getElementById('saveChangesBtn');
+      if (save) save.disabled = false;
+    }
+  });
 </script>
-}

@@ -16,8 +16,7 @@ namespace FYP_25_S3_15P.Models
         public int Id { get; set; }
 
         // --- Relationships ---
-        [Required]
-        public int UniID { get; set; }              // FK -> Universities.UniID
+        public int? UniID { get; set; }              // FK -> Universities.UniID
 
         [Required]
         public int RoleId { get; set; }             // FK -> Roles.RoleId

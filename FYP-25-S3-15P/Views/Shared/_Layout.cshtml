@@ -13,27 +13,52 @@
     <link rel="stylesheet" href="~/css/choices.min.css" asp-append-version="true" />
 </head>
 <body>
-<!-- Fixed top navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-    <div class="container-wide">
-        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">SMART</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-nav fixed-top shadow-sm">
+  <div class="container-wide nav-grid">
 
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="#plans">Plans</a></li>
-                <li class="nav-item"><a class="nav-link" href="#testimonial">Testimonials</a></li>
-                <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-            </ul>
-        </div>
+    <!-- Brand (left) -->
+    <a class="navbar-brand p-0 me-3" asp-controller="Home" asp-action="Index">
+      <img src="~/images/smartlogo.png" alt="SMART" class="brand-logo" />
+    </a>
+
+    <!-- Toggler (shows only on < lg) -->
+    <button class="navbar-toggler d-lg-none ms-auto" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Center menu (desktop) -->
+    <ul class="navbar-nav nav-center d-none d-lg-flex">
+      <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#features">Features</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#contact">Contact</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#plans">Plans</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#testimonials">Testimonials</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#faq">FAQ</a></li>
+    </ul>
+
+    <!-- Right CTAs (desktop) -->
+    <div class="nav-cta d-none d-lg-flex">
+      <a class="fw-semibold text-white text-decoration-none me-2" asp-controller="ApplicationForm" asp-action="Index">Join Us Now!</a>
+      <a class="btn btn-primary btn-sm px-3" asp-controller="Account" asp-action="Login">Login</a>
     </div>
+
+    <div class="collapse d-lg-none mt-2" id="mainNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#plans">Plans</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="/#faq">FAQ</a></li>
+        <li class="nav-item mt-2"><a class="fw-semibold text-white text-decoration-none" asp-controller="ApplicationForm" asp-action="Index">>Join Us Now!</a></li>
+        <li class="nav-item mt-2"><a class="btn btn-primary btn-sm px-3" asp-controller="Account" asp-action="Login">Login</a></li>
+      </ul>
+    </div>
+
+  </div>
 </nav>
 
 <!-- Page content (adds top padding so it’s not hidden behind the fixed nav) -->

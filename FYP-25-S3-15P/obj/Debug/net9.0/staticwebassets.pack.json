@@ -1,10 +1,6 @@
 {
   "Files": [
     {
-      "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/Debug/net9.0/scopedcss/projectbundle/FYP-25-S3-15P.bundle.scp.css",
-      "PackagePath": "staticwebassets/FYP-25-S3-15P.mlat4sq1e6.bundle.scp.css"
-    },
-    {
       "Id": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/wwwroot/css/choices.min.css",
       "PackagePath": "staticwebassets/css/choices.min.css"
     },
