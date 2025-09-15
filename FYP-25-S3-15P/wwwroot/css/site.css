@@ -94,6 +94,23 @@ body {
   font-weight: 700;
 }
 
+/* Tiny “Return to Dashboard” link hover treatment */
+.nav-return-link{
+  padding: 0 .25rem;
+  border-radius: .25rem;
+  transition: color .15s ease, background-color .15s ease, text-decoration-color .15s ease;
+  /* Ensure it's visible even on the blue navbar */
+  color: #111 !important;
+}
+
+.nav-return-link:hover,
+.nav-return-link:focus {
+  color: #000 !important;
+  background-color: rgba(0,0,0,.08);
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+}
+
 /* END OF NAV BAR */
 
 /* BODY LANDING CARDS */
@@ -126,6 +143,26 @@ body {
 .plan .display-5 {
   letter-spacing: -1px;
 }
+
+/* =========================
+    FAQ 
+ ==========================*/
+
+#faq { scroll-margin-top: 96px; }
+html { scroll-behavior: smooth; }
+
+/* allow dropdowns to overflow the responsive table wrapper */
+.overflow-visible { overflow: visible !important; }
+
+/* keep horizontal scroll on small screens if you still want it */
+@media (max-width: 992px) {
+  .overflow-visible { overflow-x: auto; }
+}
+
+/* make sure the menu stacks above neighbors */
+.table .dropdown-menu { z-index: 1060; }
+
+
 
 /* =========================
    Testimonials

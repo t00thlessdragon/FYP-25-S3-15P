@@ -1,19 +1,22 @@
 @model FYP_25_S3_15P.ViewModels.ApplicationMasterVm
 @{
     ViewData["Title"] = "Applications Master Dashboard";
+    var apps = Model.Applications?.ToList() ?? new List<FYP_25_S3_15P.ViewModels.ApplicationMasterVm.Row>();
+    var total = apps.Count;
 }
 
 <section class="card-xl container-wide">
   <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="mb-0">Applications Management</h2>
-      <span class="text-muted small">@Model.Applications.Count() total</span>
+      <span class="text-muted small">@total total</span>
     </div>
 
     <div class="table-responsive">
       <table class="table align-middle">
         <thead class="table-dark">
           <tr>
+            <th style="width:64px;">No.</th>
             <th>Applicant</th>
             <th>Email</th>
             <th>University</th>
@@ -25,9 +28,11 @@
           </tr>
         </thead>
         <tbody>
-        @foreach (var a in Model.Applications)
+        @for (var i = 0; i < apps.Count; i++)
         {
+          var a = apps[i];
           <tr>
+            <td class="text-muted">@(@i + 1)</td>
             <td>@a.ApplicantName</td>
             <td>@a.Email</td>
             <td>@a.UniName</td>

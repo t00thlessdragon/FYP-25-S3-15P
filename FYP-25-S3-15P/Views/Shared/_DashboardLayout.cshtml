@@ -33,6 +33,7 @@
       <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master</a></li>
       <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
       <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
+      <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
     </ul>
 
     <!-- RIGHT (desktop): user dropdown -->
@@ -45,8 +46,8 @@
               Welcome, @displayName
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">Preferences</a></li>
-              <li><a class="dropdown-item" href="mailto:support@smart.local">Contact Support</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="mailto:noreply.smartproject@gmail.com">Contact Support</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <form asp-controller="Account" asp-action="Logout" method="post" class="px-3">
@@ -68,7 +69,8 @@
         <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master</a></li>
         <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
         <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
-
+        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
+        
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
           <li><hr class="dropdown-divider" /></li>

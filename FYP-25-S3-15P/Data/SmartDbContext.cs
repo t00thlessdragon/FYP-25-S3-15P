@@ -14,6 +14,9 @@ namespace FYP_25_S3_15P.Data
         public DbSet<University> Universities { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Role> Roles { get; set; } = default!;
+        public DbSet<FAQ> FAQs { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

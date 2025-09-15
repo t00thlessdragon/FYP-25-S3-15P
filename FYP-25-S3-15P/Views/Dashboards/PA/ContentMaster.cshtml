@@ -41,7 +41,7 @@
             </div>
 
             <div class="tab-pane fade @(tab=="faq"?"show active":"")" id="tab-faq">
-                <div class="text-muted">FAQ management UI goes here.</div>
+                @await Html.PartialAsync("~/Views/Dashboards/PA/_FAQTab.cshtml", Model.FAQs)
             </div>
         </div>
     </div>

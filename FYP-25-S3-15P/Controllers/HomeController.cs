@@ -35,7 +35,13 @@ namespace FYP_25_S3_15P.Controllers
                     .Where(f => f.ShowOnHome)
                     .OrderBy(f => f.HomeOrder ?? int.MaxValue)
                     .ThenBy(f => f.Name)
-                    .ToListAsync()
+                    .ToListAsync(),
+                
+                // FAQ    
+                FAQs = await _db.FAQs
+                .Where(f => f.IsActive)
+                .OrderBy(f => f.SortOrder).ThenBy(f => f.Id)
+                .ToListAsync()
             };
 
             return View(vm);

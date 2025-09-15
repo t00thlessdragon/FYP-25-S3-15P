@@ -7,4 +7,7 @@ public class ContentMaster
     public string ActiveTab { get; set; } = "plans";
     public List<SubscriptionPlan> Plans { get; set; } = new();
     public List<Feature> Features { get; set; } = new();
+    public IEnumerable<FAQ> FAQs { get; set; } = Enumerable.Empty<FAQ>();
+
+
 }
