@@ -1,0 +1,109 @@
+@model FYP_25_S3_15P.ViewModels.AssessorDashboardVm
+@{
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+
+    var name = Model?.AssessorName ?? "xxxx";
+    // ---- Hardcoded demo data (wireframe) ----
+    int pending   = 5;
+    int completed = 12;
+    int total     = 17;
+
+    int overallProgressPct = 70;
+    string nextDeadlineDate = "02 Sep 2025";
+    string nextDeadlineItem = "Technical Design Manual";
+
+    var notifications = new[]
+    {
+        "[NEW] Submission received from Group FYP-25-S3-15P",
+        "[REMINDER] Assessment deadline for T02 is approaching.",
+        "[INFO] Coordinator uploaded updated rubric template."
+    };
+}
+
+<section class="container-wide py-4">
+
+  <!-- Page title -->
+  <h2 class="mb-3">Dashboard</h2>
+
+  <!-- Welcome + bell (kept simple; bell handled by your layout if needed) -->
+  <div class="fs-4 mb-4">Welcome, @name!</div>
+
+  <!-- Info callout -->
+  <div class="d-flex align-items-start gap-3 mb-4 p-3 rounded-3 border bg-light">
+    <i class="bi bi-info-circle fs-4 text-secondary"></i>
+    <div class="small text-muted">
+      Please review student deliverables carefully and submit your evaluations before the deadlines.
+    </div>
+  </div>
+
+  <!-- Cards grid -->
+  <div class="row g-4">
+
+    <!-- Assessment Tasks Overview -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm rounded-4 h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="bi bi-kanban fs-2 text-dark"></i>
+            <div class="fw-semibold">Assessment Tasks Overview</div>
+          </div>
+
+          <ul class="mb-0">
+            <li>Pending Assessments: <strong>@pending</strong></li>
+            <li>Completed Assessments: <strong>@completed</strong></li>
+            <li>Total Assigned: <strong>@total</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evaluation Progress & Deadlines -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm rounded-4 h-100">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="bi bi-clipboard2-check fs-2 text-dark"></i>
+            <div>
+              <div class="fw-semibold">Evaluation Progress &amp; Deadlines</div>
+            </div>
+          </div>
+
+          <ul class="mb-0">
+            <li>Overall Progress: <strong>@overallProgressPct% completed</strong></li>
+            <li>
+              Next Deadline:
+              <strong>@nextDeadlineDate (@nextDeadlineItem)</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="col-12">
+      <div class="card shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="bi bi-bell fs-2 text-dark"></i>
+            <div class="fw-semibold">Notification</div>
+          </div>
+
+          <ul class="mb-0">
+            @foreach (var note in notifications)
+            {
+              <li>@note</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Light polish to match your leader style */
+  .card { border: 0; }
+  .card .fw-semibold { font-size: 1.05rem; }
+</style>

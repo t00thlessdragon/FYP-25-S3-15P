@@ -1,0 +1,62 @@
+@model FYP_25_S3_15P.ViewModels.StudentProjectsVm
+@{
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    ViewData["Title"] = "Allocated Project";
+
+    // Sample data (since controller isn't supplying anything yet)
+    var projId      = "CSIT-25-S3-08";
+    var projTitle   = "A Smart Project Allocation System";
+    var projGroup   = "FYP-25-S3-15P";
+    var supervisor  = "Mr. Prem";
+    var assessor    = "Mr. Tan";
+    var members     = new[] { "Jessy", "Doraine", "Alan" };
+    var description = @"SIM, a long standing partner of UOW, has over 3,000 students pursuing
+UOW’s Bachelor of Computer Science, Bachelor of IT, and Bachelor of Business Information Systems.
+They are looking for a system that can assist them with managing CSIT321 projects. The system aims
+to solve a multiconstraint optimisation problem and should have the following functionalities.";
+}
+
+
+<section class="container-wide card-xl">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="mb-3">Allocated Project</h2>
+
+        <div class="ap-line">
+            <span class="ap-label">Project ID:</span> @projId
+        </div>
+
+        <div class="ap-line">
+            <span class="ap-label">Project Title:</span> @projTitle
+        </div>
+
+        <div class="ap-line">
+            <span class="ap-label">Project Group:</span> @projGroup
+        </div>
+
+        <div class="ap-line">
+            <span class="ap-label">Supervisor Assigned:</span> @supervisor
+        </div>
+
+        <div class="ap-line">
+            <span class="ap-label">Assessor Assigned:</span> @assessor
+        </div>
+
+        <div class="ap-line">
+            <span class="ap-label">Project Member:</span> @members.First()
+            <div class="ap-members">
+                @foreach (var m in members.Skip(1))
+                {
+                    <div>@m</div>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="ap-label mb-1">Project Description:</div>
+            <p class="mb-0" style="max-width: 70ch; text-align: justify;">
+                @description
+            </p>
+        </div>
+
+    </div>
+</section>

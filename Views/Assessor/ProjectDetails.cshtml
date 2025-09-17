@@ -1,0 +1,42 @@
+@model FYP_25_S3_15P.ViewModels.AssessorProjectDetailsVm
+@{
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+}
+
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <!-- Heading row with Close button aligned right -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <h2 class="mb-0">Project Details</h2>
+      <a asp-action="Projects" class="btn-close" aria-label="Close"></a>
+    </div>
+
+    <div class="fs-5">
+      <p class="mb-3"><strong>Project ID:</strong> @Model.ProjectId</p>
+      <p class="mb-3"><strong>Project Title:</strong> @Model.Title</p>
+      <p class="mb-3"><strong>Project Group:</strong> @Model.GroupId</p>
+      <p class="mb-3"><strong>Supervisor Assigned:</strong> @Model.Supervisor</p>
+      <p class="mb-3"><strong>Assessor Assigned:</strong> @Model.Assessor</p>
+
+      <p class="mb-1"><strong>Project Member:</strong></p>
+      <div class="ps-4 mb-4">
+        @foreach (var m in Model.Members)
+        {
+            <div>@m</div>
+        }
+      </div>
+
+      <p class="mb-2"><strong>Project Description:</strong>@Model.Description</p>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <a asp-action="TasksByProject"
+         asp-route-projectId="@Model.ProjectId"
+         class="btn btn-dark btn-lg rounded-pill px-4">
+        View Task Deliverables
+      </a>
+    </div>
+  </div>
+</section>

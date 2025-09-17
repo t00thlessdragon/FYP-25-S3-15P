@@ -1,0 +1,145 @@
+@model FYP_25_S3_15P.ViewModels.AssessorEvaluateVm
+@{ Layout = "~/Views/Shared/_AssessorLayout.cshtml"; }
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+    <!-- header with close -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <h2 class="mb-0">Evaluate Task Deliverables</h2>
+      <a asp-action="Tasks" asp-route-projectId="@Model.ProjectId" class="btn-close" aria-label="Close"></a>
+    </div>
+
+    <!-- context -->
+    <div class="mb-3">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div><strong>Project ID:</strong> @Model.ProjectId</div>
+          <div><strong>Task ID:</strong> @Model.TaskId</div>
+          <div><strong>Task Title:</strong> @Model.Title</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div><strong>Project Group:</strong> @Model.GroupId</div>
+          <div><strong>Submission Date:</strong> @Model.SubmittedOn.ToString("dd MMMM yyyy")</div>
+          <div><strong>Deliverables Contribute:</strong> @Model.DeliverableWeightPercent%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mb-3">
+      <button type="button" class="btn btn-outline-dark btn-sm" id="sampleRubricBtn">Sample Rubric</button>
+      <button type="button" class="btn btn-outline-dark btn-sm" id="importRubricBtn">Import Rubric</button>
+    </div>
+
+    @{
+    var from = (string?)ViewBag.From ?? "";   // "project" or "list"
+    }
+    <form asp-action="Evaluate" method="post">
+      @Html.AntiForgeryToken()
+
+      @* hidden header fields *@
+      <input type="hidden" asp-for="ProjectId" />
+      <input type="hidden" asp-for="TaskId" />
+      <input type="hidden" asp-for="Title" />
+      <input type="hidden" asp-for="GroupId" />
+      <input type="hidden" asp-for="SubmittedOn" />
+      <input type="hidden" asp-for="DeliverableWeightPercent" />
+      <input type="hidden" name="from"      value="@from" />
+
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>Criterion</th>
+              <th>Description</th>
+              <th style="width:120px;">Weight</th>
+              <th style="width:140px;">Score (0-10)</th>
+              <th style="width:160px;">Weighted (Auto)</th>
+            </tr>
+          </thead>
+          <tbody id="rubricBody">
+          @for (int i = 0; i < Model.Items.Count; i++)
+          {
+              <tr>
+                <td>
+                  <input class="form-control" asp-for="Items[@i].Criterion" />
+                </td>
+                <td>
+                  <input class="form-control" asp-for="Items[@i].Description" />
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input class="form-control text-end weight" asp-for="Items[@i].Weight" />
+                    <span class="input-group-text">%</span>
+                  </div>
+                </td>
+                <td>
+                  <select class="form-select score" asp-for="Items[@i].Score">
+                    @for (int s = 0; s <= 10; s++) { <option value="@s">@s</option> }
+                  </select>
+                </td>
+                <td>
+                  <input class="form-control text-end weighted" value="@Model.Items[i].Weighted"
+                         readonly />
+                </td>
+              </tr>
+          }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="4" class="text-end">Deliverable Score (out of 100):</th>
+              <th><input id="totalScore" class="form-control text-end" value="@Model.TotalScore" readonly /></th>
+            </tr>
+            <tr>
+              <th colspan="4" class="text-end">Contribution to Overall Project:</th>
+              <th>
+                <div class="input-group">
+                  <input id="contrib" class="form-control text-end" value="@Model.ContributionPercent" readonly />
+                  <span class="input-group-text">%</span>
+                </div>
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="text-end">
+        <button type="submit" class="btn btn-dark px-4">Save</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+@section Scripts{
+<script>
+(function() {
+  const body   = document.getElementById('rubricBody');
+  const total  = document.getElementById('totalScore');
+  const contrib= document.getElementById('contrib');
+  const deliverableWeight = @Model.DeliverableWeightPercent;
+
+  function recalcRow(tr){
+    const w = parseFloat(tr.querySelector('.weight').value || '0');
+    const s = parseFloat(tr.querySelector('.score').value  || '0');
+    tr.querySelector('.weighted').value = (s * (w / 10.0)).toFixed(1);
+  }
+
+  function recalcAll(){
+    let sum = 0;
+    [...body.querySelectorAll('tr')].forEach(tr => {
+      recalcRow(tr);
+      const val = parseFloat(tr.querySelector('.weighted').value || '0');
+      sum += val;
+    });
+    total.value = sum.toFixed(1);
+    contrib.value = ((sum / 100.0) * deliverableWeight).toFixed(1);
+  }
+
+  body.addEventListener('input', e => {
+    if (e.target.matches('.weight,.score')) recalcAll();
+  });
+
+  // initial
+  recalcAll();
+})();
+</script>
+}

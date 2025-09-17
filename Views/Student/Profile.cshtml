@@ -1,0 +1,114 @@
+@model FYP_25_S3_15P.ViewModels.StudentProfileVm
+@{ Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
+@{
+    ViewData["Title"] = "Profile";
+    // If your Student views already use a _ViewStart that sets the student layout,
+    // leave Layout unset. If you want to force the site layout, uncomment:
+    // Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-wide pt-3 pb-5">
+
+    <!-- Header -->
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <img src="@Url.Content(Model.AvatarUrl)"
+             alt="avatar" class="rounded-circle object-fit-cover" width="56" height="56" />
+        <div>
+            <div class="h4 mb-0">@Model.Name</div>
+            <div class="text-muted">@Model.Role</div>
+        </div>
+    </div>
+
+    @if (TempData["Msg"] is string msg)
+    {
+        <div class="alert alert-success">@msg</div>
+    }
+
+    <!-- Student Details (editable) -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">Student Details</span>
+            <button type="submit" form="frmProfile" class="btn btn-dark btn-sm px-3">Edit</button>
+        </div>
+
+        <div class="card-body">
+            <form id="frmProfile" asp-action="Profile" asp-controller="Student" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12 col-md-4">
+                    <div class="text-muted">StudentId</div>
+                    <div class="fs-6">@Model.StudentId</div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="Phone" class="form-label">Phone</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Education Details (readonly) -->
+    <div class="card shadow-sm">
+        <div class="card-header fw-semibold">Education Details</div>
+        <div class="card-body">
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Course</div>
+                    <div class="fs-6">@Model.Course</div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Year Of Study</div>
+                    <div class="fs-6">Year @Model.YearOfStudy</div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Program</div>
+                    <div class="fs-6">@Model.Program</div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Project Group</div>
+                    <div class="fs-6">@Model.ProjectGroup</div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Supervisor Assigned</div>
+                    <div class="fs-6">@Model.Supervisor</div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">Assessor Assigned</div>
+                    <div class="fs-6">@Model.Assessor</div>
+                </div>
+
+                <div class="col-12">
+                    <div class="text-muted">Project Title</div>
+                    <div class="fs-6">@Model.ProjectTitle</div>
+                </div>
+
+                <div class="col-12">
+                    <div class="text-muted">University</div>
+                    <div class="fs-6">@Model.University</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .object-fit-cover{ object-fit:cover; }
+    .card { border-radius: .75rem; }
+</style>
+
+@section Scripts{
+    <!-- client-side validation (if you use DataAnnotations later) -->
+    <partial name="_ValidationScriptsPartial" />
+}

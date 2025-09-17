@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Smart</title>
+    <!-- Reference your global CSS files -->
+    <link rel="stylesheet" href="~/css/loginlayout.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+@RenderBody()
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

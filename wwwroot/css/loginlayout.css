@@ -1,0 +1,155 @@
+/* loginlayout.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Login Box Styling */
+.login-box {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 400px;           /* Fixed width on larger screens */
+    max-width: 100%;        /* On small screens, it will shrink if necessary */
+    box-sizing: border-box;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* --- Brand / logo sizing on auth pages --- */
+.brand {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0 8px;
+}
+
+.brand img {
+    max-width: 120px;     /* keep the logo small */
+    height: auto;         /* preserve aspect ratio */
+    object-fit: contain;  /* avoids distortion if constraints change */
+}
+
+/* Optional: scale a touch on wider screens */
+@media (min-width: 992px) {
+    .brand img { max-width: 140px; }
+}
+
+
+/* Options Section Styling */
+.options {
+    display: flex;
+    justify-content: space-between;  /* "Remember me" on the left, "Forgot?" on the right */
+    align-items: center;             /* Vertically center them */
+    margin-bottom: 1.2rem;           /* Spacing below the row */
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;             /* Ensures checkbox and label align horizontally */
+    font-size: 0.9em;                /* Adjust to match your site’s font scale */
+    color: #000000;                     /* Matches the "Forgot Password?" color */
+}
+
+/* If you want the label specifically styled, you can do: */
+.remember-me label {
+    margin: 0;
+    /* Inherit the .remember-me color and font-size automatically */
+}
+
+.remember-me input[type="checkbox"] {
+    margin: 0 0.5rem 0 0;           /* Right space between checkbox and label */
+}
+
+/* "Forgot Password?" link styling */
+.forgot-password {
+    color: #000000;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Container to center the card */
+.signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Card wrapper, same styling but now 400px max width */
+.signup-box {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: auto !important;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+/* Force every input in the signup-box to exactly 336×41.5px */
+.signup-box .form-control,
+.signup-box input[type="text"],
+.signup-box input[type="email"],
+.signup-box input[type="password"] {
+    width: 336px !important;
+    height: 41.5px !important;
+    padding: 0.75rem;        /* keep your padding too */
+    box-sizing: border-box;
+    margin-bottom: 1.2rem;   /* consistent spacing */
+}
+
+/* Label styling */
+.signup-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+/* Button styling (unchanged) */
+.btn-primary {
+    display: inline-block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #4169E1;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0F52BA;
+}

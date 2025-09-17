@@ -1,0 +1,139 @@
+@model FYP_25_S3_15P.ViewModels.ApplicationMasterVm
+@{
+    ViewData["Title"] = "Applications Master Dashboard";
+    var apps = Model.Applications?.ToList() ?? new List<FYP_25_S3_15P.ViewModels.ApplicationMasterVm.Row>();
+    var total = apps.Count;
+}
+
+<section class="card-xl container-wide">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Applications Management</h2>
+      <span class="text-muted small">@total total</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th style="width:64px;">No.</th>
+            <th>Applicant</th>
+            <th>Email</th>
+            <th>University</th>
+            <th>Role</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th class="text-end" style="width:80px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < apps.Count; i++)
+        {
+          var a = apps[i];
+          <tr>
+            <td class="text-muted">@(@i + 1)</td>
+            <td>@a.ApplicantName</td>
+            <td>@a.Email</td>
+            <td>@a.UniName</td>
+            <td>@a.Role</td>
+            <td>@a.PlanName</td>
+            <td>
+              <span class="badge bg-@(a.Status == "Approved" ? "success" : a.Status == "Rejected" ? "danger" : "secondary")">
+                @a.Status
+              </span>
+            </td>
+            <td>@a.SubmittedAtLocal</td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                  <i class="bi-three-dots-vertical fs-5"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <button type="button"
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#viewAppModal"
+                            data-id="@a.AppId"
+                            data-name="@a.ApplicantName"
+                            data-email="@a.Email"
+                            data-role="@a.Role"
+                            data-uniname="@a.UniName"
+                            data-uen="@a.UEN"
+                            data-plan="@a.PlanName"
+                            data-status="@a.Status">
+                      View / Decide
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Read-only modal + Approve/Reject -->
+<div class="modal fade" id="viewAppModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Application Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input id="app_Name" class="form-control" readonly />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input id="app_Email" class="form-control" readonly />
+          </div>
+
+          <div class="col-md-8">
+            <label class="form-label">University</label>
+            <input id="app_UniName" class="form-control" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">UEN</label>
+            <input id="app_UEN" class="form-control" readonly />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Role</label>
+            <input id="app_Role" class="form-control" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Plan</label>
+            <input id="app_Plan" class="form-control" readonly />
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Status</label>
+            <input id="app_Status" class="form-control" readonly />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <form asp-controller="Applications" asp-action="Reject" method="post" class="m-0">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="id" id="reject_Id" />
+          <button type="submit" class="btn btn-outline-danger">Reject</button>
+        </form>
+
+        <form asp-controller="Applications" asp-action="Approve" method="post" class="m-0">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="id" id="approve_Id" />
+          <button type="submit" class="btn btn-primary">Approve</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

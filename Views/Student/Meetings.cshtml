@@ -1,0 +1,153 @@
+@model FYP_25_S3_15P.ViewModels.StudentMeetingsVm
+@{
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    ViewData["Title"] = "Meetings";
+}
+
+<section class="container-wide card-xl">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="mb-3">Meeting</h2>
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:140px;">Meeting ID</th>
+                        <th>Meeting Title</th>
+                        <th style="width:160px;">Date</th>
+                        <th style="width:140px;">Time</th>
+                        <th style="width:200px;">Organizer</th>
+                        <th style="width:140px;" class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model?.Meetings != null && Model.Meetings.Any())
+                {
+                    foreach (var m in Model.Meetings)
+                    {
+                        <tr>
+                            <td>@m.MeetingId</td>
+                            <td>@m.Title</td>
+                            <td>@m.Date.ToString("d MMM yyyy")</td>
+                            <td>@m.TimeText</td>
+                            <td>@m.Organizer</td>
+                            <td class="text-end">
+                                <button type="button"
+        class="btn btn-dark btn-sm px-4 btn-meeting"
+        data-id="@m.MeetingId"
+        data-title="@m.Title"
+        data-datetime="@($"{m.Date:d MMM yyyy}, {m.TimeText}")"
+        data-organizer="@m.Organizer"
+        data-link="#"
+        data-agenda="">
+    View
+</button>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="text-center text-muted py-5">No meetings scheduled</div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Meeting Details Modal -->
+<div class="modal fade" id="meetingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Meeting Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-2">
+          <span class="fw-semibold">Meeting ID:</span>
+          <span id="mtgId"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Title:</span>
+          <span id="mtgTitle"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Date & Time:</span>
+          <span id="mtgDatetime"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Organizer:</span>
+          <span id="mtgOrganizer"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Meeting Link:</span>
+          <a href="#" id="mtgLink" target="_blank">—</a>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Agenda:</span>
+          <span id="mtgAgenda">—</span>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <a id="btnJoinMeeting" href="#" target="_blank" class="btn btn-dark">Join Meeting</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+<script>
+(function(){
+    const modalEl = document.getElementById('meetingModal');
+    const modal = new bootstrap.Modal(modalEl);
+
+    document.addEventListener('click', function(e){
+        const btn = e.target.closest('.btn-meeting');
+        if(!btn) return;
+
+        const id = btn.getAttribute('data-id');
+        const title = btn.getAttribute('data-title');
+        const datetime = btn.getAttribute('data-datetime');
+        const organizer = btn.getAttribute('data-organizer');
+        const link = btn.getAttribute('data-link') || "#";
+        const agenda = btn.getAttribute('data-agenda') || "";
+
+        document.getElementById('mtgId').textContent = id;
+        document.getElementById('mtgTitle').textContent = title;
+        document.getElementById('mtgDatetime').textContent = datetime;
+        document.getElementById('mtgOrganizer').textContent = organizer;
+
+        const linkEl = document.getElementById('mtgLink');
+        linkEl.href = (link && link !== "#") ? link : "#";
+        linkEl.textContent = (link && link !== "#") ? link : "—";
+
+        document.getElementById('mtgAgenda').textContent = agenda || "—";
+
+        const joinBtn = document.getElementById('btnJoinMeeting');
+        if(link && link !== "#"){
+            joinBtn.href = link;
+            joinBtn.classList.remove('disabled');
+        } else {
+            joinBtn.href = "#";
+            joinBtn.classList.add('disabled');
+        }
+
+        modal.show();
+    });
+})();
+</script>
+}

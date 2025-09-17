@@ -1,0 +1,241 @@
+@model IEnumerable<FYP_25_S3_15P.Models.FAQ>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<style>
+  /* Let dropdowns escape the responsive table wrapper */
+  .overflow-visible { overflow: visible !important; }
+  /* Keep menus above neighbors */
+  .table .dropdown-menu { z-index: 1060; }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">FAQs</h4>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#faqCreateModal">
+    + Add New FAQ
+  </button>
+</div>
+
+<div class="table-responsive overflow-visible">
+  <table class="table align-middle">
+    <thead class="table-dark">
+    <tr>
+      <th style="width:45%">Question</th>
+      <th style="width:35%">Answer</th>
+      <th style="width:10%">Order</th>
+      <th style="width:5%">Active</th>
+      <th style="width:5%">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var f in Model.OrderBy(x => x.SortOrder).ThenBy(x => x.Id))
+    {
+    <tr>
+      <td>@f.Question</td>
+      <td class="text-truncate" style="max-width:520px;">@f.Answer</td>
+      <td>@f.SortOrder</td>
+      <td>
+        @if (f.IsActive) { <span class="badge bg-success">Yes</span> }
+        else             { <span class="badge bg-secondary">No</span> }
+      </td>
+      <td class="text-end">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-muted p-0"
+                  data-bs-toggle="dropdown"
+                  aria-label="Row actions">
+            <i class="bi bi-three-dots-vertical fs-5"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <button type="button"
+                      class="dropdown-item btn-faq-view-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#faqViewEditModal"
+                      data-id="@f.Id"
+                      data-question="@f.Question"
+                      data-answer="@f.Answer"
+                      data-sort="@f.SortOrder"
+                      data-active="@(f.IsActive ? "true" : "false")">
+                View / Edit
+              </button>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button type="button"
+                      class="dropdown-item text-danger btn-faq-delete"
+                      data-bs-toggle="modal"
+                      data-bs-target="#faqDeleteModal"
+                      data-id="@f.Id"
+                      data-question="@f.Question">
+                Delete
+              </button>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    }
+    </tbody>
+  </table>
+</div>
+
+<!-- Create FAQ Modal -->
+<div class="modal fade" id="faqCreateModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form asp-controller="FAQ" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">Add FAQ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Question</label>
+            <input class="form-control" name="Question" maxlength="200" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Answer</label>
+            <textarea class="form-control" name="Answer" rows="6" required></textarea>
+          </div>
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <label class="form-label">Sort Order</label>
+              <input type="number" class="form-control" name="SortOrder" value="0" min="0" />
+            </div>
+            <div class="col-sm-4 d-flex align-items-end">
+              <div class="form-check">
+                <!-- Hidden false so unchecked posts false -->
+                <input type="hidden" name="IsActive" value="false" />
+                <input class="form-check-input" type="checkbox" name="IsActive" value="true" checked />
+                <label class="form-check-label">Active</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View / Edit FAQ (shared modal) -->
+<div class="modal fade" id="faqViewEditModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form asp-controller="FAQ" asp-action="Edit" method="post" id="faqEditForm">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">View / Edit FAQ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="Id" id="faq_Id" />
+
+          <div class="mb-3">
+            <label class="form-label">Question</label>
+            <input class="form-control" name="Question" id="faq_Question" readonly />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Answer</label>
+            <textarea class="form-control" name="Answer" id="faq_Answer" rows="6" readonly></textarea>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <label class="form-label">Sort Order</label>
+              <input type="number" class="form-control" name="SortOrder" id="faq_Sort" min="0" readonly />
+            </div>
+            <div class="col-sm-4 d-flex align-items-end">
+              <div class="form-check">
+                <input type="hidden" name="IsActive" value="false" />
+                <input class="form-check-input" type="checkbox" name="IsActive" id="faq_IsActive" value="true" disabled />
+                <label class="form-check-label" for="faq_IsActive">Active</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-primary" id="faq_EnableEditBtn">Edit</button>
+          <button type="submit" class="btn btn-primary" id="faq_SaveBtn" disabled>Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete FAQ Modal -->
+<div class="modal fade" id="faqDeleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form asp-controller="FAQ" asp-action="Delete" method="post" id="faqDeleteForm">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">Delete FAQ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="faq_Delete_Id" />
+          <p>Are you sure you want to delete:</p>
+          <p class="mb-0"><strong id="faq_Delete_Question"></strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- JS: populate modals + toggle view→edit -->
+<script>
+  // Populate View/Edit or Delete modals on open
+  document.addEventListener('show.bs.modal', function (e) {
+    const modal   = e.target;
+    const trigger = e.relatedTarget;
+
+    if (modal.id === 'faqViewEditModal' && trigger) {
+      // Fill values
+      document.getElementById('faq_Id').value       = trigger.getAttribute('data-id') || '';
+      document.getElementById('faq_Question').value = trigger.getAttribute('data-question') || '';
+      document.getElementById('faq_Answer').value   = trigger.getAttribute('data-answer') || '';
+      document.getElementById('faq_Sort').value     = trigger.getAttribute('data-sort') || '0';
+      document.getElementById('faq_IsActive').checked = (trigger.getAttribute('data-active') === 'true');
+
+      // Lock fields; disable Save by default
+      ['faq_Question','faq_Answer','faq_Sort'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.setAttribute('readonly','readonly');
+      });
+      document.getElementById('faq_IsActive').setAttribute('disabled','');
+      document.getElementById('faq_SaveBtn').disabled = true;
+      document.getElementById('faq_EnableEditBtn').classList.remove('d-none');
+    }
+
+    if (modal.id === 'faqDeleteModal' && trigger) {
+      document.getElementById('faq_Delete_Id').value = trigger.getAttribute('data-id') || '';
+      document.getElementById('faq_Delete_Question').textContent =
+        trigger.getAttribute('data-question') || '';
+    }
+  });
+
+  // Enable editing inside View/Edit modal
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#faq_EnableEditBtn')) return;
+    ['faq_Question','faq_Answer','faq_Sort'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.removeAttribute('readonly');
+    });
+    document.getElementById('faq_IsActive').removeAttribute('disabled');
+    document.getElementById('faq_SaveBtn').disabled = false;
+    e.target.classList.add('d-none');           // hide Edit button
+    document.getElementById('faq_Question').focus();
+  });
+</script>

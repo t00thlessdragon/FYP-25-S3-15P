@@ -1,0 +1,149 @@
+﻿@using FYP_25_S3_15P.Models
+@model FYP_25_S3_15P.ViewModels.HomeLandingVm
+
+@{
+    ViewData["Title"] = "Home";
+    var homeFeatures = Model.HomeFeatures ?? new List<Feature>();
+}
+
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">All the reasons to join us</h2>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 justify-content-center">
+            @foreach (var f in homeFeatures)
+            {
+                var title = string.IsNullOrWhiteSpace(f.HomeTitle)   ? f.Name        : f.HomeTitle;
+                var text  = string.IsNullOrWhiteSpace(f.HomeSummary) ? f.Description : f.HomeSummary;
+                var img   = string.IsNullOrWhiteSpace(f.HomeImagePath)
+                                ? Url.Content("~/images/placeholder.jpg")
+                                : Url.Content(f.HomeImagePath);
+
+                <div class="col d-flex">
+                    <div class="card h-100 rounded-4 shadow-sm text-center w-100">
+                        <img src="@img" alt="@title"
+                             class="card-img-top rounded-top-4 object-fit-cover"
+                             style="height:180px" />
+                        <div class="card-body">
+                            <h5 class="card-title">@title</h5>
+                            <p class="card-text small mb-0">@text</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Plans Card -->
+<section id="plans" class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Plans to suit your institution</h2>
+
+        <div class="row g-4">
+            @foreach (var p in Model.Plans)
+            {
+                <div class="col-md-4">
+                    <div class="plan card h-100 rounded-4 shadow-sm @(p.Name == "Standard" ? "border-primary" : "")">
+                        <div class="card-body p-4 text-center">
+                            <h3 class="h4">@p.Name</h3>
+                            <div class="display-5 fw-bold my-2">$@p.Price</div>
+                            <div class="text-muted mb-3">SGD / month</div>
+                            @if (!string.IsNullOrWhiteSpace(p.Description))
+                            {
+                                <p class="small">@p.Description</p>
+                            }
+                            <a class="btn @(p.Name == "Standard" ? "btn-primary" : "btn-outline-primary") mt-2"
+                               asp-controller="SubscriptionPlans" asp-action="Index">
+                                See full pricing detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Card -->
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Testimonials</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-1.jpg" class="rounded-circle mb-3" width="90" height="90" alt="Founder">
+                        <h5 class="mb-1">James D. Kelly</h5>
+                        <div class="text-muted small">Founder</div>
+                        <div class="my-2">★★★★★</div>
+                        <p class="small mb-0">“Allocation used to take days. Now it’s minutes.”</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-2.jpg" class="rounded-circle mb-3" width="90" height="90" alt="CEO">
+                        <h5 class="mb-1">Joanna S. Brown</h5>
+                        <div class="text-muted small">CEO</div>
+                        <div class="my-2">★★★★☆</div>
+                        <p class="small mb-0">“Fair, transparent matching with great reporting.”</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <img src="~/images/user-3.jpg" class="rounded-circle mb-3" width="90" height="90" alt="Manager">
+                        <h5 class="mb-1">Jason E. George</h5>
+                        <div class="text-muted small">Manager</div>
+                        <div class="my-2">★★★★☆</div>
+                        <p class="small mb-0">“Setup was simple; templates saved us weeks.”</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Card (dynamic) -->
+<section id="faq" class="card-xl container-wide" tabindex="-1">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+
+        @{
+            var faqs = Model.FAQs?.Where(x => x.IsActive)
+                           .OrderBy(x => x.SortOrder).ThenBy(x => x.Id)
+                       ?? Enumerable.Empty<FYP_25_S3_15P.Models.FAQ>();
+            var first = true; // open the first item by default
+        }
+
+        <div class="accordion" id="faqAccordion">
+            @foreach (var f in faqs)
+            {
+                var headingId = $"faq-h-{f.Id}";
+                var collapseId = $"faq-c-{f.Id}";
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="@headingId">
+                        <button class="accordion-button @(first ? "" : "collapsed")" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#@collapseId"
+                                aria-expanded="@(first ? "true" : "false")" aria-controls="@collapseId">
+                            @f.Question
+                        </button>
+                    </h2>
+                    <div id="@collapseId" class="accordion-collapse collapse @(first ? "show" : "")"
+                         aria-labelledby="@headingId" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            @Html.Raw(f.Answer)  <!-- allow simple formatting entered by admins -->
+                        </div>
+                    </div>
+                </div>
+                first = false;
+            }
+        </div>
+    </div>
+</section>
+

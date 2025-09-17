@@ -1,0 +1,85 @@
+@model IEnumerable<FYP_25_S3_15P.Models.SubscriptionPlan>
+
+@{
+    // Work with a concrete list (handy for indexing in the card row)
+    var plans = (Model ?? Enumerable.Empty<FYP_25_S3_15P.Models.SubscriptionPlan>())
+        .OrderBy(p => p.Price)
+        .ToList();
+
+    // Unique, alphabetized feature list across all plans
+    var features = plans
+        .SelectMany(p => p.PlanFeatures.Select(pf => pf.Feature))
+        .Where(f => f != null)
+        .GroupBy(f => f!.FeatureID)
+        .Select(g => g.First()!)
+        .OrderBy(f => f.Name)
+        .ToList();
+}
+
+<section class="card-xl container-wide">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+        <h2 class="text-center mb-4">Plans to suit your institution</h2>
+
+        <!-- Plan cards -->
+        <div class="row g-4 mb-4">
+            @for (var i = 0; i < plans.Count; i++)
+            {
+                var p = plans[i];
+                <div class="col-md-4">
+                    <div class="card h-100 rounded-4 shadow-sm @(i == 1 ? "border-primary" : "")">
+                        <div class="card-body text-center p-4">
+                            <h3 class="h4">@p.Name</h3>
+                            <div class="display-5 fw-bold my-2">$@p.Price</div>
+                            <div class="text-muted mb-3">SGD / month</div>
+                            <p class="small">@p.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Feature comparison table -->
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Feature</th>
+                    @foreach (var p in plans)
+                    {
+                        <th>@p.Name</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var f in features)
+                {
+                    <tr>
+                        <td>@f.Name</td>
+                        @foreach (var p in plans)
+                        {
+                            var hasIt = p.PlanFeatures.Any(pf => pf.FeatureID == f.FeatureID);
+                            <td class="text-center">@((hasIt) ? "✓" : "✗")</td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Join Now button -->
+        <div class="text-center mt-4">
+            <!-- If you use Identity UI, you can use: asp-area="Identity" asp-page="/Account/Register" -->
+            <a class="btn btn-lg rounded-pill px-5 btn-join-now"
+               asp-controller="ApplicationForm" asp-action="Index">
+                Join Now <span class="ms-2" aria-hidden="true">›</span>
+            </a>
+        </div>
+
+        @if (!plans.Any())
+        {
+            <div class="alert alert-info mt-3 mb-0">
+                No subscription plans configured yet.
+            </div>
+        }
+    </div>
+</section>
