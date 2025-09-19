@@ -17,181 +17,181 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = FYP_25_S3_15P
 build_property.RootNamespace = FYP_25_S3_15P
-build_property.ProjectDir = c:\Users\User\Desktop\FYP-25-S3-15P-main\FYP-25-S3-15P\
+build_property.ProjectDir = /Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\User\Desktop\FYP-25-S3-15P-main\FYP-25-S3-15P
+build_property.MSBuildProjectDirectory = /Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Account/AccessDenied.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Account/Logout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dvdXQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Account/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Assessment.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcQXNzZXNzbWVudC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Assessment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvQXNzZXNzbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Dashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcRGFzaGJvYXJkLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Evaluate.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcRXZhbHVhdGUuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Evaluate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvRXZhbHVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcUHJvZmlsZS5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/ProjectDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcUHJvamVjdERldGFpbHMuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/ProjectDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvUHJvamVjdERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Projects.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcUHJvamVjdHMuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Projects.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvUHJvamVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/SubmitAssessment.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcU3VibWl0QXNzZXNzbWVudC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/SubmitAssessment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvU3VibWl0QXNzZXNzbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/TaskDeliverables.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcVGFza0RlbGl2ZXJhYmxlcy5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/TaskDeliverables.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvVGFza0RlbGl2ZXJhYmxlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/TaskInfo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcVGFza0luZm8uY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/TaskInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvVGFza0luZm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/Tasks.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcVGFza3MuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/Tasks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvVGFza3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Assessor/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNzZXNzb3JcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Assessor/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXNzZXNzb3IvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/ApplicationMaster.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxBcHBsaWNhdGlvbk1hc3Rlci5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/ApplicationMaster.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9BcHBsaWNhdGlvbk1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/ContentMaster.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxDb250ZW50TWFzdGVyLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/ContentMaster.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9Db250ZW50TWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/UserMaster.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxVc2VyTWFzdGVyLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/UserMaster.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9Vc2VyTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/_FAQTab.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxfRkFRVGFiLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/_FAQTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9fRkFRVGFiLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/_FeaturesTab.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxfRmVhdHVyZXNUYWIuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/_FeaturesTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9fRmVhdHVyZXNUYWIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/_PlansTab.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxfUGxhbnNUYWIuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/_PlansTab.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9fUGxhbnNUYWIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Dashboards/PA/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xQQVxfVmlld1N0YXJ0LmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Dashboards/PA/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9fVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Forms/ApplicationForm.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXNcQXBwbGljYXRpb25Gb3JtLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Forms/ApplicationForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9ybXMvQXBwbGljYXRpb25Gb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Home/Contact.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Db250YWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_AssessorLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Bc3Nlc3NvckxheW91dC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_AssessorLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Bc3Nlc3NvckxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_DashboardLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EYXNoYm9hcmRMYXlvdXQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_DashboardLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19EYXNoYm9hcmRMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_LoginPageLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhZ2VMYXlvdXQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_LoginPageLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpblBhZ2VMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_StudentLayout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TdHVkZW50TGF5b3V0LmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_StudentLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19TdHVkZW50TGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/Dashboard.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxEYXNoYm9hcmQuY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9EYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/Meetings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxNZWV0aW5ncy5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/Meetings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9NZWV0aW5ncy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcm9maWxlLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9Qcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/ProjectDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcm9qZWN0RGV0YWlscy5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/ProjectDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9Qcm9qZWN0RGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/Projects.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxQcm9qZWN0cy5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/Projects.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9Qcm9qZWN0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/Tasks.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxUYXNrcy5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/Tasks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9UYXNrcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/Student/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfVmlld1N0YXJ0LmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/Student/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3R1ZGVudC9fVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/SubscriptionPlans/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3Vic2NyaXB0aW9uUGxhbnNcSW5kZXguY3NodG1s
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/SubscriptionPlans/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3Vic2NyaXB0aW9uUGxhbnMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/SubscriptionPlans/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3Vic2NyaXB0aW9uUGxhbnNcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/SubscriptionPlans/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3Vic2NyaXB0aW9uUGxhbnMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/User/Desktop/FYP-25-S3-15P-main/FYP-25-S3-15P/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\FYP-25-S3-15P-main\\FYP-25-S3-15P\\FYP-25-S3-15P.csproj": {}
+    "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\FYP-25-S3-15P-main\\FYP-25-S3-15P\\FYP-25-S3-15P.csproj": {
+    "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\FYP-25-S3-15P-main\\FYP-25-S3-15P\\FYP-25-S3-15P.csproj",
+        "projectUniqueName": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
         "projectName": "FYP-25-S3-15P",
-        "projectPath": "C:\\Users\\User\\Desktop\\FYP-25-S3-15P-main\\FYP-25-S3-15P\\FYP-25-S3-15P.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\FYP-25-S3-15P-main\\FYP-25-S3-15P\\obj\\",
+        "projectPath": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
+        "packagesPath": "/Users/waiyan/.nuget/packages/",
+        "outputPath": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/waiyan/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -78,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
