@@ -1,0 +1,119 @@
+@model FYP.Models.Supervisor
+@{
+    ViewBag.Title = "Supervisor Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2>Supervisor Dashboard</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        
+        <div class="dropdown">
+            <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                Manage Projects
+            </button>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("View Projects Listing", "ViewProject", "SupervisorProjectList", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+                <li>@Html.ActionLink("Project Preferences", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("View Allocated Projects", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                Manage Groups
+            </button>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("View Allocated Group", "ViewAllocatedGroup", "SupervisorAllocatedGroup", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+                <li>@Html.ActionLink("View Students", "ViewStudents", "SupervisorAssignedStudents", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("Assign Tasks", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("View Task Deliverables", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("Schedule Meetings", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("Send Annoucements", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("Submit Evalutions", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            <li>@Html.ActionLink("Track Group Progress Timeline", "Dashboard", "Profile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            </li>
+            
+            </ul>
+
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                Manage Profile
+            </button>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("View Profile", "ViewProfile", "SupervisorProfile", null,
+                new {
+                    @class = "dropdown-item"
+                }
+            )
+            
+            </ul>
+            </div>
+</div>
+
+<h5>Groups Allocated</h5>
+<div class="card p-3">
+    @foreach (var group in Model.Groups)
+    {
+        <div class="d-flex justify-content-between mb-2">
+            <div>@group.Code &nbsp; @group.Title</div>
+            <button class="btn btn-dark">View Group</button>
+        </div>
+    }
+</div>

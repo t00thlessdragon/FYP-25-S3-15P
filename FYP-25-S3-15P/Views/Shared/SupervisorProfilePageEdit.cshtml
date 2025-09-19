@@ -1,0 +1,89 @@
+@model FYP.Models.SupervisorProfile
+
+@{
+    ViewBag.Title="Supervisor Profile Edit";
+}
+
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+    .profile-card { background-color: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+    .header { display: flex; align-items: center; margin-bottom: 20px; }
+    .profile-pic { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-right: 15px; }
+    .info-section h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 0; }
+    .info-group { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
+    .info-item { flex: 1 1 300px; margin-right: 20px; }
+    .info-label { font-weight: bold; color: #555; display: block; margin-bottom: 5px; }
+    .form-control { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .read-only-value { padding: 8px; display: block; }
+    .button-group { text-align: center; margin-top: 20px; }
+    .btn { padding: 10px 40px; border-radius: 5px; border: none; cursor: pointer; background-color: #007bff; color: white; font-weight: bold; }
+</style>
+
+<div class="profile-card">
+    <div class="header">
+        <img src="https://via.placeholder.com/60" alt="Profile Picture" class="profile-pic" />
+        <div>
+            <h2>@Model.Name</h2>
+            <p>@Model.Role</p>
+        </div>
+    </div>
+
+    <form asp-controller="Profile" asp-action="SaveProfile" method="post">
+        <input type="hidden" asp-for="Name" />
+        <input type="hidden" asp-for="Role" />
+        <input type="hidden" asp-for="SupervisorID" />
+        <input type="hidden" asp-for="AreaOfExpertise" />
+        <input type="hidden" asp-for="DateJoined" />
+
+        <div class="info-section">
+            <h3>Personal Information</h3>
+            <div class="info-group">
+                <div class="info-item">
+                    <span class="info-label">Supervisor</span>
+                    <span class="read-only-value">@Model.SupervisorID</span>
+                </div>
+                <div class="info-item">
+                    <label asp-for="Email" class="info-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+                <div class="info-item">
+                    <label asp-for="Phone" class="info-label">Phone</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3>Professional Information</h3>
+            <div class="info-group">
+                <div class="info-item">
+                    <label asp-for="Department" class="info-label">Department</label>
+                    <input asp-for="Department" class="form-control" />
+                </div>
+                <div class="info-item">
+                    <label asp-for="Position" class="info-label">Position</label>
+                    <input asp-for="Position" class="form-control" />
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Area of Expertise</span>
+                    <span class="read-only-value">@Model.AreaOfExpertise</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Date Joined</span>
+                    <span class="read-only-value">@Model.DateJoined</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}

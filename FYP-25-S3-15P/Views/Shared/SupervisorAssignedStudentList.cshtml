@@ -1,0 +1,76 @@
+@model FYP.Models.AssignedStudentsList
+
+@{
+    ViewData["Title"] = "Students Assigned to the Supervisor";
+}
+
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h2 { font-weight: bold; margin: 0; }
+    .search-container { display: flex; gap: 10px; }
+    .search-bar { position: relative; }
+    .search-bar input { border: 1px solid #ccc; border-radius: 5px; padding: 8px 30px 8px 10px; }
+    .search-bar button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; }
+    .filter-btn { border: 1px solid #ccc; border-radius: 5px; padding: 8px 15px; background-color: white; cursor: pointer; }
+    .content-container { background-color: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; }
+    th { background-color: #f4f4f4; }
+    tr:last-child td { border-bottom: none; }
+    /* Merged cells for 'Group' and 'Project Title' columns */
+    .group-cell, .project-cell { vertical-align: middle; }
+</style>
+
+<div class="header-container">
+    <h2>View Students</h2>
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" />
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <button class="filter-btn">Filter <i class="fas fa-filter"></i></button>
+    </div>
+</div>
+
+<div class="content-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Student</th>
+                <th>Project Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string currentGroupName = null;
+                string currentProjectTitle = null;
+                int rowSpan = 0;
+            }
+            @foreach (var student in Model.Students)
+            {
+                if (student.GroupName != currentGroupName)
+                {
+                    currentGroupName = student.GroupName;
+                    currentProjectTitle = student.ProjectTitle;
+                    rowSpan = Model.Students.Count(s => s.GroupName == currentGroupName);
+                }
+
+                <tr>
+                    @if (student.GroupName == currentGroupName && rowSpan > 0)
+                    {
+                        <td class="group-cell" rowspan="@rowSpan">@currentGroupName</td>
+                        <td class="student-name">@student.StudentName</td>
+                        <td class="project-cell" rowspan="@rowSpan">@currentProjectTitle</td>
+                        rowSpan = 0;
+                    }
+                    else
+                    {
+                        <td class="student-name">@student.StudentName</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

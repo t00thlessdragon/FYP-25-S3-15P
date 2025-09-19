@@ -1,0 +1,71 @@
+@model FYP.Models.ProjectListingView
+
+@{
+    ViewData["Title"] = "Supervisor Project Listing";
+}
+
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+    .container { max-width: 1000px; margin: auto; background-color: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; }
+    h2 { font-weight: bold; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; }
+    th { background-color: #f4f4f4; }
+    tr:last-child td { border-bottom: none; }
+    .tag-container { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { background-color: #e0e0e0; color: #555; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; }
+    .button-group { display: flex; flex-direction: column; gap: 5px; }
+    .btn { padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; color: #333; }
+    .btn-details { background-color: white; }
+    .btn-add { background-color: #343a40; color: white; border-color: #343a40; }
+</style>
+
+<div class="container">
+    <h2>Project Listing</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Project ID</th>
+                <th>Project Title</th>
+                <th>Description</th>
+                <th>Tags</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model.Projects)
+            {
+                <tr>
+                    <td>@(Model.Projects.IndexOf(project) + 1)</td>
+                    <td>@project.ProjectID</td>
+                    <td>@project.ProjectTitle</td>
+                    <td>@project.Description</td>
+                    <td>
+                        <div class="tag-container">
+                            @foreach (var tag in project.Tags)
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <div class="button-group">
+                            <a asp-controller="Project" asp-action="ViewDetails" asp-route-id="@project.Id" class="btn btn-details">View Details</a>
+                            <a asp-controller="Project" asp-action="AddToPreferences" asp-route-id="@project.Id" class="btn btn-add">Add to Preferences</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+

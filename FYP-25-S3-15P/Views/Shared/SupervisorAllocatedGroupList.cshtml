@@ -1,0 +1,84 @@
+@model FYP.Models.AllocatedGroupView
+
+@{
+    ViewData["Title"] = "Supervisor Allocated Group List";
+}
+
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h2 { font-weight: bold; margin: 0; }
+    .search-container { display: flex; gap: 10px; }
+    .search-bar { position: relative; }
+    .search-bar input { border: 1px solid #ccc; border-radius: 5px; padding: 8px 30px 8px 10px; }
+    .search-bar button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; }
+    .filter-btn { border: 1px solid #ccc; border-radius: 5px; padding: 8px 15px; background-color: white; cursor: pointer; }
+    .content-container { background-color: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: top; }
+    th { background-color: #f4f4f4; }
+    tr:last-child td { border-bottom: none; }
+    .button-group { display: flex; flex-direction: column; gap: 5px; }
+    .btn { padding: 8px 12px; border-radius: 5px; border: 1px solid #ccc; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; color: white; background-color: #343a40; border-color: #343a40; }
+    .no-groups { text-align: center; padding: 50px; color: #555; }
+</style>
+
+<div class="header-container">
+    <h2>View Allocated Groups</h2>
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" />
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <button class="filter-btn">Filter <i class="fas fa-filter"></i></button>
+    </div>
+</div>
+
+<div class="content-container">
+    @if (Model.AllocatedGroups.Count == 0)
+    {
+        <div class="no-groups">
+            <p>No groups assigned to you.</p>
+        </div>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Group</th>
+                    <th>Project ID</th>
+                    <th>Project Title</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var group in Model.AllocatedGroups)
+                {
+                    <tr>
+                        <td>@group.GroupName</td>
+                        <td>@group.ProjectID</td>
+                        <td>@group.ProjectTitle</td>
+                        <td>
+                            <div class="button-group">
+                                <a asp-controller="Group" asp-action="AssignTasks" asp-route-id="@group.GroupName" class="btn">Assign Tasks</a>
+                                <a asp-controller="Group" asp-action="ViewTasks" asp-route-id="@group.GroupName" class="btn">View Tasks</a>
+                                <a asp-controller="Group" asp-action="ScheduleMeeting" asp-route-id="@group.GroupName" class="btn">Schedule Meeting</a>
+                                <a asp-controller="Group" asp-action="SendAnnouncement" asp-route-id="@group.GroupName" class="btn">Send Announcement</a>
+                                <a asp-controller="Group" asp-action="TrackProgress" asp-route-id="@group.GroupName" class="btn">Track Progress</a>
+                                <a asp-controller="Group" asp-action="SubmitEvaluation" asp-route-id="@group.GroupName" class="btn">Submit Evaluation</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
