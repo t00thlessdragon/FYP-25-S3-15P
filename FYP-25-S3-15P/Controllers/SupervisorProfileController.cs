@@ -9,11 +9,11 @@ namespace FYP.Controllers
         {
             var profile = new SupervisorProfile
             {
-                Name = "John Doe",
+                Name = "Peter Tan",
                 Role = "Supervisor",
-                SupervisorID = "223456",
-                Email = "john_doe@gmail.com",
-                Phone = "+6512345687",
+                SupervisorID = "Sup12345",
+                Email = "peter_tan@university_domain.com",
+                Phone = "+6591234568",
                 Department = "Information Technology",
                 Position = "Senior Lecturer",
                 DateJoined = "15 Jan 2021",
@@ -26,11 +26,11 @@ namespace FYP.Controllers
         {
             var profile = new SupervisorProfile
             {
-                Name = "John Doe",
+                Name = "Peter Tan",
                 Role = "Supervisor",
-                SupervisorID = "223456",
-                Email = "john_doe@gmail.com",
-                Phone = "+6512345687",
+                SupervisorID = "Sup12345",
+                Email = "peter_tan@university_domain.com",
+                Phone = "+6591234568",
                 Department = "Information Technology",
                 Position = "Senior Lecturer",
                 DateJoined = "15 Jan 2021",
@@ -49,15 +49,15 @@ namespace FYP.Controllers
         {
             var profile = new SupervisorProfile
             {
-                Name = "John Doe",
+                Name = "Peter Tan",
                 Role = "Supervisor",
-                SupervisorID = "223456",
-                Email = "john_doe@gmail.com",
-                Phone = "+6512345687",
+                SupervisorID = "Sup12345",
+                Email = "peter_tan@university_domain.com",
+                Phone = "+6591234568",
                 Department = "Information Technology",
                 Position = "Senior Lecturer",
-                AreaOfExpertise = "Data Analytics, Project Management",
-                DateJoined = "15 Jan 2021"
+                DateJoined = "15 Jan 2021",
+                AreaOfExpertise = "Data Analytics, Project Management"
             };
             return View("SupervisorProfilePageEdit", profile);
         }
