@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FMCefnN5WJY=",
+  "dgSpecHash": "XegOXB8ymuk=",
   "success": true,
-  "projectFilePath": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
+  "projectFilePath": "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
   "expectedPackageFiles": [
     "/Users/waiyan/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/waiyan/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",

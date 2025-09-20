@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {}
+    "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {}
   },
   "projects": {
-    "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {
+    "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
+        "projectUniqueName": "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
         "projectName": "FYP-25-S3-15P",
-        "projectPath": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
+        "projectPath": "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/FYP-25-S3-15P.csproj",
         "packagesPath": "/Users/waiyan/.nuget/packages/",
-        "outputPath": "/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/obj/",
+        "outputPath": "/Users/waiyan/VisualStudioCodeProjects/FYP-25-S3-15P/FYP-25-S3-15P/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/waiyan/.nuget/NuGet/NuGet.Config"
