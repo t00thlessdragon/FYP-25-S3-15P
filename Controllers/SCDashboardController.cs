@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using FYP_25_S3_15P.Constants;
 using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;        // ContentMaster, Feature, SubscriptionPlan, User
 using FYP_25_S3_15P.ViewModels;    // ApplicationMasterVm, UserMasterVm
@@ -15,14 +16,14 @@ using Microsoft.AspNetCore.Identity; // IPasswordHasher<User>
 namespace FYP_25_S3_15P.Controllers
 {
     // ✅ Only Platform Admins can access anything in this controller
-    [Authorize(Roles = "Platform Admin")]
-    public class PADashboardController : Controller
+    [Authorize(Roles = RoleConstants.SubjectCoordinator)]
+    public class SCDashboardController : Controller
     {
         private readonly SmartDbContext _db;
         private readonly IPasswordHasher<User> _hasher;
         private readonly IEmailSender _email;
 
-        public PADashboardController(
+        public SCDashboardController(
             SmartDbContext db,
             IPasswordHasher<User> hasher,
             IEmailSender email)
@@ -37,7 +38,7 @@ namespace FYP_25_S3_15P.Controllers
         public Task<IActionResult> Index([FromQuery] string? tab) => ContentMaster(tab);
 
         // Content dashboard (reads ?tab=)
-        [HttpGet("/PADashboard")]
+        [HttpGet("/SCDashboard")]
         public async Task<IActionResult> ContentMaster([FromQuery] string? tab)
         {
             var features = await _db.Features
@@ -61,11 +62,34 @@ namespace FYP_25_S3_15P.Controllers
                 ActiveTab = string.IsNullOrWhiteSpace(tab) ? "features" : tab.ToLowerInvariant()
             };
 
-            return View("~/Views/Dashboards/PA/ContentMaster.cshtml", model);
+            return View("~/Views/Dashboards/SC/ContentMaster.cshtml", model);
         }
-
         // Applications dashboard
-        [HttpGet("/PADashboard/ApplicationMaster")]
+        [HttpGet("/SCDashboard/FYPTemplateMaster")]
+        public async Task<IActionResult> FYPTemplateMaster([FromQuery] string? tab)
+        {
+            var activeTab = string.IsNullOrWhiteSpace(tab) ? "templates" : tab.ToLowerInvariant();
+
+            var templates = await _db.FYPTemplates
+                .Include(f => f.University)
+                .Include(f => f.Programs)
+                .OrderBy(f => f.ProjectName)
+                .ToListAsync();
+
+            var programs = await _db.Programs
+                .OrderBy(p => p.ProgramName)
+                .ToListAsync();
+            
+            var vm = new FYPTemplateMaster {
+                FYPTemplates = templates,
+                Programs = programs,
+                ActiveTab = activeTab
+            };
+            return View("~/Views/Dashboards/SC/FYPTemplateMaster.cshtml", vm);
+        }
+        
+        // Applications dashboard
+        [HttpGet("/SCDashboard/ApplicationMaster")]
         public async Task<IActionResult> ApplicationMaster()
         {
             var rows = await (
@@ -89,11 +113,11 @@ namespace FYP_25_S3_15P.Controllers
             ).ToListAsync();
 
             var vm = new ApplicationMasterVm { Applications = rows };
-            return View("~/Views/Dashboards/PA/ApplicationMaster.cshtml", vm);
+            return View("~/Views/Dashboards/SC/ApplicationMaster.cshtml", vm);
         }
 
         // Users dashboard
-        [HttpGet("/PADashboard/UserMaster")]
+        [HttpGet("/SCDashboard/UserMaster")]
         public async Task<IActionResult> UserMaster()
         {
             var rows = await (
@@ -149,7 +173,7 @@ namespace FYP_25_S3_15P.Controllers
     .ToListAsync();
 
     var vm = new UserMasterVm { Users = rows };
-    return View("~/Views/Dashboards/PA/UserMaster.cshtml", vm);
+    return View("~/Views/Dashboards/SC/UserMaster.cshtml", vm);
 
         }
 

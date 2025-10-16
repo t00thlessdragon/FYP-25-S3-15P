@@ -1,0 +1,212 @@
+@model FYP_25_S3_15P.Models.FYPTemplateMaster
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">FYP Templates</h4>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fypAddModal">
+    + Add New Template
+  </button>
+</div>
+
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Project Title</th>
+        <th>Description</th>
+        <th class="text-end">Program</th>
+        <th style="width:80px;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model.FYPTemplates)
+    {
+      <tr>
+        <td>@p.ProjectName</td>
+        <td>@p.Description</td>
+        <td class="text-end">@p.Programs.ProgramCode</td>
+        <td class="text-end">
+          <div class="dropdown">
+            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-label="Row actions">
+              <i class="bi bi-three-dots-vertical fs-5"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button type="button"
+                        class="dropdown-item btn-view-edit"
+                        data-bs-toggle="modal"
+                        data-bs-target="#fypEditModal"
+                        data-id="@p.ID"
+                        data-title="@p.ProjectName"
+                        data-description="@p.Description"
+                        data-progid="@p.ProgID">
+                  View / Edit
+                </button>
+              </li>
+              <li>
+                <button type="button"
+                        class="dropdown-item text-danger btn-delete"
+                        data-bs-toggle="modal"
+                        data-bs-target="#fypDeleteModal"
+                        data-id="@p.ID"
+                        data-name="@p.ProjectName">
+                  Delete
+                </button>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Template Modal -->
+<div class="modal fade" id="fypAddModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form asp-controller="FYPTemplate" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Template</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Title</label>
+              <input name="ProjectName" class="form-control" required />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <input name="Description" class="form-control" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Program</label>
+              <select name="ProgID" class="form-select" required>
+              <option value="">-- Select Program --</option>
+              @foreach (var prog in Model.Programs)
+              {
+                  <option value="@prog.ID">@prog.ProgramCode - @prog.ProgramName</option>
+              }
+            </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View/Edit Template Modal -->
+<div class="modal fade" id="fypEditModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form asp-controller="FYPTemplate" asp-action="Edit" method="post" id="editTemplateForm">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">View / Edit Template</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="ID" id="fyp_edit_ID" />
+
+          <div class="row g-3">
+            <!-- Title -->
+            <div class="col-md-6">
+              <label class="form-label">Title</label>
+              <input name="ProjectName" id="fyp_edit_ProjectName" class="form-control" required />
+            </div>
+
+            <!-- Description -->
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea name="Description" id="fyp_edit_Description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Program Dropdown -->
+            <div class="col-md-6">
+              <label class="form-label">Program</label>
+              <select name="ProgID" id="fyp_edit_ProgID" class="form-select" required>
+                <option value="">-- Select Program --</option>
+                @foreach (var prog in Model.Programs)
+                {
+                    <option value="@prog.ID">@prog.ProgramCode - @prog.ProgramName</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="fypDeleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form asp-controller="FYPTemplate" asp-action="Delete" method="post" id="deleteForm">
+        @Html.AntiForgeryToken()
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Template</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="delete_Id" />
+          <p>Are you sure you want to delete <strong id="delete_Name"></strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Robust JS via event delegation -->
+<script>
+  // When any Bootstrap modal is about to show…
+  document.addEventListener('show.bs.modal', function (event) {
+    const modal = event.target;
+    const trigger = event.relatedTarget;
+
+    if (modal.id === 'fypEditModal' && trigger) {
+      // populate fields
+      document.getElementById('fyp_edit_ID').value      = trigger.getAttribute('data-id') ?? '';
+      document.getElementById('fyp_edit_ProjectName').value        = trigger.getAttribute('data-title') ?? '';
+      document.getElementById('fyp_edit_Description').value       = trigger.getAttribute('data-description') ?? '';
+      document.getElementById('fyp_edit_ProgID').value = trigger.getAttribute('data-progid') ?? '';
+
+    }
+
+    if (modal.id === 'fypDeleteModal' && trigger) {
+      document.getElementById('delete_Id').value = trigger.getAttribute('data-id') ?? '';
+      document.getElementById('delete_Name').textContent = trigger.getAttribute('data-name') ?? '';
+    }
+  });
+
+  // Delegate clicks so it always works, even after re-renders
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#enableEditBtn')) {
+      ['edit_Name','edit_Price','edit_Description'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.removeAttribute('readonly');
+      });
+      const save = document.getElementById('saveChangesBtn');
+      if (save) save.disabled = false;
+    }
+  });
+</script>

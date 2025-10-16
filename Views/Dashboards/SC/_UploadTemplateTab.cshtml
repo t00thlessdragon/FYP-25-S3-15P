@@ -1,0 +1,75 @@
+@model FYP_25_S3_15P.Models.FYPTemplateMaster
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Upload Templates</h4>
+</div>
+
+<div class="card shadow-sm p-4 mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="get" asp-controller="FYPTemplate" asp-action="DownloadTemplate">
+      <button type="submit" class="btn btn-outline-primary">📥 Download CSV Template</button>
+    </form>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" asp-controller="FYPTemplate" asp-action="Upload">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+      <label for="fileUpload" class="form-label fw-semibold">Select file:</label>
+      <input type="file" class="form-control" id="fileUpload" name="file" accept=".csv" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+</div>
+
+@{
+    var previewJson = TempData.Peek("UploadPreview") as string;
+}
+@if (!string.IsNullOrEmpty(previewJson))
+{
+   var previewRows = System.Text.Json.JsonSerializer.Deserialize<
+        List<FYP_25_S3_15P.Controllers.FYPTemplateController.UploadPreviewRow>>(previewJson);
+
+  <div class="card shadow-sm p-4">
+    <h5>Upload Preview</h5>
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Program Name</th>
+          <th>Project Name</th>
+          <th>Description</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var row in previewRows)
+        {
+          <tr class="@(row.Remarks == "OK" ? "table-success" : "table-danger")">
+            <td>@row.ProgramName</td>
+            <td>@row.ProjectName</td>
+            <td>@row.Description</td>
+            <td>@row.Remarks</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <form asp-controller="FYPTemplate" asp-action="ClearPreview" method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-secondary">Clear</button>
+      </form>
+
+      @if (previewRows.All(r => r.Remarks == "OK"))
+      {
+        <form asp-controller="FYPTemplate" asp-action="ConfirmUpload" method="post">
+          @Html.AntiForgeryToken()
+          <button type="submit" class="btn btn-success">Confirm Upload</button>
+        </form>
+      }
+      else
+      {
+        <button class="btn btn-success" disabled title="Fix errors before confirming">Confirm Upload</button>
+      }
+    </div>
+  </div>
+}

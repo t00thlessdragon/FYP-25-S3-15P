@@ -4,24 +4,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Models
 {
-    [Index(nameof(UEN), IsUnique = true)]
-    [Table("Universities", Schema = "dbo")]
+    [Table("University", Schema = "dbo")]
     public class University
     {
-        [Key]
-        [Column("UniID")]
-        public int UniID { get; set; }
+         [Key]
+        public int ID { get; set; }
 
-        [Required, StringLength(200)]
-        [Column("UniName")]
-        public string UniName { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(50)]
+        public string UniID { get; set; } = string.Empty;  // e.g. "200604346E"
 
-        [Required, StringLength(50)]
-        [Column("UEN")]
-        public string UEN { get; set; } = string.Empty;
+        [Required]
+        [MaxLength(255)]
+        public string UniName { get; set; } = string.Empty;  // e.g. "National University of Singapore"
 
-        [Column("CreatedAt")]
-        public DateTime CreatedAt { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string UnivCode { get; set; } = string.Empty;  // e.g. "NUS"
+
+        [MaxLength(100)]
+        public string? CreatedBy { get; set; }
+
+        [Required]
+        public DateTime? CreatedAt { get; set; }
+
+        [MaxLength(100)]
+        public string? UpdatedBy { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
 
         public ICollection<ApplicationForm> ApplicationForms { get; set; } = new List<ApplicationForm>();
     }

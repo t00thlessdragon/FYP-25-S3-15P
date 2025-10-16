@@ -1,4 +1,5 @@
-﻿@* Views/Shared/_DashboardLayout.cshtml *@
+﻿@using FYP_25_S3_15P.Constants;
+@* Views/Shared/_DashboardLayout.cshtml *@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,11 +30,18 @@
 
     <!-- Center menu (desktop) -->
     <ul class="navbar-nav nav-center d-none d-lg-flex">
-      <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Main Site</a></li>
-      <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master</a></li>
-      <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
-      <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
-      <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Main Site</a></li>
+      @if (User.IsInRole(RoleConstants.PlatformAdmin)){
+        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master1</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
+      }
+      @if (User.IsInRole(RoleConstants.SubjectCoordinator)){
+        <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="ContentMaster">Project Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="UserMaster">Project</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="FYPTemplateMaster">Project Template</a></li>
+      }
     </ul>
 
     <!-- RIGHT (desktop): user dropdown -->
@@ -66,11 +74,17 @@
     <div class="collapse d-lg-none mt-2" id="dashNav">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Main Site</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
-        <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
-        
+        @if (User.IsInRole(RoleConstants.PlatformAdmin)){
+          <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ContentMaster">Content Master3</a></li>
+          <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="UserMaster">User Master</a></li>
+          <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">Application Master</a></li>
+          <li class="nav-item"><a class="nav-link" asp-controller="PADashboard" asp-action="ApplicationMaster">System Reports</a></li>
+        }
+        @if (User.IsInRole(RoleConstants.SubjectCoordinator)){
+          <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="ContentMaster">Project Allocation</a></li>
+          <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="UserMaster">Project</a></li>
+          <li class="nav-item"><a class="nav-link" asp-controller="SCDashboard" asp-action="FYPTemplateMaster">Project Template</a></li>
+        }
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
           <li><hr class="dropdown-divider" /></li>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;
+using FYP_25_S3_15P.Constants;
 
 public class AccountController : Controller
 {
@@ -29,9 +30,15 @@ public class AccountController : Controller
 
         var normalized = (model.Email ?? "").Trim().ToLowerInvariant();
 
-        var user = await _db.Users.FirstOrDefaultAsync(u => u.EmailNormalized == normalized);
-        var isActive = string.Equals(user?.Status, "Active", StringComparison.OrdinalIgnoreCase);
 
+        // Find user by normalized email
+        var user = await _db.Users
+            .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+            .FirstOrDefaultAsync(u => u.EmailNormalized == normalized);
+        
+        // Check user exists, not locked, active status    
+        var isActive = string.Equals(user?.Status, "Active", StringComparison.OrdinalIgnoreCase);
         if (user == null || user.IsLocked || !isActive)
         {
             ModelState.AddModelError("", "Invalid login.");
@@ -44,20 +51,29 @@ public class AccountController : Controller
             ModelState.AddModelError("", "Invalid login.");
             return View(model);
         }
-
-        var roleName = await _db.Roles
-            .Where(r => r.RoleId == user.RoleId)
-            .Select(r => r.Name)
-            .FirstOrDefaultAsync() ?? string.Empty;
+        
+        // Retrieve all roles through UserRole junction table ---
+        var roleNames = user?.UserRoles?
+            .Where(ur => ur.Role != null)
+            .Select(ur => ur.Role.Name)
+            .ToList() ?? new List<string>();
 
         // Build claims for cookie
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, string.IsNullOrWhiteSpace(user.Name) ? user.Email : user.Name),
-            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-            new Claim(ClaimTypes.Role, roleName)
+            new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
         };
+        
+        if (roleNames.Count != 0)
+        {
+              // Add one or more role claims
+            foreach (var roleName in roleNames)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, roleName));
+            }
+        }
 
         var identity  = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
@@ -77,21 +93,24 @@ public class AccountController : Controller
         await _db.SaveChangesAsync();
 
         // Route by role if needed
-        if (string.Equals(roleName, "Platform Admin", StringComparison.OrdinalIgnoreCase))
-        {
-            return RedirectToAction("Index", "PADashboard");
+        if (roleNames.Count != 0){
+            if (roleNames.Contains(RoleConstants.PlatformAdmin))
+                return RedirectToAction("Index", "PADashboard");
+            else if (roleNames.Contains(RoleConstants.Student))
+                return RedirectToAction("Dashboard", "Student");
+            else if (roleNames.Contains(RoleConstants.Assessor))
+                return RedirectToAction("Dashboard", "Assessor");
+            else if (roleNames.Contains(RoleConstants.Supervisor))
+                return RedirectToAction("Dashboard", "Supervisor");
+            else if (roleNames.Contains(RoleConstants.SubjectCoordinator))
+                return RedirectToAction("Index", "SCDashboard");
+            else
+                return RedirectToAction("Index", "Home");
         }
-        else if (string.Equals(roleName, "Student", StringComparison.OrdinalIgnoreCase))
-        {
-            return RedirectToAction("Dashboard", "Student");   
+        else{
+            // fallback
+            return RedirectToAction("Index", "Home");
         }
-        else if (string.Equals(roleName, "Assessor", StringComparison.OrdinalIgnoreCase))
-        {
-            return RedirectToAction("Dashboard", "Assessor");  
-        }
-
-// fallback
-return RedirectToAction("Index", "Home");
 
     }
 

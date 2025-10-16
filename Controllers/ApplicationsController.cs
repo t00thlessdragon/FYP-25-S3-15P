@@ -73,7 +73,7 @@ namespace FYP_25_S3_15P.Controllers
                 {
                     // Validate university
                     var uniId = app.UniID;
-                    var uniExists = await _db.Universities.AnyAsync(u => u.UniID == uniId);
+                    var uniExists = await _db.University.AnyAsync(u => u.ID == uniId);
                     if (!uniExists)
                     {
                         TempData["Toast"] = "Cannot approve: application has no valid university.";
@@ -93,8 +93,7 @@ namespace FYP_25_S3_15P.Controllers
                         var user = new User
                         {
                             Name   = app.ApplicantName,
-                            Email  = app.Email,
-                            RoleId = 2,          // University Admin
+                            Email  = app.Email,    // University Admin
                             UniID  = uniId,
                             Status = "Active",
                             // MustChangePassword = true,

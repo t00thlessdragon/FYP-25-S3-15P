@@ -11,10 +11,15 @@ namespace FYP_25_S3_15P.Data
         public DbSet<Feature> Features { get; set; } = default!;
         public DbSet<PlanFeature> PlanFeatures { get; set; } = default!;
         public DbSet<ApplicationForm> ApplicationForms { get; set; } = default!;
-        public DbSet<University> Universities { get; set; } = default!;
+        public DbSet<University> University { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Role> Roles { get; set; } = default!;
-        public DbSet<FAQ> FAQs { get; set; }
+        public DbSet<FAQ> FAQs { get; set; }= default!;
+        public DbSet<UserRole> UserRoles { get; set; } = default!;
+
+        public DbSet<FYPTemplates> FYPTemplates { get; set; } = default!;
+
+        public DbSet<Programs> Programs { get; set; } = default!;
 
 
 
@@ -50,7 +55,7 @@ namespace FYP_25_S3_15P.Data
 
             modelBuilder.Entity<University>(e =>
             {
-                e.ToTable("Universities");
+                e.ToTable("University");
             });
 
             // USERS → dbo.Users   (removed "Smart" schema)
@@ -69,12 +74,94 @@ namespace FYP_25_S3_15P.Data
 
                 e.Property(u => u.RowVersion).IsRowVersion();
             });
-            
+
             modelBuilder.Entity<Role>(e =>
             {
                 e.ToTable("Roles");
-                e.HasKey(r => r.RoleId);
+                e.HasKey(r => r.Id);
                 e.Property(r => r.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<UserRole>(e =>
+            {
+                e.ToTable("UserRole");
+
+                e.HasKey(ur => ur.ID);
+
+                // Each UserRole has one User and one Role
+                e.HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                e.HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleID)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<FYPTemplates>(e =>
+            {
+                e.ToTable("FYPTemplates");
+
+                e.HasKey(f => f.ID);
+
+                e.Property(f => f.ProjectName)
+                    .HasMaxLength(255)
+                    .IsRequired();
+
+                e.Property(f => f.Description)
+                    .HasColumnType("nvarchar(max)");
+
+                e.Property(f => f.CreatedBy)
+                    .HasMaxLength(100);
+
+                e.Property(f => f.CreatedAt)
+                    .IsRequired();
+
+                e.Property(f => f.UpdatedAt)
+                    .IsRequired(false);
+
+                // Optional relationships
+                e.HasOne(f => f.University)
+                    .WithMany()
+                    .HasForeignKey(f => f.UniID)
+                    .HasPrincipalKey(u => u.ID)     // explicitly link to University.ID
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                e.HasOne(f => f.Programs)
+                    .WithMany()
+                    .HasForeignKey(f => f.ProgID)
+                    .HasPrincipalKey(p => p.ID)     // explicitly link to Programs.ID
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            modelBuilder.Entity<Programs>(e =>
+            {
+                e.ToTable("Programs");
+
+                e.HasKey(p => p.ID);
+
+                e.Property(p => p.ProgramName)
+                    .HasMaxLength(255)
+                    .IsRequired();
+
+                e.Property(p => p.ProgramCode)
+                    .HasMaxLength(50)
+                    .IsRequired();
+
+                e.Property(p => p.CreatedBy)
+                    .HasMaxLength(100);
+
+                e.Property(p => p.UpdatedBy)
+                    .HasMaxLength(100);
+
+                e.Property(p => p.CreatedAt)
+                    .IsRequired();
+
+                e.HasOne(p => p.University)
+                    .WithMany()
+                    .HasForeignKey(p => p.UniID);
             });
         }
     }

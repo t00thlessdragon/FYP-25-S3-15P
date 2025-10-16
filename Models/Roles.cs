@@ -11,7 +11,7 @@ namespace FYP_25_S3_15P.Models
     public class Role
     {
         [Key]
-        public int RoleId { get; set; }          // PK -> dbo.Roles.RoleId
+        public int Id { get; set; }          // PK -> dbo.Roles.RoleId
 
         [Required, StringLength(100)]
         public string Name { get; set; } = string.Empty;
@@ -20,6 +20,6 @@ namespace FYP_25_S3_15P.Models
         public string? Description { get; set; }
 
         // Navigation: all users with this role
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

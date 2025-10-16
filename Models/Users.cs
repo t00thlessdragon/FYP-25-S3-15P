@@ -18,9 +18,6 @@ namespace FYP_25_S3_15P.Models
         // --- Relationships ---
         public int? UniID { get; set; }              // FK -> Universities.UniID
 
-        [Required]
-        public int RoleId { get; set; }             // FK -> Roles.RoleId
-
         // --- Core profile ---
         [Required, StringLength(200)]
         public string Name { get; set; } = string.Empty;
@@ -56,8 +53,6 @@ namespace FYP_25_S3_15P.Models
         public byte[]? RowVersion { get; set; }
 
         // --- Navigation properties ---
-        [ForeignKey(nameof(RoleId))]
-        public Role? Role { get; set; }
 
         [ForeignKey(nameof(UniID))]
         public University? University { get; set; }
@@ -68,5 +63,8 @@ namespace FYP_25_S3_15P.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [StringLength(255)]
         public string? EmailDomain { get; private set; } 
+
+        // Navigation property
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

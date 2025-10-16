@@ -76,6 +76,13 @@
               Return to Dashboard &rarr;
             </a>
           }
+          @if (User.IsInRole("Subject Coordinator"))
+          {
+            <a asp-controller="SCDashboard" asp-action="ContentMaster"
+               class="small link-dark text-decoration-none nav-return-link mt-1">
+              Return to Dashboard &rarr;
+            </a>
+          }
 
         </div>
       }
@@ -111,6 +118,15 @@
             <li class="nav-item">
               <a class="nav-link small link-dark nav-return-link"
                  asp-controller="PADashboard" asp-action="ContentMaster">
+                Return to Dashboard →
+              </a>
+            </li>
+          }
+          @if (User.IsInRole("Subject Coordinator"))
+          {
+            <li class="nav-item">
+              <a class="nav-link small link-dark nav-return-link"
+                 asp-controller="SCDashboard" asp-action="ContentMaster">
                 Return to Dashboard →
               </a>
             </li>
