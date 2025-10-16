@@ -1,0 +1,197 @@
+@model FYP_25_S3_15P.Models.UniStaffVm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "University Staff Management Dashboard";
+    var staffList = Model.Staff ?? new List<FYP_25_S3_15P.Models.UniStaffVm.Row>();
+}
+
+<style>
+  .overflow-visible { overflow: visible !important; }
+  .table .dropdown-menu { z-index: 1060; }
+</style>
+
+<section class="card-xl container-wide">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">University Staff Management</h2>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle shadow-sm" type="button" id="uploadUsersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                + Upload Users
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="uploadUsersDropdown">
+                <li><button class="dropdown-item text-decoration-underline fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadStaffModal">+ Upload Staff</button></li>
+                <li><button class="dropdown-item text-decoration-underline fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadStudentsModal">+ Upload Students</button></li>
+            </ul>
+        </div>
+    </div>
+
+    @if (TempData["Flash"] is string ok && !string.IsNullOrWhiteSpace(ok))
+    {
+      <div class="alert alert-success alert-dismissible fade show" role="alert">@ok
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    }
+    @if (TempData["Error"] is string err && !string.IsNullOrWhiteSpace(err))
+    {
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">@err
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    }
+
+    <div class="table-responsive overflow-visible">
+      <table class="table align-middle">
+        <thead class="table-dark">
+        <tr>
+          <th style="width:64px;">No.</th>
+          <th>Staff ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>University</th>
+          <th>Modules</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th class="text-end" style="width:80px;">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < staffList.Count; i++)
+        {
+            var s = staffList[i];
+            var badge = s.IsLocked ? "danger" :
+                        (s.Status ?? "").ToLowerInvariant() == "active" ? "success" :
+                        (s.Status ?? "").ToLowerInvariant() == "pending" ? "warning" : "secondary";
+
+            <tr>
+                <td class="text-muted">@(@i + 1)</td>
+                <td>@s.StaffID</td>
+                <td>@s.Name</td>
+                <td>@s.Email</td>
+                <td>@s.UniName</td>
+                <td>
+                    @foreach(var m in s.AssignedModules)
+                    {
+                        <span class="badge bg-secondary me-1">@m.ModuleCode</span>
+                    }
+                </td>
+                <td><span class="badge bg-@badge">@((s.IsLocked ? "Locked" : s.Status) ?? "-")</span></td>
+                <td>@(s.LastLogin?.ToString("g") ?? "-")</td>
+                <td class="text-end">
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-label="Row actions">
+                      <i class="bi bi-three-dots-vertical fs-5"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#viewStaffModal"
+                            data-id="@s.Id"
+                            data-staffid="@s.StaffID"
+                            data-name="@s.Name"
+                            data-email="@s.Email"
+                            data-university="@s.UniName"
+                            data-status="@s.Status"
+                            data-lastlogin="@(s.LastLogin?.ToString("g") ?? "-")"
+                            data-active="@(!s.IsLocked)">
+                            View
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Upload Staff Modal -->
+<div class="modal fade" id="uploadStaffModal" tabindex="-1" aria-labelledby="uploadStaffModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadStaffModalLabel">Upload Staff</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form id="uploadStaffForm" enctype="multipart/form-data" action="/FileUpload/UploadStaff" method="post" onsubmit="return handleFormSubmit(event)">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="staffFile" class="form-label">Select CSV file to upload staff</label>
+                <input type="file" class="form-control" id="staffFile" name="staffFile" accept=".csv" required>
+            </div>
+            <div class="alert alert-info">
+                <h6 class="fw-bold mb-2">CSV Format Guide (Staff Upload)</h6>
+                <ul class="mb-2">
+                    <li><code>StaffID</code> — e.g., ST001</li>
+                    <li><code>Name</code> — e.g., John Tan</li>
+                    <li><code>Email</code> — e.g., john.tan@university.edu</li>
+                    <li><code>Role</code> — e.g., Subject Coordinator</li>
+                    <li><code>University</code> — e.g., Singapore University</li>
+                    <li><code>Program</code> — e.g., Information Technology</li>
+                    <li><code>Modules</code> — e.g., CS101, CS102</li>
+                </ul>
+                <p class="mb-0">
+                    Example header: <code>StaffID,Name,Email,Role,University,Program,Modules</code>
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Upload Staff</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Success Message Modal -->
+<div class="modal fade" id="uploadSuccessModal" tabindex="-1" aria-labelledby="uploadSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadSuccessModalLabel">Upload Successful</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        File uploaded successfully!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // This function prevents page reload and shows the success modal on file upload
+  function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent the form from submitting and redirecting
+
+    var form = event.target;
+    var formData = new FormData(form);
+
+    // Send the form data via AJAX
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Check if the upload was successful
+      if (data.success) {
+        // Show success modal
+        $('#uploadSuccessModal').modal('show');
+      } else {
+        // Handle error or show an error modal if needed
+        alert('Upload failed.');
+      }
+    })
+    .catch(error => {
+      console.error('Error during file upload:', error);
+      alert('An error occurred while uploading the file.');
+    });
+  }
+</script>

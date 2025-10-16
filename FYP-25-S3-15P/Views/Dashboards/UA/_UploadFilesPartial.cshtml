@@ -1,0 +1,83 @@
+<!-- Upload Files Section -->
+<div class="dropdown mb-4 text-end">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="uploadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-upload"></i> Upload Files
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="uploadDropdown">
+
+    <!-- Staff Upload -->
+    <li>
+      <form id="uploadStaffForm" enctype="multipart/form-data" method="post" class="px-3 py-2">
+        @Html.AntiForgeryToken() <!-- Ensure anti-forgery token is included -->
+        <label class="form-label small">Upload Staff (.csv)</label>
+        <input type="file" name="staffFile" accept=".csv" class="form-control form-control-sm mb-2" required />
+        <button type="submit" class="btn btn-sm btn-success w-100">Upload</button>
+      </form>
+    </li>
+
+    <li><hr class="dropdown-divider" /></li>
+
+    <!-- Other file uploads -->
+  </ul>
+</div>
+
+<!-- Upload Success Modal -->
+<div class="modal fade" id="uploadSuccessModal" tabindex="-1" aria-labelledby="uploadSuccessLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadSuccessLabel">Upload Status</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="uploadSuccessMessage">
+        File uploaded successfully!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript to handle AJAX submission -->
+<script>
+  $(document).ready(function () {
+    // Handle form submission using AJAX
+    $('#uploadStaffForm').on('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Create a FormData object to hold the file data
+      var formData = new FormData(this);
+
+      // Send the form data via AJAX to the server
+      $.ajax({
+        url: '/FileUpload/UploadStaff', // Your controller action
+        type: 'POST',
+        data: formData,
+        contentType: false,  // Prevent jQuery from setting content-type
+        processData: false,  // Prevent jQuery from serializing the data
+        success: function (response) {
+          // Check if the response was successful
+          if (response.success) {
+            // Show success message in modal
+            $('#uploadSuccessMessage').text(response.message);
+            $('#uploadSuccessModal').modal('show'); // Display the modal
+            // Optionally, reset the form after success
+            $('#uploadStaffForm')[0].reset();
+          } else {
+            // If there was an error, show the error message in the modal
+            $('#uploadSuccessMessage').text(response.message);
+            $('#uploadSuccessModal').modal('show'); // Display the modal
+          }
+        },
+        error: function (xhr, status, error) {
+          // Handle AJAX error
+          console.error('Error occurred during the upload:', status, error);
+          console.error('Response:', xhr.responseText);
+          alert('An error occurred during the upload. Please check the console for more details.');
+        }
+      });
+    });
+  });
+</script>
+

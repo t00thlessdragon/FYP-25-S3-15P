@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add logging explicitly
+builder.Services.AddLogging();  // Ensure logging is configured
+
 builder.Services.AddControllersWithViews();
 
 // DbContext

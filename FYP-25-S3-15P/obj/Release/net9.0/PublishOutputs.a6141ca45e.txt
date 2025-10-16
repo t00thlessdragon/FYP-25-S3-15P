@@ -1,0 +1,7 @@
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/FYP-25-S3-15P
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/appsettings.Development.json
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/appsettings.json
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/FYP-25-S3-15P.dll
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/FYP-25-S3-15P.deps.json
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/FYP-25-S3-15P.runtimeconfig.json
+/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/out/FYP-25-S3-15P.pdb

@@ -15,7 +15,7 @@ public class AccountController : Controller
     [HttpGet, AllowAnonymous]
     public IActionResult Login()
     {
-        // Already signed in? Send to home (or dashboard).
+        // Already signed in? Send to home (or dashboard)
         if (User.Identity?.IsAuthenticated == true)
             return RedirectToAction("Index", "Home");
 
@@ -28,7 +28,6 @@ public class AccountController : Controller
         if (!ModelState.IsValid) return View(model);
 
         var normalized = (model.Email ?? "").Trim().ToLowerInvariant();
-
         var user = await _db.Users.FirstOrDefaultAsync(u => u.EmailNormalized == normalized);
         var isActive = string.Equals(user?.Status, "Active", StringComparison.OrdinalIgnoreCase);
 
@@ -38,7 +37,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        // TODO: replace with a proper password hash check (IPasswordHasher<User>)
+        // 🔐 TODO: Replace with hashed password verification later
         if (!string.Equals(user.Password, model.Password))
         {
             ModelState.AddModelError("", "Invalid login.");
@@ -50,7 +49,7 @@ public class AccountController : Controller
             .Select(r => r.Name)
             .FirstOrDefaultAsync() ?? string.Empty;
 
-        // Build claims for cookie
+        // ✅ Build claims for cookie authentication
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -62,7 +61,6 @@ public class AccountController : Controller
         var identity  = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
 
-        // Sign in on the same (default) cookie scheme
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             principal,
@@ -72,15 +70,25 @@ public class AccountController : Controller
                 ExpiresUtc   = DateTimeOffset.UtcNow.AddHours(8)
             });
 
-        // ✅ Record last login (UTC) so dashboards can show it
+        // ✅ Record last login
         user.LastLogin = DateTime.UtcNow;
         await _db.SaveChangesAsync();
 
-        // Route by role if needed
-        if (string.Equals(roleName, "Platform Admin", StringComparison.OrdinalIgnoreCase))
-            return RedirectToAction("Index", "PADashboard");
+       // ✅ Redirect based on role
+if (string.Equals(roleName, "Platform Admin", StringComparison.OrdinalIgnoreCase))
+{
+    return RedirectToAction("Index", "PADashboard");
+}
+else if (string.Equals(roleName, "University Admin", StringComparison.OrdinalIgnoreCase))
+{
+    return RedirectToAction("Index", "UADashboard");
+}
+else
+{
+    return RedirectToAction("Index", "Home");
+}
 
-        return RedirectToAction("Index", "Home");
+
     }
 
     // Optional GET confirmation page

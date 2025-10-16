@@ -14,16 +14,20 @@ namespace FYP_25_S3_15P.Data
         public DbSet<University> Universities { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Role> Roles { get; set; } = default!;
-        public DbSet<FAQ> FAQs { get; set; }
-
-
+        public DbSet<FAQ> FAQs { get; set; } = default!;
+        
+        // ✅ Updated to plural
+        public DbSet<UniversityProgram> UniversityPrograms { get; set; } = default!;
+        public DbSet<Course> Courses { get; set; } = default!;
+        public DbSet<StaffProfile> StaffProfiles { get; set; } = default!;
+        public DbSet<StudentProfile> StudentProfiles { get; set; } = default!;
+        public DbSet<StaffModules> StaffModules { get; set; } = default!;
+        public DbSet<Module> Modules { get; set; } = default!;  // ✅ plural
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Make dbo the default schema so we don't have to repeat it
             modelBuilder.HasDefaultSchema("dbo");
 
-            // existing mappings …
             modelBuilder.Entity<SubscriptionPlan>()
                 .ToTable("subscriptionPlans").HasKey(p => p.PlanID);
 
@@ -43,7 +47,7 @@ namespace FYP_25_S3_15P.Data
 
             modelBuilder.Entity<ApplicationForm>(e =>
             {
-                e.ToTable("ApplicationForm");  // default schema = dbo
+                e.ToTable("ApplicationForm");
                 e.HasOne(a => a.Plan).WithMany().HasForeignKey(a => a.PlanID);
                 e.HasOne(a => a.University).WithMany(u => u.ApplicationForms).HasForeignKey(a => a.UniID);
             });
@@ -53,7 +57,6 @@ namespace FYP_25_S3_15P.Data
                 e.ToTable("Universities");
             });
 
-            // USERS → dbo.Users   (removed "Smart" schema)
             modelBuilder.Entity<User>(e =>
             {
                 e.ToTable("Users");
@@ -69,7 +72,7 @@ namespace FYP_25_S3_15P.Data
 
                 e.Property(u => u.RowVersion).IsRowVersion();
             });
-            
+
             modelBuilder.Entity<Role>(e =>
             {
                 e.ToTable("Roles");

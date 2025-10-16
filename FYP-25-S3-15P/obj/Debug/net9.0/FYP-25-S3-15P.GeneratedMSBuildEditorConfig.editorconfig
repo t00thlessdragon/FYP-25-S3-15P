@@ -68,6 +68,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9QQS9fVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/UserMaster.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9VQS9Vc2VyTWFzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/_UploadFilesPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9VQS9fVXBsb2FkRmlsZXNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGFzaGJvYXJkcy9VQS9fVmlld1N0YXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/waiyan/Desktop/CSIT321/FYP-25-S3-15P/FYP-25-S3-15P/Views/Forms/ApplicationForm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRm9ybXMvQXBwbGljYXRpb25Gb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
