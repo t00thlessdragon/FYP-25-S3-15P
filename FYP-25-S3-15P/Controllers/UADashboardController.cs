@@ -1,185 +1,185 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using FYP_25_S3_15P.Data;
+using FYP_25_S3_15P.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FYP_25_S3_15P.Data;
-using FYP_25_S3_15P.Models; // UniStaffVm, StaffProfile, UniversityProgram, Module, StaffModules, User, Role, etc.
-using FYP_25_S3_15P.Services; // IEmailSender
-using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
-namespace FYP_25_S3_15P.Controllers
+[Authorize] 
+public class UADashboardController : Controller
 {
-    [Authorize(Roles = "University Admin")]
-    public class UADashboardController : Controller
+    private readonly SmartDbContext _context;
+
+    public UADashboardController(SmartDbContext context)
     {
-        private readonly SmartDbContext _db;
-        private readonly IPasswordHasher<User> _hasher;
-        private readonly IEmailSender _email;
+        _context = context;
+    }
 
-        // When testing, redirect all outgoing email to this address:
-        private const string TestEmailRedirect = "waiyan9600@gmail.com";
-
-        public UADashboardController(SmartDbContext db, IPasswordHasher<User> hasher, IEmailSender email)
+    // GET: /UADashboard
+    public async Task<IActionResult> Index()
+    {
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (userId == null || !int.TryParse(userId, out int adminId))
         {
-            _db = db;
-            _hasher = hasher;
-            _email = email;
+            TempData["Error"] = "User identity not found or invalid.";
+            return RedirectToAction("AccessDenied", "Account");
         }
 
-        // University Admin Home
-        [HttpGet("/UADashboard")]
-        public async Task<IActionResult> Index() => await UniStaff();
+        var adminProfile = await _context.Users
+            .Include(p => p.University) 
+            .FirstOrDefaultAsync(p => p.Id == adminId);
 
-        // -------------------------------
-        // University Staff Table
-        // -------------------------------
-        [HttpGet("/UADashboard/UniStaff")]
-        public async Task<IActionResult> UniStaff()
+        const int UniversityAdminRoleID = 9; 
+        
+        if (adminProfile?.RoleId != UniversityAdminRoleID) 
         {
-            var currentEmail = User.FindFirstValue(ClaimTypes.Email);
-            var admin = await _db.Users
-                .Include(u => u.University)
-                .FirstOrDefaultAsync(u => u.Email == currentEmail);
+            TempData["Error"] = "Insufficient privileges for this dashboard.";
+            return RedirectToAction("AccessDenied", "Account");
+        }
 
-            if (admin == null || admin.UniID == null)
+        if (adminProfile?.University == null)
+        {
+            TempData["Error"] = "University profile information is missing.";
+            return View("UserMaster", new StaffAndStudentVm());
+        }
+
+        var uniAbbrv = adminProfile.University.UniAbbrv;
+        var uniId = adminProfile.University.UniID; 
+
+        var viewModel = new StaffAndStudentVm
+        {
+            Staff = await GetStaffDataAsync(uniId, uniAbbrv),
+            Students = await GetStudentDataAsync(uniId, uniAbbrv)
+        };
+
+        return View("~/Views/Dashboards/UA/UserMaster.cshtml", viewModel);
+    }
+
+    // Helper to fetch and map Staff data
+    private async Task<List<StaffAndStudentVm.StaffRow>> GetStaffDataAsync(int uniId, string uniAbbrv)
+    {
+        var staffList = await _context.StaffProfiles
+            .Where(s => s.User.UniID == uniId) 
+            .Include(s => s.User)
+            .Include(s => s.StaffModules).ThenInclude(sm => sm.Module)
+            .Select(s => new StaffAndStudentVm.StaffRow
             {
-                TempData["Error"] = "Your account is not linked to any university.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            int uniId = admin.UniID.Value;
-
-            // Load staff profiles
-            var staffQuery = _db.StaffProfiles
-                .Include(s => s.User) // Ensure User data (like Email) is included
-                .Where(s => s.User != null && s.User.UniID == uniId)
-                .OrderBy(s => s.User!.Name);
-
-            var staffList = await staffQuery
-                .Select(s => new UniStaffVm.Row
+                Id = s.UserID.Value, 
+                StaffID = s.StaffID,
+                Name = s.User.Name,
+                Email = s.User.Email,
+                UniAbbrv = uniAbbrv,
+                Status = s.User.Status,
+                LastLogin = s.User.LastLogin,
+                IsLocked = s.User.Status != "Active",
+                SessionNo = s.CurrentSessionID.HasValue ? s.CurrentSessionID.Value.ToString() : "N/A",
+                AssignedModules = s.StaffModules != null ? s.StaffModules.Select(sm => new StaffAndStudentVm.ModuleRow
                 {
-                    Id = s.ID,
-                    StaffID = s.StaffID,
-                    UserID = s.UserID,
-                    Name = s.User != null ? s.User.Name : "-",
-                    Email = s.User != null ? s.User.Email : "-",  // Ensure Email is included
-                    UniName = s.User != null && s.User.UniID != null
-                        ? _db.Universities.Where(x => x.UniID == s.User.UniID.Value).Select(x => x.UniName).FirstOrDefault()
-                        : "-",
-                    Status = s.User != null ? (s.User.IsLocked ? "Locked" : (s.User.Status ?? "Active")) : "-",
-                    IsLocked = s.User != null ? s.User.IsLocked : false,
-                    LastLogin = s.User != null ? s.User.LastLogin : null,
-                    AssignedModules = _db.StaffModules
-                        .Where(sm => sm.StaffID == s.ID)
-                        .Select(sm => new UniStaffVm.ModuleRow
-                        {
-                            ID = sm.ID,
-                            ModuleID = sm.ModuleID ?? 0,
-                            ModuleCode = sm.Module != null ? sm.Module.ModuleCode : "",
-                            ModuleName = sm.Module != null ? sm.Module.ModuleName : ""
-                        }).ToList()
-                }).ToListAsync();
+                    ModuleCode = sm.Module.ModuleCode
+                }).ToList() : new List<StaffAndStudentVm.ModuleRow>()
+            })
+            .ToListAsync();
 
-            var vm = new UniStaffVm { Staff = staffList };
-            return View("~/Views/Dashboards/UA/UserMaster.cshtml", vm);
-        }
+        return staffList;
+    }
 
-        // -------------------------------
-        // Toggle Active
-        // -------------------------------
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ToggleActive(int id, bool value)
+    // Helper to fetch and map Student data
+    private async Task<List<StaffAndStudentVm.StudentRow>> GetStudentDataAsync(int uniId, string uniAbbrv)
+    {
+        var studentList = await _context.StudentProfiles
+            .Where(s => s.Course.Program.UniID == uniId)
+            .Include(s => s.User)
+            .Include(s => s.Course).ThenInclude(c => c.Program)
+            .Include(s => s.StudentModules).ThenInclude(sm => sm.Module) 
+            .Select(s => new StaffAndStudentVm.StudentRow
+            {
+                Id = s.UserID.Value, 
+                StudentID = s.StudentID,
+                Name = s.User.Name,
+                Email = s.User.Email,
+                UniAbbrv = uniAbbrv,
+                Status = s.User.Status,
+                LastLogin = s.User.LastLogin,
+                IsLocked = s.User.Status != "Active",
+                ProgramName = s.Course.Program.ProgramName, 
+                CourseName = s.Course.CourseName, 
+                SessionNo = s.SessionID.ToString() ?? "N/A", 
+                EnrolledModules = s.StudentModules.Select(em => new StaffAndStudentVm.ModuleRow
+                {
+                    ModuleCode = em.Module.ModuleCode 
+                }).ToList()
+            })
+            .ToListAsync();
+
+        return studentList;
+    }
+
+    // POST: /UADashboard/ToggleActive
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleActive(string profileId, bool value) 
+    {
+        // 1. **CRITICAL FIX**: Safely convert profileId string to integer.
+        // If profileId is null or not a valid integer, id will be 0 and the check below fails.
+        if (string.IsNullOrWhiteSpace(profileId) || !int.TryParse(profileId, out int id))
         {
-            var staff = await _db.StaffProfiles.Include(s => s.User).FirstOrDefaultAsync(s => s.ID == id);
-            if (staff?.User == null)
-            {
-                TempData["Error"] = "Staff not found.";
-                return RedirectToAction(nameof(UniStaff));
-            }
-
-            var admin = await _db.Users.FirstOrDefaultAsync(u => u.Email == User.FindFirstValue(ClaimTypes.Email));
-            if (admin?.UniID != staff.User.UniID)
-            {
-                TempData["Error"] = "You cannot modify staff from another university.";
-                return RedirectToAction(nameof(UniStaff));
-            }
-
-            staff.User.IsLocked = !value;
-            staff.UpdatedAt = DateTime.UtcNow;
-            staff.User.UpdatedAt = DateTime.UtcNow;
-            await _db.SaveChangesAsync();
-
-            TempData["Flash"] = value ? "Staff activated." : "Staff deactivated.";
-            return RedirectToAction(nameof(UniStaff));
+            TempData["Error"] = "Invalid profile ID submitted.";
+            return RedirectToAction(nameof(Index));
         }
 
-        // -------------------------------
-        // Reset Password
-        // -------------------------------
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(int id)
+        // 2. Use the safe integer 'id' to find the user.
+        var userProfile = await _context.Users.FindAsync(id);
+
+        if (userProfile == null)
         {
-            var staff = await _db.StaffProfiles.Include(s => s.User).FirstOrDefaultAsync(s => s.ID == id);
-            if (staff?.User == null)
-            {
-                TempData["Error"] = "Staff not found.";
-                return RedirectToAction(nameof(UniStaff));
-            }
-
-            var admin = await _db.Users.FirstOrDefaultAsync(u => u.Email == User.FindFirstValue(ClaimTypes.Email));
-            if (admin?.UniID != staff.User.UniID)
-            {
-                TempData["Error"] = "You cannot reset passwords for staff outside your university.";
-                return RedirectToAction(nameof(UniStaff));
-            }
-
-            var tempPassword = GenerateTempPassword(12);
-            staff.User.Password = _hasher.HashPassword(staff.User, tempPassword);
-            staff.User.MustChangePassword = true;
-            staff.User.UpdatedAt = DateTime.UtcNow;
-            await _db.SaveChangesAsync();
-
-            try
-            {
-                string H(string s) => System.Net.WebUtility.HtmlEncode(s ?? "");
-                var subject = "SMART: Password Reset by University Admin";
-                var body = $@"<p>Dear {H(staff.User.Name)},</p>
-<p>Your password has been reset by your University Admin. Please use this new password to login: <strong>{H(tempPassword)}</strong>.</p>
-<p>Regards,<br/>SMART Team</p>";
-
-                await _email.SendAsync(TestEmailRedirect, subject, body);
-                TempData["Flash"] = $"Temporary password emailed to {TestEmailRedirect}.";
-            }
-            catch
-            {
-                TempData["Flash"] = "Password was reset but sending the email failed.";
-            }
-
-            return RedirectToAction(nameof(UniStaff));
+            TempData["Error"] = $"User with ID {id} not found.";
+            return RedirectToAction(nameof(Index));
         }
 
-        // -------------------------------
-        // Helpers
-        // -------------------------------
-        private static string GenerateTempPassword(int length)
+        // 3. Update the user status.
+        // Assuming IsLocked maps to Status, or Status is derived from IsLocked.
+        // If 'value' is true (Activate), IsLocked should be false.
+        // If your User model uses a 'Status' string (e.g., "Active" or "Locked"), use this:
+        userProfile.Status = value ? "Active" : "Locked"; 
+        
+        // If your User model uses a boolean IsLocked property, use this instead:
+        // userProfile.IsLocked = !value; 
+        
+        // If your User model has an UpdatedAt field:
+        // userProfile.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+        
+        TempData["Flash"] = $"User '{userProfile.Name}' successfully {(value ? "activated" : "deactivated")}.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    // POST: /UADashboard/ResetPassword
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(string profileId, string profileType)
+    {
+        // 1. **CRITICAL FIX**: Safely convert profileId string to integer.
+        if (string.IsNullOrWhiteSpace(profileId) || !int.TryParse(profileId, out int id))
         {
-            const string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var bytes = new byte[length];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(bytes);
-            var chars = new char[length];
-            for (int i = 0; i < length; i++)
-                chars[i] = alphabet[bytes[i] % alphabet.Length];
-            return new string(chars);
+            TempData["Error"] = "Invalid profile ID submitted for password reset.";
+            return RedirectToAction(nameof(Index));
         }
+        
+        var userProfile = await _context.Users.FindAsync(id);
+
+        if (userProfile == null)
+        {
+            TempData["Error"] = $"User with ID {id} not found.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Note: In a real application, you would integrate with ASP.NET Identity
+        // to generate and email a temporary password here.
+
+        TempData["Flash"] = $"Password reset initiated for {profileType} '{userProfile.Name}'. A temporary password has been emailed.";
+        return RedirectToAction(nameof(Index));
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,10 @@ namespace FYP_25_S3_15P.Models
         public string StaffID { get; set; } = string.Empty;
 
         public int? UserID { get; set; }
+        
+        // 🆕 New Property for Session ID
+        // This links the staff member to the universal session definition
+        public int? CurrentSessionID { get; set; }
 
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
@@ -33,5 +38,13 @@ namespace FYP_25_S3_15P.Models
 
         [ForeignKey("UpdatedBy")]
         public virtual User? Updater { get; set; }
+
+        [ForeignKey("CurrentSessionID")]
+        public virtual Session? CurrentSession { get; set; } 
+        
+        // CRITICAL FIX: Missing Navigation Property for assigned modules.
+        // EF Core needs this to load the modules when you use .Include(s => s.StaffModules)
+        public virtual ICollection<StaffModules> StaffModules { get; set; } = new List<StaffModules>();
+        // Note: 'StaffModules' must match the name of your join table model.
     }
 }

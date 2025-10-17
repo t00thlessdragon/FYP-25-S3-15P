@@ -93,33 +93,36 @@ namespace FYP_25_S3_15P.Controllers
         }
 
         // Users dashboard
-        [HttpGet("/PADashboard/UserMaster")]
-        public async Task<IActionResult> UserMaster()
+[HttpGet("/PADashboard/UserMaster")]
+public async Task<IActionResult> UserMaster()
+{
+    var rows = await (
+        from usr in _db.Users
+        join uni  in _db.Universities on usr.UniID equals uni.UniID into ug
+        from uni  in ug.DefaultIfEmpty()
+        join role in _db.Roles on usr.RoleId equals role.RoleId into rg
+        from role in rg.DefaultIfEmpty()
+        
+        where role != null && role.Name == "University Admin"
+        
+        orderby usr.Name
+        select new UserMasterVm.Row
         {
-            var rows = await (
-                from usr in _db.Users
-                join uni  in _db.Universities on usr.UniID equals uni.UniID into ug
-                from uni  in ug.DefaultIfEmpty()
-                join role in _db.Roles on usr.RoleId equals role.RoleId into rg
-                from role in rg.DefaultIfEmpty()
-                orderby usr.Name
-                select new UserMasterVm.Row
-                {
-                    Id        = usr.Id,
-                    Name      = usr.Name,
-                    Email     = usr.Email,
-                    UniName   = uni != null  ? uni.UniName : "-",
-                    RoleId    = role != null ? role.RoleId : (int?)null,
-                    Role      = role != null ? role.Name   : "-",
-                    Status    = usr.IsLocked ? "Locked" : (usr.Status ?? "Active"),
-                    IsLocked  = usr.IsLocked,
-                    LastLogin = usr.LastLogin
-                }
-            ).ToListAsync();
-
-            var vm = new UserMasterVm { Users = rows };
-            return View("~/Views/Dashboards/PA/UserMaster.cshtml", vm);
+            Id        = usr.Id,
+            Name      = usr.Name,
+            Email     = usr.Email,
+            UniName   = uni != null  ? uni.UniName : "-",
+            RoleId    = role != null ? role.RoleId : (int?)null,
+            Role      = role != null ? role.Name   : "-",
+            Status    = usr.IsLocked ? "Locked" : (usr.Status ?? "Active"),
+            IsLocked  = usr.IsLocked,
+            LastLogin = usr.LastLogin
         }
+    ).ToListAsync();
+
+    var vm = new UserMasterVm { Users = rows };
+    return View("~/Views/Dashboards/PA/UserMaster.cshtml", vm);
+}
 
         // Toggle "Active?" (Active = !IsLocked)
         [HttpPost]

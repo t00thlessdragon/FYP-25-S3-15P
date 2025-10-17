@@ -11,13 +11,22 @@
         @Html.AntiForgeryToken() <!-- Ensure anti-forgery token is included -->
         <label class="form-label small">Upload Staff (.csv)</label>
         <input type="file" name="staffFile" accept=".csv" class="form-control form-control-sm mb-2" required />
-        <button type="submit" class="btn btn-sm btn-success w-100">Upload</button>
+        <button type="submit" class="btn btn-sm btn-success w-100">Upload Staff</button>
       </form>
     </li>
 
     <li><hr class="dropdown-divider" /></li>
 
-    <!-- Other file uploads -->
+    <!-- Student Upload (NEW SECTION) -->
+    <li>
+      <form id="uploadStudentForm" enctype="multipart/form-data" method="post" class="px-3 py-2">
+        @Html.AntiForgeryToken()
+        <label class="form-label small">Upload Students (.csv)</label>
+        <input type="file" name="studentFile" accept=".csv" class="form-control form-control-sm mb-2" required />
+        <button type="submit" class="btn btn-sm btn-info w-100 text-white">Upload Students</button>
+      </form>
+    </li>
+    
   </ul>
 </div>
 
@@ -42,42 +51,47 @@
 <!-- JavaScript to handle AJAX submission -->
 <script>
   $(document).ready(function () {
-    // Handle form submission using AJAX
-    $('#uploadStaffForm').on('submit', function (event) {
-      event.preventDefault(); // Prevent the default form submission
+    
+    // --- Generic AJAX Submission Handler ---
+    function handleFileUpload(formId, url, fileInputName) {
+        $(`#${formId}`).on('submit', function (event) {
+            event.preventDefault(); 
 
-      // Create a FormData object to hold the file data
-      var formData = new FormData(this);
+            var formData = new FormData(this);
 
-      // Send the form data via AJAX to the server
-      $.ajax({
-        url: '/FileUpload/UploadStaff', // Your controller action
-        type: 'POST',
-        data: formData,
-        contentType: false,  // Prevent jQuery from setting content-type
-        processData: false,  // Prevent jQuery from serializing the data
-        success: function (response) {
-          // Check if the response was successful
-          if (response.success) {
-            // Show success message in modal
-            $('#uploadSuccessMessage').text(response.message);
-            $('#uploadSuccessModal').modal('show'); // Display the modal
-            // Optionally, reset the form after success
-            $('#uploadStaffForm')[0].reset();
-          } else {
-            // If there was an error, show the error message in the modal
-            $('#uploadSuccessMessage').text(response.message);
-            $('#uploadSuccessModal').modal('show'); // Display the modal
-          }
-        },
-        error: function (xhr, status, error) {
-          // Handle AJAX error
-          console.error('Error occurred during the upload:', status, error);
-          console.error('Response:', xhr.responseText);
-          alert('An error occurred during the upload. Please check the console for more details.');
-        }
-      });
-    });
+            // Add a simple loading indicator (optional)
+            const submitButton = $(`#${formId} button[type="submit"]`);
+            submitButton.attr('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
+            $.ajax({
+                url: url, 
+                type: 'POST',
+                data: formData,
+                contentType: false,  
+                processData: false,  
+                success: function (response) {
+                    $('#uploadSuccessMessage').text(response.message);
+                    $('#uploadSuccessModal').modal('show');
+                    $(`#${formId}`)[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error occurred during the upload:', status, error);
+                    console.error('Response:', xhr.responseText);
+                    $('#uploadSuccessMessage').text("A major error occurred during upload. Check console for details.");
+                    $('#uploadSuccessModal').modal('show');
+                },
+                complete: function() {
+                    // Re-enable button
+                    submitButton.attr('disabled', false).html(
+                        formId === 'uploadStaffForm' ? 'Upload Staff' : 'Upload Students'
+                    );
+                }
+            });
+        });
+    }
+
+    // Initialize handlers for both forms
+    handleFileUpload('uploadStaffForm', '/FileUpload/UploadStaff', 'staffFile');
+    handleFileUpload('uploadStudentForm', '/FileUpload/UploadStudent', 'studentFile');
   });
 </script>
-

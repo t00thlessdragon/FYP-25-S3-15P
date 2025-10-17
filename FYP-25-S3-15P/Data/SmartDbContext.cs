@@ -15,14 +15,15 @@ namespace FYP_25_S3_15P.Data
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Role> Roles { get; set; } = default!;
         public DbSet<FAQ> FAQs { get; set; } = default!;
-        
-        // ✅ Updated to plural
         public DbSet<UniversityProgram> UniversityPrograms { get; set; } = default!;
         public DbSet<Course> Courses { get; set; } = default!;
         public DbSet<StaffProfile> StaffProfiles { get; set; } = default!;
         public DbSet<StudentProfile> StudentProfiles { get; set; } = default!;
         public DbSet<StaffModules> StaffModules { get; set; } = default!;
-        public DbSet<Module> Modules { get; set; } = default!;  // ✅ plural
+        public DbSet<Module> Modules { get; set; } = default!;
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<UniSession> UniSession { get; set; }
+        public DbSet<StudentModules> StudentModules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,6 +57,9 @@ namespace FYP_25_S3_15P.Data
             {
                 e.ToTable("Universities");
             });
+
+            modelBuilder.Entity<UniSession>()
+        .HasKey(us => new { us.UniID, us.Year, us.SessionID });
 
             modelBuilder.Entity<User>(e =>
             {
