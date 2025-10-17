@@ -1,0 +1,103 @@
+﻿@model FYP_25_S3_15P.ViewModels.UserDetailVm
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>User Details</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UADashboard")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ManageUsersList", "UADashboard")">Manage Users</a></li>
+                    <li class="breadcrumb-item active">User Details</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">@Model.Name</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Email:</strong>
+                    <p>@Model.Email</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>University:</strong>
+                    <p>@Model.UniversityName</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Role:</strong>
+                    <p><span class="badge bg-info">@Model.Role</span></p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Status:</strong>
+                    <p>
+                        @if (Model.IsLocked)
+                        {
+                            <span class="badge bg-danger">Locked</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">@Model.Status</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Last Login:</strong>
+                    <p>@(Model.LastLogin.HasValue? Model.LastLogin.Value.ToLocalTime().ToString("g") : "Never")</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Created At:</strong>
+                    <p>@Model.CreatedAt.ToLocalTime().ToString("g")</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Created By:</strong>
+                    <p>@Model.CreatedBy</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="d-flex gap-2">
+                <a href="@Url.Action("UpdateUserAccount", "UADashboard", new { id = Model.ID })"
+                   class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Update User
+                </a>
+
+                @if (!Model.IsLocked)
+                {
+                    <form method="post" asp-action="DisableUserAccount" asp-route-id="@Model.ID"
+                          onsubmit="return confirm('Are you sure you want to disable this user?');" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-lock"></i> Disable User
+                        </button>
+                    </form>
+                }
+
+                <a href="@Url.Action("ManageUsersList", "UADashboard")" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+}

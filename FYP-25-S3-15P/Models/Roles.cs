@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Models
 {
-    [Table("Roles")]
+    [Table("Roles", Schema = "dbo")]
     [Index(nameof(Name), IsUnique = true)] // remove if you don't want unique role names
     public class Role
     {
         [Key]
-        public int RoleId { get; set; }          // PK -> dbo.Roles.RoleId
+        [Column("RoleId")]
+        public int ID { get; set; }          // PK -> dbo.Roles.RoleId
 
         [Required, StringLength(100)]
         public string Name { get; set; } = string.Empty;
@@ -20,6 +21,7 @@ namespace FYP_25_S3_15P.Models
         public string? Description { get; set; }
 
         // Navigation: all users with this role
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }

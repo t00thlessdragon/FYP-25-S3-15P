@@ -1,0 +1,63 @@
+﻿@model FYP_25_S3_15P.Models.Programs
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Create Program";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Create New Program</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UADashboard")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ManageProgram", "UADashboard")">Manage Programs</a></li>
+                    <li class="breadcrumb-item active">Create Program</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-action="CreateProgram">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="ProgramID" class="form-label">Program ID</label>
+                    <input asp-for="ProgramID" class="form-control" required />
+                    <span asp-validation-for="ProgramID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ProgramName" class="form-label">Program Name</label>
+                    <input asp-for="ProgramName" class="form-control" required />
+                    <span asp-validation-for="ProgramName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ProgramCode" class="form-label">Program Code</label>
+                    <input asp-for="ProgramCode" class="form-control" />
+                    <span asp-validation-for="ProgramCode" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Create Program
+                    </button>
+                    <a href="@Url.Action("ManageProgram", "UADashboard")" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

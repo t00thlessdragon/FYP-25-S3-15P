@@ -72,18 +72,19 @@ namespace FYP_25_S3_15P.Controllers
                 if (string.Equals(status, "Approved", StringComparison.OrdinalIgnoreCase))
                 {
                     // Validate university
-                    var uniId = app.UniID;
-                    var uniExists = await _db.Universities.AnyAsync(u => u.UniID == uniId);
-                    if (!uniExists)
+                    var university = await _db.University.FirstOrDefaultAsync(u => u.ID == app.UniId);
+                    if (university == null)
                     {
                         TempData["Toast"] = "Cannot approve: application has no valid university.";
                         return RedirectToAction("ApplicationMaster", "PADashboard");
                     }
 
+                    var uniID = university.UniID;
+
                     // Check for existing user in that university
                     var existing = await _db.Users
                         .AsNoTracking()
-                        .FirstOrDefaultAsync(u => u.Email == app.Email && u.UniID == uniId);
+                        .FirstOrDefaultAsync(u => u.Email == app.Email && u.UniID == uniID);
 
                     if (existing == null)
                     {
@@ -94,8 +95,8 @@ namespace FYP_25_S3_15P.Controllers
                         {
                             Name   = app.ApplicantName,
                             Email  = app.Email,
-                            RoleId = 2,          // University Admin
-                            UniID  = uniId,
+                            RoleID = 2,          // University Admin
+                            UniID  = uniID,
                             Status = "Active",
                             // MustChangePassword = true,
                             // CreatedAt = DateTime.UtcNow

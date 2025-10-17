@@ -1,28 +1,32 @@
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Models
 {
-    [Index(nameof(UEN), IsUnique = true)]
-    [Table("Universities", Schema = "dbo")]
+    [Index(nameof(UniID), IsUnique = true)]
+    [Table("University", Schema = "dbo")]
     public class University
     {
         [Key]
-        [Column("UniID")]
-        public int UniID { get; set; }
+        public int ID { get; set; }
 
-        [Required, StringLength(200)]
+        [Required, StringLength(50)]
+        [Column("UniID")]
+        public string UniID { get; set; } = string.Empty;
+
+        [Required, StringLength(255)]
         [Column("UniName")]
         public string UniName { get; set; } = string.Empty;
 
         [Required, StringLength(50)]
-        [Column("UEN")]
-        public string UEN { get; set; } = string.Empty;
-
-        [Column("CreatedAt")]
-        public DateTime CreatedAt { get; set; }
+        [Column("UnivCode")]
+        public string UnivCode { get; set; } = string.Empty;
 
         public ICollection<ApplicationForm> ApplicationForms { get; set; } = new List<ApplicationForm>();
+        public ICollection<Programs> Programs { get; set; } = new List<Programs>();
+        public ICollection<FYPTopic> FYPTopics { get; set; } = new List<FYPTopic>();
+        public ICollection<Session> Sessions { get; set; } = new List<Session>();
+        public ICollection<Group> Groups { get; set; } = new List<Group>();
     }
 }

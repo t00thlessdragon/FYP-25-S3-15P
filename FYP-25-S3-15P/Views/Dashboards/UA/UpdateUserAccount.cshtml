@@ -1,0 +1,80 @@
+﻿@model FYP_25_S3_15P.Models.User
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Update User";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Update User</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UADashboard")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ManageUsersList", "UADashboard")">Manage Users</a></li>
+                    <li class="breadcrumb-item active">Update User</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" asp-action="UpdateUserAccount">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ID" />
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Name</label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="RoleID" class="form-label">Role</label>
+                    <select asp-for="RoleID" class="form-select" required>
+                        <option value="">-- Select Role --</option>
+                        @foreach (var role in ViewBag.Roles as List<FYP_25_S3_15P.Models.Role>)
+                        {
+                            <option value="@role.ID">@role.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="RoleID" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <select asp-for="Status" class="form-select">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-save"></i> Update User
+                    </button>
+                    <a href="@Url.Action("ViewUserProfile", "UADashboard", new { id = Model.ID })" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+}

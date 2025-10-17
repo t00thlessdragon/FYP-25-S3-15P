@@ -24,24 +24,24 @@ namespace FYP_25_S3_15P.Controllers
         {
             var vm = new HomeLandingVm
             {
-                Plans = await _db.SubscriptionPlans
-                    .AsNoTracking()
-                    .OrderBy(p => p.Price)
-                    .ToListAsync(),
+                //Plans = await _db.SubscriptionPlans
+                    //.AsNoTracking()
+                    //.OrderBy(p => p.Price)
+                   // .ToListAsync(),
 
                 // Features flagged to show on homepage, ordered by HomeOrder then Name
-                HomeFeatures = await _db.Features
-                    .AsNoTracking()
-                    .Where(f => f.ShowOnHome)
-                    .OrderBy(f => f.HomeOrder ?? int.MaxValue)
-                    .ThenBy(f => f.Name)
-                    .ToListAsync(),
+                ///HomeFeatures = await _db.Features
+                    //.AsNoTracking()
+                    //.Where(f => f.ShowOnHome)
+                    //.OrderBy(f => f.HomeOrder ?? int.MaxValue)
+                    //.ThenBy(f => f.Name)
+                    //.ToListAsync(),
                 
                 // FAQ    
-                FAQs = await _db.FAQs
-                .Where(f => f.IsActive)
-                .OrderBy(f => f.SortOrder).ThenBy(f => f.Id)
-                .ToListAsync()
+                //FAQs = await _db.FAQs
+                //.Where(f => f.IsActive)
+                //.OrderBy(f => f.SortOrder).ThenBy(f => f.Id)
+                //.ToListAsync()
             };
 
             return View(vm);

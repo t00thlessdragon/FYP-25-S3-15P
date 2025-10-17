@@ -33,6 +33,27 @@ builder.Services
 
 var app = builder.Build();
 
+// Seed database in development environment
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var dbContext = services.GetRequiredService<SmartDbContext>();
+
+        try
+        {
+            dbContext.Database.Migrate();
+            var seeder = new DatabaseSeeder(dbContext);
+            await seeder.SeedAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Seeding failed: {ex.Message}");
+        }
+    }
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

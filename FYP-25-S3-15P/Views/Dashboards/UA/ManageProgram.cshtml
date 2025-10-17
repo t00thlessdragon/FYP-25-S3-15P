@@ -1,0 +1,67 @@
+﻿@model FYP_25_S3_15P.ViewModels.ProgramMasterVm
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Manage Programs";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2>Manage Programs</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UADashboard")">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Manage Programs</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Programs Table -->
+    <div class="card">
+        <div class="card-body">
+            @if (Model.Programs.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Program ID</th>
+                                <th>Program Name</th>
+                                <th>Description</th>
+                                <th>Courses</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var program in Model.Programs)
+                            {
+                                <tr>
+                                    <td>@program.ProgramID</td>
+                                    <td>@program.ProgramName</td>
+                                    <td>@program.Description</td>
+                                    <td><span class="badge bg-info">@program.CourseCount</span></td>
+                                    <td>
+                                        <a href="@Url.Action("ViewProgram", "UADashboard", new { id = program.ID })"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No programs found.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+}

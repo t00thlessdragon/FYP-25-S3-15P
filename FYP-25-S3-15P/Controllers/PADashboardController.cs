@@ -70,7 +70,7 @@ namespace FYP_25_S3_15P.Controllers
         {
             var rows = await (
                 from a in _db.ApplicationForms
-                join u in _db.Universities      on a.UniID  equals u.UniID
+                join u in _db.University      on a.UniId  equals u.ID
                 join p in _db.SubscriptionPlans on a.PlanID equals p.PlanID
                 orderby a.CreatedAt descending
                 select new ApplicationMasterVm.Row
@@ -80,7 +80,6 @@ namespace FYP_25_S3_15P.Controllers
                     Email         = a.Email,
                     Role          = a.Role,
                     UniName       = u.UniName,
-                    UEN           = u.UEN,
                     PlanId        = p.PlanID,
                     PlanName      = p.Name,
                     Status        = a.Status,
@@ -98,18 +97,18 @@ namespace FYP_25_S3_15P.Controllers
         {
             var rows = await (
                 from usr in _db.Users
-                join uni  in _db.Universities on usr.UniID equals uni.UniID into ug
+                join uni  in _db.University on usr.UniID equals uni.UniID into ug
                 from uni  in ug.DefaultIfEmpty()
-                join role in _db.Roles on usr.RoleId equals role.RoleId into rg
+                join role in _db.Roles on usr.RoleID equals role.ID into rg
                 from role in rg.DefaultIfEmpty()
                 orderby usr.Name
                 select new UserMasterVm.Row
                 {
-                    Id        = usr.Id,
+                    ID        = usr.ID,
                     Name      = usr.Name,
                     Email     = usr.Email,
                     UniName   = uni != null  ? uni.UniName : "-",
-                    RoleId    = role != null ? role.RoleId : (int?)null,
+                    RoleID    = role != null ? role.ID : (int?)null,
                     Role      = role != null ? role.Name   : "-",
                     Status    = usr.IsLocked ? "Locked" : (usr.Status ?? "Active"),
                     IsLocked  = usr.IsLocked,

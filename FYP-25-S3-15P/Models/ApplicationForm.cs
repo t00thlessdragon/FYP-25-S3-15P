@@ -27,7 +27,7 @@ namespace FYP_25_S3_15P.Models
         public SubscriptionPlan? Plan { get; set; }
 
         [Column("UniID")]
-        public int UniID { get; set; }
+        public int UniId { get; set; }
         public University? University { get; set; }
 
         [StringLength(20)]

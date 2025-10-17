@@ -46,14 +46,14 @@ public class AccountController : Controller
         }
 
         var roleName = await _db.Roles
-            .Where(r => r.RoleId == user.RoleId)
+            .Where(r => r.ID == user.RoleID)
             .Select(r => r.Name)
             .FirstOrDefaultAsync() ?? string.Empty;
 
         // Build claims for cookie
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
             new Claim(ClaimTypes.Name, string.IsNullOrWhiteSpace(user.Name) ? user.Email : user.Name),
             new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
             new Claim(ClaimTypes.Role, roleName)
@@ -79,7 +79,18 @@ public class AccountController : Controller
         // Route by role if needed
         if (string.Equals(roleName, "Platform Admin", StringComparison.OrdinalIgnoreCase))
             return RedirectToAction("Index", "PADashboard");
+        
+        if (string.Equals(roleName, "University Admin", StringComparison.OrdinalIgnoreCase))
+            return RedirectToAction("Index", "UADashboard");
 
+        else if (string.Equals(roleName, "Student", StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToAction("Dashboard", "Student");
+        }
+        else if (string.Equals(roleName, "Assessor", StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToAction("Dashboard", "Assessor");
+        }
         return RedirectToAction("Index", "Home");
     }
 

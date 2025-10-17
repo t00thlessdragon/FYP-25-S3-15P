@@ -1,8 +1,10 @@
 // Models/User.cs
+using FYP_25_S3_15P.ViewModels;
+using FYP_25_S3_15P.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Models
 {
@@ -13,13 +15,15 @@ namespace FYP_25_S3_15P.Models
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         // --- Relationships ---
-        public int? UniID { get; set; }              // FK -> Universities.UniID
+        [Required]
+        [ForeignKey(nameof(University))]
+        public string UniID { get; set; } = string.Empty;              // FK -> University.UniID
 
         [Required]
-        public int RoleId { get; set; }             // FK -> Roles.RoleId
+        public int RoleID { get; set; }             // FK -> Roles.ID
 
         // --- Core profile ---
         [Required, StringLength(200)]
@@ -56,17 +60,20 @@ namespace FYP_25_S3_15P.Models
         public byte[]? RowVersion { get; set; }
 
         // --- Navigation properties ---
-        [ForeignKey(nameof(RoleId))]
         public Role? Role { get; set; }
 
-        [ForeignKey(nameof(UniID))]
         public University? University { get; set; }
 
-        [ForeignKey(nameof(CreatedBy))]
-        public User? CreatedByUser { get; set; }
+        public User? Users { get; set; }
         
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [StringLength(255)]
-        public string? EmailDomain { get; private set; } 
+        public string? EmailDomain { get; private set; }
+
+        public StudentProfile? StudentProfile { get; set; }
+        public StaffProfile? StaffProfile { get; set; }
+        public virtual ICollection<UserGroups> UserGroups { get; set; } = new List<UserGroups>();
+        public virtual ICollection<Preference> Preferences { get; set; } = new List<Preference>();
+        public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }

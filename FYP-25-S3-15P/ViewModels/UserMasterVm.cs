@@ -7,12 +7,11 @@ namespace FYP_25_S3_15P.ViewModels
 
         public class Row
         {
-            public int Id { get; set; }
+            public int ID { get; set; }
             public string Name { get; set; } = "";
             public string Email { get; set; } = "";
             public string UniName { get; set; } = "-";
-
-            public int? RoleId { get; set; }       // optional (handy for future filters)
+            public int? RoleID { get; set; }       // optional (handy for future filters)
             public string Role { get; set; } = "-"; // ROLE NAME
 
             public string Status { get; set; } = "-";
