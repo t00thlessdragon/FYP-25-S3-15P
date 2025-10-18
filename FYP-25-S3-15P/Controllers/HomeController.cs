@@ -22,26 +22,49 @@ namespace FYP_25_S3_15P.Controllers
         // GET: /
         public async Task<IActionResult> Index()
         {
+
+            // If user is already authenticated, redirect to their dashboard
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                if (User.IsInRole("University Admin"))
+                {
+                    return RedirectToAction("Index", "UADashboard");
+                }
+                else if (User.IsInRole("Platform Admin"))
+                {
+                    return RedirectToAction("Index", "PADashboard");
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    return RedirectToAction("Dashboard", "Student");
+                }
+                else if (User.IsInRole("Assessor"))
+                {
+                    return RedirectToAction("Dashboard", "Assessor");
+                }
+            }
+
+            // Otherwise, show the public landing page
             var vm = new HomeLandingVm
             {
-                //Plans = await _db.SubscriptionPlans
-                    //.AsNoTracking()
-                    //.OrderBy(p => p.Price)
-                   // .ToListAsync(),
+                Plans = await _db.SubscriptionPlans
+                    .AsNoTracking()
+                    .OrderBy(p => p.Price)
+                    .ToListAsync(),
 
-                // Features flagged to show on homepage, ordered by HomeOrder then Name
-                ///HomeFeatures = await _db.Features
-                    //.AsNoTracking()
-                    //.Where(f => f.ShowOnHome)
-                    //.OrderBy(f => f.HomeOrder ?? int.MaxValue)
-                    //.ThenBy(f => f.Name)
-                    //.ToListAsync(),
+                //Features flagged to show on homepage, ordered by HomeOrder then Name
+                HomeFeatures = await _db.Features
+                    .AsNoTracking()
+                    .Where(f => f.ShowOnHome)
+                    .OrderBy(f => f.HomeOrder ?? int.MaxValue)
+                    .ThenBy(f => f.Name)
+                    .ToListAsync(),
                 
-                // FAQ    
-                //FAQs = await _db.FAQs
-                //.Where(f => f.IsActive)
-                //.OrderBy(f => f.SortOrder).ThenBy(f => f.Id)
-                //.ToListAsync()
+                //FAQ    
+                FAQs = await _db.FAQs
+                    .Where(f => f.IsActive)
+                    .OrderBy(f => f.SortOrder).ThenBy(f => f.Id)
+                    .ToListAsync()
             };
 
             return View(vm);

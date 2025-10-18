@@ -12,7 +12,7 @@ namespace FYP_25_S3_15P.Models
         [Required]
         public int GroupID { get; set; }
 
-        [Required, StringLength(255)]
+        [Required, MaxLength(255)]
         [Column("TaskTitle")]
         public string TaskTitle { get; set; } = string.Empty;
 
@@ -24,7 +24,7 @@ namespace FYP_25_S3_15P.Models
         [Column("DueAt")]
         public DateTime? DueAt { get; set; } = null;
 
-        [Required]
+        [Required, MaxLength(50)]
         [Column("Status")]
         public string Status { get; set; } = string.Empty;
         

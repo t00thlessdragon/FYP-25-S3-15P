@@ -11,7 +11,7 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [StringLength(500)]
+        [MaxLength(500)]
         public string? GroupName { get; set; }
 
         public bool? IsFullTime { get; set; }

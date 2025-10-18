@@ -4,6 +4,7 @@
 *@
 @{
     ViewData["Title"] = "University Constraints";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container-fluid mt-4">
@@ -45,7 +46,7 @@
                                     <td>
                                         <a href="@Url.Action("EditConstraint", "UADashboard", new { id = constraint.ID })"
                                            class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i> Edit
+                                            Edit
                                         </a>
                                     </td>
                                 </tr>

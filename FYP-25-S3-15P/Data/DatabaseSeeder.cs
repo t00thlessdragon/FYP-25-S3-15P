@@ -1,7 +1,7 @@
 ﻿using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FYP_25_S3_15P.Data
 {
@@ -16,11 +16,33 @@ namespace FYP_25_S3_15P.Data
 
         public async Task SeedAsync()
         {
-            // Seed Roles first
+            // 1. Seed University first
+            await SeedUniversity();
+
+            // 2. Seed Roles
             await SeedRoles();
 
-            // Then seed Users
+            // 3. Then seed Users
             await SeedUsers();
+        }
+
+        private async Task SeedUniversity()
+        {
+            // Check if test university exists
+            var exists = await _db.Universities.AnyAsync(u => u.UniID == "TEST001");
+
+            if (!exists)
+            {
+                var university = new University
+                {
+                    UniID = "TEST001",
+                    UniName = "Test University",
+                    UnivCode = "TEST"
+                };
+                _db.Universities.Add(university);
+                await _db.SaveChangesAsync();
+                Console.WriteLine("✅ Test University created");
+            }
         }
 
         private async Task SeedRoles()
@@ -35,26 +57,26 @@ namespace FYP_25_S3_15P.Data
 
             foreach (var roleName in roles)
             {
-                // Check if role already exists
                 var exists = await _db.Roles.AnyAsync(r => r.Name == roleName);
-
                 if (!exists)
                 {
                     var role = new Role
                     {
                         Name = roleName,
-                        Description = $"Test {roleName} role"
+                        Description = $"{roleName} role"
                     };
-
                     _db.Roles.Add(role);
+                    Console.WriteLine($"✅ Role '{roleName}' created");
                 }
             }
-
             await _db.SaveChangesAsync();
         }
 
         private async Task SeedUsers()
         {
+            // Get the test university
+            var testUniID = "TEST001";
+
             // Get role IDs
             var platformAdminRole = await _db.Roles.FirstOrDefaultAsync(r => r.Name == "Platform Admin");
             var universityAdminRole = await _db.Roles.FirstOrDefaultAsync(r => r.Name == "University Admin");
@@ -64,58 +86,63 @@ namespace FYP_25_S3_15P.Data
             // Create test users
             await CreateUserIfNotExists(
                 email: "platformadmin@test.com",
-                password: "Admin123!",  // TODO: Hash this properly
+                password: "Admin123!",
                 name: "Platform Admin Test",
-                roleId: platformAdminRole?.ID ?? 0
+                roleId: platformAdminRole?.ID ?? 0,
+                uniID: testUniID
             );
 
             await CreateUserIfNotExists(
                 email: "universityadmin@test.com",
                 password: "Admin123!",
                 name: "University Admin Test",
-                roleId: universityAdminRole?.ID ?? 0
+                roleId: universityAdminRole?.ID ?? 0,
+                uniID: testUniID
             );
 
             await CreateUserIfNotExists(
                 email: "student@test.com",
                 password: "Student123!",
                 name: "Test Student",
-                roleId: studentRole?.ID ?? 0
+                roleId: studentRole?.ID ?? 0,
+                uniID: testUniID
             );
 
             await CreateUserIfNotExists(
                 email: "assessor@test.com",
                 password: "Assessor123!",
                 name: "Test Assessor",
-                roleId: assessorRole?.ID ?? 0
+                roleId: assessorRole?.ID ?? 0,
+                uniID: testUniID
             );
 
             await _db.SaveChangesAsync();
         }
 
-        private async Task CreateUserIfNotExists(string email, string password, string name, int roleId)
+        private async Task CreateUserIfNotExists(string email, string password, string name, int roleId, string uniID)
         {
-            var normalized = email.Trim().ToLowerInvariant();
+            var normalized = email.Trim().ToLowerInvariant(); // Email normalization is uppercase
 
-            // Check if user exists by checking the normalized email
+            // Check if user exists
             var exists = await _db.Users.AnyAsync(u => u.Email.ToLower() == normalized);
 
             if (!exists)
             {
                 var user = new User
                 {
+                    UniID = uniID,
                     Email = email,
-                    // ❌ DO NOT SET EmailNormalized - it's computed by the database
-                    Password = password,  // ⚠️ TODO: Use proper password hashing!
+                    Password = password,  // ⚠️ TODO: Hash this properly!
                     Name = name,
                     RoleID = roleId,
                     Status = "Active",
                     IsLocked = false,
-                    MustChangePassword = false,  // Set to false for test users
+                    MustChangePassword = false,
                     CreatedAt = DateTime.UtcNow
                 };
-
                 _db.Users.Add(user);
+                await _db.SaveChangesAsync();
+                Console.WriteLine($"✅ User '{email}' created with EmailNormalized: {user.EmailNormalized}");
             }
         }
     }

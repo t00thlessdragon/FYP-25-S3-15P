@@ -12,7 +12,7 @@ namespace FYP_25_S3_15P.Models
         [Column("MarkAwarded")]
         public int? MarkAwarded { get; set; } = 0;
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("Status")]
         public string Status { get; set; } = string.Empty;
 

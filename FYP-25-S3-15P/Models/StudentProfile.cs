@@ -9,26 +9,26 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("StudentID")]
         public int StudentID { get; set; }
 
         [ForeignKey(nameof(User))]
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("UserID")]
         public int UserID { get; set; }
 
         [ForeignKey(nameof(Course))]
-        [Required, StringLength(50)]
+        [Required, MaxLength(20)]
         [Column("CourseID")]
         public string? CourseID { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("PhoneNo")]
         public string? PhoneNo { get; set; }
 
         [ForeignKey(nameof(Session))]
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("SessionID")]
         public int SessionID { get; set; }
 

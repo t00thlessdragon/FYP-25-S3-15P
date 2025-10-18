@@ -92,12 +92,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxNYW5hZ2VFeHBlcnRpc2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/ManageProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxNYW5hZ2VQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/ManageProgram.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxNYW5hZ2VQcm9ncmFtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/ManageReports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxNYW5hZ2VSZXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/ManageUsersList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxNYW5hZ2VVc2Vyc0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/ProvideFeedback.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkc1xVQVxQcm92aWRlRmVlZGJhY2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Dashboards/UA/SetUniversityConstraints.cshtml]
@@ -158,6 +170,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Shared/_LoginPageLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhZ2VMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Shared/_UADashboardLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9VQURhc2hib2FyZExheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/Source/Repos/FYP-25-S3-15P/FYP-25-S3-15P/Views/Shared/_UALayout.cshtml]

@@ -4,6 +4,7 @@
 *@
 @{
     ViewData["Title"] = "Create User";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container mt-4">
@@ -70,10 +71,10 @@
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-save"></i> Create User
+                        Create User
                     </button>
                     <a href="@Url.Action("ManageUsersList", "UADashboard")" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
+                        Cancel
                     </a>
                 </div>
             </form>

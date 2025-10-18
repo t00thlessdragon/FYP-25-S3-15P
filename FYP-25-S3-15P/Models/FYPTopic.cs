@@ -13,21 +13,22 @@ namespace FYP_25_S3_15P.Models
         [Required]
         public string TopicID { get; set; } = string.Empty;
 
-        [StringLength(100)]
+        [MaxLength(100)]
         public string? Program_Abbrev_Year_Session_IndexNo { get; set; }
 
-        [StringLength(100)]
+        [MaxLength(100)]
         public string? TopicTitle { get; set; }
 
-        [StringLength(500)]
+        [MaxLength(500)]
         public string? TopicDesc { get; set; }
 
-        [StringLength(50)]
+        [MaxLength(50)]
         public string? Tag { get; set; }
 
         public int? SessionID { get; set; }
 
-        public int? ProgramID { get; set; }
+        [Required, MaxLength(50)]
+        public string ProgramID { get; set; } = string.Empty;
 
         // Navigation properties
         public University? University { get; set; }

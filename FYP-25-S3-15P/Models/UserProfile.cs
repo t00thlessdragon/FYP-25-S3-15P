@@ -22,14 +22,14 @@ namespace FYP_25_S3_15P.Models
         public int RoleId { get; set; }             // FK -> Roles.RoleId
 
         // --- Core profile ---
-        [Required, StringLength(200)]
+        [Required, MaxLength(200)]
         public string Name { get; set; } = string.Empty;
 
-        [Required, EmailAddress, StringLength(256)]
+        [Required, EmailAddress, MaxLength(256)]
         public string Email { get; set; } = string.Empty;
 
         // Persisted computed column in DB: LOWER(Email)
-        [StringLength(256)]
+        [MaxLength(256)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string? EmailNormalized { get; private set; }
         public string? Phone { get; set; }
@@ -40,10 +40,10 @@ namespace FYP_25_S3_15P.Models
         public string? UniversityName { get; set; }
 
         // Store a *hashed* password (never plaintext)
-        [Required, StringLength(256)]
+        [Required, MaxLength(256)]
         public string Password { get; set; } = string.Empty;
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         public string Status { get; set; } = "Active"; // Active / Disabled, etc.
 
         public bool MustChangePassword { get; set; } = true;
@@ -72,7 +72,7 @@ namespace FYP_25_S3_15P.Models
         public User? CreatedByUser { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [StringLength(255)]
+        [MaxLength(255)]
         public string? EmailDomain { get; private set; }
     }
 }

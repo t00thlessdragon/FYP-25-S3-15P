@@ -1,9 +1,8 @@
 ﻿@model FYP_25_S3_15P.ViewModels.UserDetailVm
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
 @{
     ViewData["Title"] = "User Details";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container mt-4">
@@ -25,79 +24,62 @@
             <h5 class="mb-0">@Model.Name</h5>
         </div>
         <div class="card-body">
-            <div class="row mb-3">
+            <div class="row">
                 <div class="col-md-6">
-                    <strong>Email:</strong>
-                    <p>@Model.Email</p>
+                    <p><strong>Name:</strong> @Model.Name</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Role:</strong> @Model.Role</p>
                 </div>
                 <div class="col-md-6">
-                    <strong>University:</strong>
-                    <p>@Model.UniversityName</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Role:</strong>
-                    <p><span class="badge bg-info">@Model.Role</span></p>
-                </div>
-                <div class="col-md-6">
-                    <strong>Status:</strong>
+                    <p><strong>University:</strong> @Model.UniversityName</p>
                     <p>
-                        @if (Model.IsLocked)
+                        <strong>Status:</strong>
+                        @if (Model.Status == "Disabled")
                         {
-                            <span class="badge bg-danger">Locked</span>
+                            <span class="badge bg-danger">Disabled</span>
                         }
                         else
                         {
                             <span class="badge bg-success">@Model.Status</span>
                         }
                     </p>
+                    <p><strong>Last Login:</strong> @(Model.LastLogin?.ToString("g") ?? "Never")</p>
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Last Login:</strong>
-                    <p>@(Model.LastLogin.HasValue? Model.LastLogin.Value.ToLocalTime().ToString("g") : "Never")</p>
-                </div>
-                <div class="col-md-6">
-                    <strong>Created At:</strong>
-                    <p>@Model.CreatedAt.ToLocalTime().ToString("g")</p>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <strong>Created By:</strong>
-                    <p>@Model.CreatedBy</p>
-                </div>
-            </div>
-
-            <hr>
+            <hr />
 
             <div class="d-flex gap-2">
-                <a href="@Url.Action("UpdateUserAccount", "UADashboard", new { id = Model.ID })"
-                   class="btn btn-warning">
-                    <i class="bi bi-pencil"></i> Update User
-                </a>
-
-                @if (!Model.IsLocked)
+                <!-- Edit Button: Only for active users -->
+                @if (Model.Status != "Disabled")
                 {
-                    <form method="post" asp-action="DisableUserAccount" asp-route-id="@Model.ID"
-                          onsubmit="return confirm('Are you sure you want to disable this user?');" class="d-inline">
+                    <a href="@Url.Action("UpdateUserAccount", "UADashboard", new { id = Model.ID })" class="btn btn-primary">
+                        Edit User
+                    </a>
+
+                    <form method="post" action="@Url.Action("DisableUserAccount", "UADashboard", new { id = Model.ID })" style="display:inline;">
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-lock"></i> Disable User
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to disable this user?');">
+                            Disable User
+                        </button>
+                    </form>
+                }
+
+                <!-- Re-enable Button: Only for disabled users -->
+                @if (Model.Status == "Disabled")
+                {
+                    <form method="post" action="@Url.Action("ReactivateUserAccount", "UADashboard", new { id = Model.ID })" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-unlock"></i> Re-enable User
                         </button>
                     </form>
                 }
 
                 <a href="@Url.Action("ManageUsersList", "UADashboard")" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Back to List
+                    <i class="bi bi-arrow-left"></i> Back
                 </a>
             </div>
         </div>
     </div>
 </div>
-}

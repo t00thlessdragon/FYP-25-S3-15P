@@ -72,7 +72,7 @@ namespace FYP_25_S3_15P.Controllers
                 if (string.Equals(status, "Approved", StringComparison.OrdinalIgnoreCase))
                 {
                     // Validate university
-                    var university = await _db.University.FirstOrDefaultAsync(u => u.ID == app.UniId);
+                    var university = await _db.Universities.FirstOrDefaultAsync(u => u.ID == app.UniId);
                     if (university == null)
                     {
                         TempData["Toast"] = "Cannot approve: application has no valid university.";

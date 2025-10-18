@@ -14,10 +14,10 @@ namespace FYP_25_S3_15P.Models
         [Column("RoleId")]
         public int ID { get; set; }          // PK -> dbo.Roles.RoleId
 
-        [Required, StringLength(100)]
+        [Required, MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
-        [StringLength(400)]
+        [MaxLength(400)]
         public string? Description { get; set; }
 
         // Navigation: all users with this role

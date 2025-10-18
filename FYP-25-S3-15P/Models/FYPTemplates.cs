@@ -9,9 +9,10 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [StringLength(20)]
+        [Required, MaxLength(50)]
         public string UniID { get; set; } = string.Empty;
 
+        [Required, MaxLength(50)]
         public string ProgramID { get; set; } = string.Empty;
 
         [Required]
@@ -29,8 +30,6 @@ namespace FYP_25_S3_15P.Models
         public DateTime UpdatedAt { get; set; }
 
         // Navigation properties
-        public FYPTopic? FYPTopics { get; set; }
-
         public University? University { get; set; }
 
         public Programs? Programs { get; set; }

@@ -1,9 +1,10 @@
-﻿@model FYP_25_S3_15P.Models.Programs
+﻿@model FYP_25_S3_15P.ViewModels.CreateEditProgramVm
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewData["Title"] = "Create Program";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container mt-4">
@@ -27,12 +28,6 @@
                 <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                 <div class="mb-3">
-                    <label asp-for="ProgramID" class="form-label">Program ID</label>
-                    <input asp-for="ProgramID" class="form-control" required />
-                    <span asp-validation-for="ProgramID" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
                     <label asp-for="ProgramName" class="form-label">Program Name</label>
                     <input asp-for="ProgramName" class="form-control" required />
                     <span asp-validation-for="ProgramName" class="text-danger"></span>
@@ -46,10 +41,10 @@
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-save"></i> Create Program
+                        Create Program
                     </button>
                     <a href="@Url.Action("ManageProgram", "UADashboard")" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
+                        Cancel
                     </a>
                 </div>
             </form>

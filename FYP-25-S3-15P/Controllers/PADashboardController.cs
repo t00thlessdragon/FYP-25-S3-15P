@@ -70,7 +70,7 @@ namespace FYP_25_S3_15P.Controllers
         {
             var rows = await (
                 from a in _db.ApplicationForms
-                join u in _db.University      on a.UniId  equals u.ID
+                join u in _db.Universities      on a.UniId  equals u.ID
                 join p in _db.SubscriptionPlans on a.PlanID equals p.PlanID
                 orderby a.CreatedAt descending
                 select new ApplicationMasterVm.Row
@@ -97,7 +97,7 @@ namespace FYP_25_S3_15P.Controllers
         {
             var rows = await (
                 from usr in _db.Users
-                join uni  in _db.University on usr.UniID equals uni.UniID into ug
+                join uni  in _db.Universities on usr.UniID equals uni.UniID into ug
                 from uni  in ug.DefaultIfEmpty()
                 join role in _db.Roles on usr.RoleID equals role.ID into rg
                 from role in rg.DefaultIfEmpty()

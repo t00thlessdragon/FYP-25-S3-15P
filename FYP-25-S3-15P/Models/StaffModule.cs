@@ -13,9 +13,9 @@ namespace FYP_25_S3_15P.Models
         [Column("StaffID")]
         public int StaffID { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("ModuleID")]
-        public string? ModuleID { get; set; }
+        public string ModuleID { get; set; } = string.Empty;
 
         // Navigation properties
         public Module? Module { get; set; }

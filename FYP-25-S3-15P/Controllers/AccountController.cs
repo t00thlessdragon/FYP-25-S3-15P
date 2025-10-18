@@ -15,9 +15,19 @@ public class AccountController : Controller
     [HttpGet, AllowAnonymous]
     public IActionResult Login()
     {
+        if (User.IsInRole("UniversityAdmin"))
+        {
+            return RedirectToAction("Index", "UADashboard");
+        }
+        else if (User.IsInRole("ProgramAdmin"))
+        {
+            return RedirectToAction("Index", "PADashboard");
+        }
         // Already signed in? Send to home (or dashboard).
-        if (User.Identity?.IsAuthenticated == true)
+        else if (User.Identity?.IsAuthenticated == true)
+        {
             return RedirectToAction("Index", "Home");
+        }
 
         return View(new Login());
     }

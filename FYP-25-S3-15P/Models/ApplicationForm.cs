@@ -10,15 +10,15 @@ namespace FYP_25_S3_15P.Models
         [Column("AppId")]                                  // PK = AppId
         public int AppId { get; set; }
 
-        [Required, StringLength(120)]
+        [Required, MaxLength(120)]
         [Column("ApplicantName")]
         public string ApplicantName { get; set; } = string.Empty;
 
-        [Required, EmailAddress, StringLength(254)]
+        [Required, EmailAddress, MaxLength(256)]
         [Column("Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("Role")]
         public string Role { get; set; } = string.Empty;    // free text from form
 
@@ -30,7 +30,7 @@ namespace FYP_25_S3_15P.Models
         public int UniId { get; set; }
         public University? University { get; set; }
 
-        [StringLength(20)]
+        [MaxLength(20)]
         [Column("Status")]
         public string Status { get; set; } = "Pending";
 

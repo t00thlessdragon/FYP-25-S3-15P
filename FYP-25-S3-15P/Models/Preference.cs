@@ -18,7 +18,7 @@ namespace FYP_25_S3_15P.Models
         [Column("FYPTopics")]
         public string TopicID { get; set; } = string.Empty;
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("Rank")]
         public string? Rank { get; set; } = string.Empty;
 

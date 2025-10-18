@@ -44,8 +44,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
                         .HasColumnName("Email");
 
                     b.Property<string>("Notes")
@@ -139,7 +139,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("CourseID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
                         .HasColumnName("CourseID");
 
                     b.Property<string>("CourseName")
@@ -157,6 +158,9 @@ namespace FYP_25_S3_15P.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ProgramID");
 
+                    b.Property<int?>("UniversityProgramID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.HasIndex("ID")
@@ -165,6 +169,8 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasIndex("ModuleID");
 
                     b.HasIndex("ProgramID");
+
+                    b.HasIndex("UniversityProgramID");
 
                     b.ToTable("Courses", "dbo");
                 });
@@ -223,12 +229,13 @@ namespace FYP_25_S3_15P.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FYPTopicsID")
+                    b.Property<int?>("FYPTopicID")
                         .HasColumnType("int");
 
                     b.Property<string>("ProgramID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
@@ -237,15 +244,15 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("UniID")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("FYPTopicsID");
+                    b.HasIndex("FYPTopicID");
 
                     b.HasIndex("ProgramID");
 
@@ -262,8 +269,10 @@ namespace FYP_25_S3_15P.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("ProgramID")
-                        .HasColumnType("int");
+                    b.Property<string>("ProgramID")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Program_Abbrev_Year_Session_IndexNo")
                         .IsRequired()
@@ -439,7 +448,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("ModuleID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("ModuleID");
 
                     b.Property<string>("ModuleName")
@@ -496,16 +506,11 @@ namespace FYP_25_S3_15P.Migrations
                         .HasColumnType("int")
                         .HasColumnName("UserID");
 
-                    b.Property<int?>("UserID1")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("TopicID");
 
                     b.HasIndex("UserID");
-
-                    b.HasIndex("UserID1");
 
                     b.ToTable("Preferences", "dbo");
                 });
@@ -525,6 +530,7 @@ namespace FYP_25_S3_15P.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -536,7 +542,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("ProgramID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("ProgramID");
 
                     b.Property<string>("ProgramName")
@@ -547,8 +554,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("UniID")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("UniID");
 
                     b.Property<int?>("UniversityID")
@@ -558,6 +565,7 @@ namespace FYP_25_S3_15P.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -585,8 +593,8 @@ namespace FYP_25_S3_15P.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -629,8 +637,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("UniID")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("UniID");
 
                     b.Property<int?>("UniversityID")
@@ -699,12 +707,51 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasAlternateKey("StaffID");
-
                     b.HasIndex("UserID")
                         .IsUnique();
 
                     b.ToTable("StaffProfiles", "dbo");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.StudentModules", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ModuleID")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StudentID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ModuleID");
+
+                    b.HasIndex("StudentID");
+
+                    b.ToTable("StudentModules", "dbo");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.StudentProfile", b =>
@@ -717,8 +764,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("CourseID")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
                         .HasColumnName("CourseID");
 
                     b.Property<string>("PhoneNo")
@@ -815,7 +862,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("Status");
 
                     b.Property<int>("TaskID")
@@ -857,7 +905,8 @@ namespace FYP_25_S3_15P.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("Status");
 
                     b.Property<DateTime?>("SubmittedAt")
@@ -884,6 +933,35 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasIndex("GroupID");
 
                     b.ToTable("Tasks", "dbo");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.UniSession", b =>
+                {
+                    b.Property<int>("UniID")
+                        .HasColumnType("int")
+                        .HasColumnName("UniID");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int")
+                        .HasColumnName("Year");
+
+                    b.Property<int>("SessionID")
+                        .HasColumnType("int")
+                        .HasColumnName("SessionID");
+
+                    b.Property<DateTime>("DateFrom")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_Frm");
+
+                    b.Property<DateTime>("DateTo")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date_To");
+
+                    b.HasKey("UniID", "Year", "SessionID");
+
+                    b.HasIndex("SessionID");
+
+                    b.ToTable("UniSession", "dbo");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.University", b =>
@@ -917,7 +995,40 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasIndex("UniID")
                         .IsUnique();
 
-                    b.ToTable("University", "dbo");
+                    b.ToTable("Universities", "dbo");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.UniversityProgram", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("ProgramCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProgramID")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProgramName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("UniID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UniID");
+
+                    b.ToTable("Program", "dbo");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.User", b =>
@@ -931,8 +1042,9 @@ namespace FYP_25_S3_15P.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -1017,29 +1129,19 @@ namespace FYP_25_S3_15P.Migrations
                     b.Property<int?>("GroupID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GroupID1")
-                        .HasColumnType("int");
-
                     b.Property<int?>("RoleID")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID1")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("GroupID");
 
-                    b.HasIndex("GroupID1");
-
                     b.HasIndex("RoleID");
 
                     b.HasIndex("UserID");
-
-                    b.HasIndex("UserID1");
 
                     b.ToTable("UserGroups", "dbo");
                 });
@@ -1078,7 +1180,7 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.University", "University")
                         .WithMany("ApplicationForms")
                         .HasForeignKey("UniId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Plan");
@@ -1114,6 +1216,10 @@ namespace FYP_25_S3_15P.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FYP_25_S3_15P.Models.UniversityProgram", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("UniversityProgramID");
+
                     b.Navigation("Module");
 
                     b.Navigation("Programs");
@@ -1121,9 +1227,9 @@ namespace FYP_25_S3_15P.Migrations
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.FYPTemplates", b =>
                 {
-                    b.HasOne("FYP_25_S3_15P.Models.FYPTopic", "FYPTopics")
+                    b.HasOne("FYP_25_S3_15P.Models.FYPTopic", null)
                         .WithMany("FYPTemplates")
-                        .HasForeignKey("FYPTopicsID");
+                        .HasForeignKey("FYPTopicID");
 
                     b.HasOne("FYP_25_S3_15P.Models.Programs", "Programs")
                         .WithMany()
@@ -1139,8 +1245,6 @@ namespace FYP_25_S3_15P.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("FYPTopics");
-
                     b.Navigation("Programs");
 
                     b.Navigation("University");
@@ -1150,7 +1254,10 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     b.HasOne("FYP_25_S3_15P.Models.Programs", "Programs")
                         .WithMany()
-                        .HasForeignKey("ProgramID");
+                        .HasForeignKey("ProgramID")
+                        .HasPrincipalKey("ProgramID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.Session", "Session")
                         .WithMany()
@@ -1183,7 +1290,7 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.FYPTopic", "FYPTopic")
                         .WithMany()
                         .HasForeignKey("TopicID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.University", null)
@@ -1230,18 +1337,14 @@ namespace FYP_25_S3_15P.Migrations
                         .WithMany()
                         .HasForeignKey("TopicID")
                         .HasPrincipalKey("TopicID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FYP_25_S3_15P.Models.User", null)
                         .WithMany("Preferences")
-                        .HasForeignKey("UserID1");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("FYPTopic");
 
@@ -1258,7 +1361,7 @@ namespace FYP_25_S3_15P.Migrations
                         .WithMany()
                         .HasForeignKey("UniID")
                         .HasPrincipalKey("UniID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.University", null)
@@ -1276,7 +1379,7 @@ namespace FYP_25_S3_15P.Migrations
                         .WithMany()
                         .HasForeignKey("UniID")
                         .HasPrincipalKey("UniID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.University", null)
@@ -1292,13 +1395,14 @@ namespace FYP_25_S3_15P.Migrations
                         .WithMany()
                         .HasForeignKey("ModuleID")
                         .HasPrincipalKey("ModuleID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FYP_25_S3_15P.Models.StaffProfile", "StaffProfile")
                         .WithMany("StaffModules")
                         .HasForeignKey("StaffID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasPrincipalKey("StaffID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Module");
@@ -1311,10 +1415,30 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.User", "User")
                         .WithOne("StaffProfile")
                         .HasForeignKey("FYP_25_S3_15P.Models.StaffProfile", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.StudentModules", b =>
+                {
+                    b.HasOne("FYP_25_S3_15P.Models.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleID")
+                        .HasPrincipalKey("ModuleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FYP_25_S3_15P.Models.StudentProfile", "StudentProfile")
+                        .WithMany()
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("StudentProfile");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.StudentProfile", b =>
@@ -1335,7 +1459,7 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.User", "User")
                         .WithOne("StudentProfile")
                         .HasForeignKey("FYP_25_S3_15P.Models.StudentProfile", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Course");
@@ -1350,7 +1474,7 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.Tasks", "Task")
                         .WithMany()
                         .HasForeignKey("TaskID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Task");
@@ -1365,6 +1489,36 @@ namespace FYP_25_S3_15P.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.UniSession", b =>
+                {
+                    b.HasOne("FYP_25_S3_15P.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FYP_25_S3_15P.Models.University", "University")
+                        .WithMany()
+                        .HasForeignKey("UniID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Session");
+
+                    b.Navigation("University");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.UniversityProgram", b =>
+                {
+                    b.HasOne("FYP_25_S3_15P.Models.University", "University")
+                        .WithMany()
+                        .HasForeignKey("UniID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("University");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.User", b =>
@@ -1396,26 +1550,18 @@ namespace FYP_25_S3_15P.Migrations
             modelBuilder.Entity("FYP_25_S3_15P.Models.UserGroups", b =>
                 {
                     b.HasOne("FYP_25_S3_15P.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FYP_25_S3_15P.Models.Group", null)
                         .WithMany("UserGroups")
-                        .HasForeignKey("GroupID1");
+                        .HasForeignKey("GroupID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FYP_25_S3_15P.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleID");
 
                     b.HasOne("FYP_25_S3_15P.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FYP_25_S3_15P.Models.User", null)
                         .WithMany("UserGroups")
-                        .HasForeignKey("UserID1");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Group");
 
@@ -1429,12 +1575,12 @@ namespace FYP_25_S3_15P.Migrations
                     b.HasOne("FYP_25_S3_15P.Models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FYP_25_S3_15P.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Role");
 
@@ -1486,6 +1632,11 @@ namespace FYP_25_S3_15P.Migrations
                     b.Navigation("Programs");
 
                     b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("FYP_25_S3_15P.Models.UniversityProgram", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("FYP_25_S3_15P.Models.User", b =>

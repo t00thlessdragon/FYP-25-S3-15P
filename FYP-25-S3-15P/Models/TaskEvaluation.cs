@@ -9,7 +9,7 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [Required, StringLength(255)]
+        [Required, MaxLength(255)]
         [Column("CriterionLabel")]
         public string CriterionLabel { get; set; } = string.Empty;
 
@@ -33,7 +33,7 @@ namespace FYP_25_S3_15P.Models
         [Column("FinalContribution")]
         public double FinalContribution { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         [Column("Status")]
         public string Status { get; set; } = string.Empty;
 

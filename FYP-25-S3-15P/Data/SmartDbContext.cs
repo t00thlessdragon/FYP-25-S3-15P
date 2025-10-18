@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using FYP_25_S3_15P.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace FYP_25_S3_15P.Data
 {
@@ -12,7 +13,7 @@ namespace FYP_25_S3_15P.Data
         public DbSet<PlanFeature> PlanFeatures { get; set; } = default!;
         public DbSet<ApplicationForm> ApplicationForms { get; set; } = default!;
         public DbSet<FAQ> FAQs { get; set; } = default!;
-        public DbSet<University> University { get; set; } = default!;
+        public DbSet<University> Universities { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
         public DbSet<Role> Roles { get; set; } = default!;
         public DbSet<GlobalUniConstraint> GlobalUniConstraints { get; set; } = default!;
@@ -32,6 +33,9 @@ namespace FYP_25_S3_15P.Data
         public DbSet<Tasks> Tasks { get; set; } = default!;
         public DbSet<TaskEvaluation> TaskEvaluations { get; set; } = default!;
         public DbSet<UserGroups> UserGroups { get; set; } = default!;
+        public DbSet<UniversityProgram> UniversityPrograms { get; set; } = default!;
+        public DbSet<UniSession> UniSession { get; set; }
+        public DbSet<StudentModules> StudentModules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,12 +64,12 @@ namespace FYP_25_S3_15P.Data
             {
                 e.ToTable("ApplicationForm");  // default schema = dbo
                 e.HasOne(a => a.Plan).WithMany().HasForeignKey(a => a.PlanID);
-                e.HasOne(a => a.University).WithMany(u => u.ApplicationForms).HasForeignKey(u => u.UniId).HasPrincipalKey(a => a.ID);
+                e.HasOne(a => a.University).WithMany(u => u.ApplicationForms).HasForeignKey(u => u.UniId).HasPrincipalKey(a => a.ID).OnDelete(DeleteBehavior.Restrict); ;
             });
 
             modelBuilder.Entity<University>(e =>
             {
-                e.ToTable("University");
+                e.ToTable("Universities");
                 e.HasKey(u => u.ID);
                 e.HasAlternateKey(u => u.UniID); // set UniID as an alternate key
 
@@ -107,7 +111,6 @@ namespace FYP_25_S3_15P.Data
                 e.HasKey(r => r.ID);
                 e.Property(r => r.Name).HasMaxLength(100);
                 e.HasIndex(r => r.Name).IsUnique();
-                e.Property(r => r.Description).HasMaxLength(500);
             });
 
             modelBuilder.Entity<GlobalUniConstraint>(e =>
@@ -151,14 +154,11 @@ namespace FYP_25_S3_15P.Data
                 e.Property(s => s.Dte_to)
                     .IsRequired();
 
-                e.Property(s => s.UniID)
-                    .HasMaxLength(50)
-                    .IsRequired();
-
                 e.HasOne(s => s.University)
                     .WithMany()
                     .HasForeignKey(s => s.UniID)
-                    .HasPrincipalKey(u => u.UniID);
+                    .HasPrincipalKey(u => u.UniID)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Course>(e =>
@@ -207,7 +207,8 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(p => p.University)
                     .WithMany()
                     .HasForeignKey(p => p.UniID)
-                    .HasPrincipalKey(u => u.UniID);
+                    .HasPrincipalKey(u => u.UniID)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Module>(e =>
@@ -256,7 +257,8 @@ namespace FYP_25_S3_15P.Data
 
                 e.HasOne(f => f.Programs)
                     .WithMany()
-                    .HasForeignKey(f => f.ProgramID);
+                    .HasForeignKey(f => f.ProgramID)
+                    .HasPrincipalKey(p => p.ProgramID);
             });
 
             modelBuilder.Entity<Preference>(e =>
@@ -268,15 +270,15 @@ namespace FYP_25_S3_15P.Data
                     .IsRequired();
 
                 e.HasOne(p => p.User)
-                    .WithMany()
+                    .WithMany(u => u.Preferences)
                     .HasForeignKey(p => p.UserID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(p => p.FYPTopic)
                     .WithMany()
                     .HasForeignKey(p => p.TopicID)
                     .HasPrincipalKey(f => f.TopicID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Group>(e =>
@@ -291,7 +293,7 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(g => g.FYPTopic)
                     .WithMany()
                     .HasForeignKey(g => g.TopicID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<StaffModule>(e =>
@@ -302,13 +304,14 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(sm => sm.StaffProfile)
                     .WithMany()
                     .HasForeignKey(sm => sm.StaffID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasPrincipalKey(sp => sp.StaffID)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(sm => sm.Module)
                     .WithMany()
                     .HasForeignKey(sm => sm.ModuleID)
                     .HasPrincipalKey(m => m.ModuleID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<StaffProfile>(e =>
@@ -320,12 +323,12 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(sp => sp.User)
                     .WithOne(u => u.StaffProfile)
                     .HasForeignKey<StaffProfile>(sp => sp.UserID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasMany(sp => sp.StaffModules)
                     .WithOne(sm => sm.StaffProfile)
                     .HasForeignKey(sm => sm.StaffID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<StudentProfile>(e =>
@@ -343,7 +346,7 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(sp => sp.User)
                     .WithOne(u => u.StudentProfile)
                     .HasForeignKey<StudentProfile>(sp => sp.UserID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(sp => sp.Course)
                     .WithMany()
@@ -366,12 +369,12 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(ur => ur.User)
                 .WithMany(u => u.UserRoles)
                 .HasForeignKey(ur => ur.UserID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<FYPTemplates>(e =>
@@ -494,7 +497,7 @@ namespace FYP_25_S3_15P.Data
                 e.HasOne(te => te.Task)
                     .WithMany()
                     .HasForeignKey(te => te.TaskID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<UserGroups>(e =>
@@ -503,13 +506,33 @@ namespace FYP_25_S3_15P.Data
                 e.HasKey(ug => ug.ID);
 
                 e.HasOne(ug => ug.User)
-                    .WithMany()
+                    .WithMany(u => u.UserGroups)
                     .HasForeignKey(ug => ug.UserID)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 e.HasOne(ug => ug.Group)
-                    .WithMany()
+                    .WithMany(u => u.UserGroups)
                     .HasForeignKey(ug => ug.GroupID)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<UniSession>()
+                .HasKey(us => new { us.UniID, us.Year, us.SessionID });
+
+            modelBuilder.Entity<StudentModules>(e =>
+            {
+                e.ToTable("StudentModules");
+                e.HasKey(sm => sm.ID);
+
+                e.HasOne(sm => sm.Module)
+                    .WithMany()
+                    .HasForeignKey(sm => sm.ModuleID)
+                    .HasPrincipalKey(m => m.ModuleID)  // ← ADD THIS LINE
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                e.HasOne(sm => sm.StudentProfile)
+                    .WithMany()
+                    .HasForeignKey(sm => sm.StudentID)
                     .OnDelete(DeleteBehavior.Cascade);
             });
         }

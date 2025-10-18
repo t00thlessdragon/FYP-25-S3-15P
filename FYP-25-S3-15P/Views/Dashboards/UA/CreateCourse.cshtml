@@ -1,9 +1,10 @@
-﻿@model FYP_25_S3_15P.Models.Course
+﻿@model FYP_25_S3_15P.ViewModels.CreateEditCourseVm
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
     ViewData["Title"] = "Create Course";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container mt-4">
@@ -55,10 +56,10 @@
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-save"></i> Create Course
+                        Create Course
                     </button>
                     <a href="@Url.Action("ManageCourse", "UADashboard")" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
+                        Cancel
                     </a>
                 </div>
             </form>

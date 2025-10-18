@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Provide Feedback";
+    Layout = "_UADashboardLayout";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Platform Feedback</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "UADashboard")">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Platform Feedback</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <form method="post" asp-action="SubmitFeedback">
+        <div class="mb-3">
+            <label class="form-label">Feedback Type</label>
+            <select class="form-control" name="FeedbackType">
+                <option value="Bug">Bug Report</option>
+                <option value="Feature">Feature Request</option>
+                <option value="General">General Feedback</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Your Feedback</label>
+            <textarea class="form-control" name="FeedbackText" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+</div>

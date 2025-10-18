@@ -11,15 +11,15 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("UniID")]
         public string UniID { get; set; } = string.Empty;
 
-        [Required, StringLength(255)]
+        [Required, MaxLength(255)]
         [Column("UniName")]
         public string UniName { get; set; } = string.Empty;
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("UnivCode")]
         public string UnivCode { get; set; } = string.Empty;
 

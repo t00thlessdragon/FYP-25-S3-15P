@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace FYP_25_S3_15P.ViewModels
@@ -7,16 +8,18 @@ namespace FYP_25_S3_15P.ViewModels
     {
         public int? ID { get; set; }
 
-        [Required, StringLength(100)]
+        [BindNever]
+        [Required, MaxLength(100)]
         public string CourseID { get; set; } = "";
 
-        [Required, StringLength(255)]
+        [Required, MaxLength(255)]
         public string CourseName { get; set; } = "";
 
-        [Required, StringLength(50)]
+        [BindNever]
+        [Required, MaxLength(50)]
         public string CourseCode { get; set; } = "";
 
-        [StringLength(500)]
+        [MaxLength(500)]
         public string? Description { get; set; }
 
         public string ProgramID { get; set; } = "";

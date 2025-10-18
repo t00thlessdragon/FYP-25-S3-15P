@@ -9,23 +9,23 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("UniID")]
         public int UniID { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("PTeamSize")]
         public string? PTeamSize { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("SLoadCap")]
         public string? SLoadCap { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("ALoadCap")]
         public string? ALoadCap { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         [Column("PrefRankLimit")]
         public string? PrefRankLimit { get; set; }
 

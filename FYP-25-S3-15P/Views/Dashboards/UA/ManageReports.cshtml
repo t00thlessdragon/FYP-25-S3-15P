@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Manage Reports";
+    Layout = "_UADashboardLayout";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-circle"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container-fluid py-4">
+    <h2 class="mb-3">Manage Reports</h2>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="UADashboard" asp-action="Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Manage Reports</li>
+        </ol>
+    </nav>
+
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> @ViewBag.Message
+    </div>
+
+    <!-- TODO: Add reports interface here -->
+</div>

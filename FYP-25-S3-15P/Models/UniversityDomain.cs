@@ -12,7 +12,7 @@ namespace FYP_25_S3_15P.Models
         [Key] public int DomainId { get; set; }
 
         [Required] public int UniID { get; set; }          // FK → Universities
-        [Required, StringLength(255)] public string Domain { get; set; } = string.Empty;
+        [Required, MaxLength(255)] public string Domain { get; set; } = string.Empty;
 
         public bool IsPrimary { get; set; } = false;
         public bool Active { get; set; } = true;
@@ -20,7 +20,7 @@ namespace FYP_25_S3_15P.Models
 
         // Computed in SQL: LOWER(Domain)
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [StringLength(255)]
+        [MaxLength(255)]
         public string? DomainNormalized { get; private set; }
 
         [ForeignKey(nameof(UniID))] public University? University { get; set; }

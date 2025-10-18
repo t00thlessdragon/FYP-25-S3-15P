@@ -4,6 +4,7 @@
 *@
 @{
     ViewData["Title"] = "Update User";
+    Layout = "_UADashboardLayout";
 }
 
 <div class="container mt-4">
@@ -61,10 +62,10 @@
 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-warning">
-                        <i class="bi bi-save"></i> Update User
+                        Update User
                     </button>
                     <a href="@Url.Action("ViewUserProfile", "UADashboard", new { id = Model.ID })" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
+                        Cancel
                     </a>
                 </div>
             </form>
@@ -76,5 +77,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
 }

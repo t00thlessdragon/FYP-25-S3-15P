@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,37 +12,37 @@ namespace FYP_25_S3_15P.Models
         [Key]
         public int ID { get; set; }
 
-        [Required]
+        [Required, MaxLength(50)]
         [Column("ProgramID")]
         public string ProgramID { get; set; } = string.Empty;
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(255)]
         [Column("ProgramName")]
         public string? ProgramName { get; set; } = string.Empty;
 
-        [Required, StringLength(50)]
+        [Required, MaxLength(50)]
         [Column("ProgramCode")]
         public string? ProgramCode { get; set; } = string.Empty;
 
         [ForeignKey(nameof(University))]
-        [Required, StringLength(300)]
+        [Required, MaxLength(50)]
         [Column("UniID")]
-        public string UniID { get; set; }
+        [BindNever]
+        public string UniID { get; set; } = string.Empty;
 
         [MaxLength(100)]
-        public string? CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
 
         [Required]
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [MaxLength(100)]
-        public string? UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; } = string.Empty;
 
         public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
         public Course? Course { get; set; }
-
         public University? University { get; set; }
     }
 }

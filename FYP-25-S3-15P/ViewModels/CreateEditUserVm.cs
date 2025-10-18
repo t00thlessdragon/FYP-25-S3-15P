@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace FYP_25_S3_15P.ViewModels
@@ -7,22 +8,23 @@ namespace FYP_25_S3_15P.ViewModels
     {
         public int? ID { get; set; }
 
-        [Required, StringLength(200)]
+        [Required, MaxLength(200)]
         public string Name { get; set; } = "";
 
-        [Required, EmailAddress, StringLength(256)]
+        [Required, EmailAddress, MaxLength(256)]
         public string Email { get; set; } = "";
 
-        [StringLength(256)]
+        [MaxLength(256)]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
         [Required]
         public int RoleID { get; set; }
 
+        [BindNever]
         public string UniID { get; set; } = string.Empty;
 
-        [Required, StringLength(20)]
+        [Required, MaxLength(20)]
         public string Status { get; set; } = "Active";
 
         public bool IsLocked { get; set; }

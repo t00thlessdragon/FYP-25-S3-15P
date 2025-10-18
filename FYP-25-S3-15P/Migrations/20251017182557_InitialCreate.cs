@@ -61,7 +61,7 @@ namespace FYP_25_S3_15P.Migrations
                     RoleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,7 +85,7 @@ namespace FYP_25_S3_15P.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "University",
+                name: "Universities",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -97,8 +97,8 @@ namespace FYP_25_S3_15P.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_University", x => x.ID);
-                    table.UniqueConstraint("AK_University_UniID", x => x.UniID);
+                    table.PrimaryKey("PK_Universities", x => x.ID);
+                    table.UniqueConstraint("AK_Universities_UniID", x => x.UniID);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +136,7 @@ namespace FYP_25_S3_15P.Migrations
                     AppId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicantName = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PlanID = table.Column<int>(type: "int", nullable: false),
                     UniID = table.Column<int>(type: "int", nullable: false),
@@ -149,12 +149,12 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     table.PrimaryKey("PK_ApplicationForm", x => x.AppId);
                     table.ForeignKey(
-                        name: "FK_ApplicationForm_University_UniID",
+                        name: "FK_ApplicationForm_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ApplicationForm_subscriptionPlans_PlanID",
                         column: x => x.PlanID,
@@ -181,12 +181,36 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     table.PrimaryKey("PK_GlobalUniConstraints", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_GlobalUniConstraints_University_UniID",
+                        name: "FK_GlobalUniConstraints_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Program",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UniID = table.Column<int>(type: "int", nullable: false),
+                    ProgramID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProgramCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProgramName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Program", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Program_Universities_UniID",
+                        column: x => x.UniID,
+                        principalSchema: "dbo",
+                        principalTable: "Universities",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +220,7 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UniID = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    UniID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Year = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SessionNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Dte_fr = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -207,17 +231,17 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     table.PrimaryKey("PK_Sessions", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Sessions_University_UniID",
+                        name: "FK_Sessions_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "UniID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Sessions_University_UniversityID",
+                        name: "FK_Sessions_Universities_UniversityID",
                         column: x => x.UniversityID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID");
                 });
 
@@ -238,7 +262,7 @@ namespace FYP_25_S3_15P.Migrations
                     MustChangePassword = table.Column<bool>(type: "bit", nullable: false),
                     IsLocked = table.Column<bool>(type: "bit", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
@@ -256,10 +280,10 @@ namespace FYP_25_S3_15P.Migrations
                         principalColumn: "RoleId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Users_University_UniID",
+                        name: "FK_Users_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "UniID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -268,6 +292,36 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UniSession",
+                schema: "dbo",
+                columns: table => new
+                {
+                    UniID = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    SessionID = table.Column<int>(type: "int", nullable: false),
+                    Date_Frm = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date_To = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UniSession", x => new { x.UniID, x.Year, x.SessionID });
+                    table.ForeignKey(
+                        name: "FK_UniSession_Sessions_SessionID",
+                        column: x => x.SessionID,
+                        principalSchema: "dbo",
+                        principalTable: "Sessions",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UniSession_Universities_UniID",
+                        column: x => x.UniID,
+                        principalSchema: "dbo",
+                        principalTable: "Universities",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,7 +344,7 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,14 +366,14 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Roles",
                         principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserID",
                         column: x => x.UserID,
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -347,16 +401,23 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CourseID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CourseName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CourseCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ProgramID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ModuleID = table.Column<int>(type: "int", nullable: true)
+                    ModuleID = table.Column<int>(type: "int", nullable: true),
+                    UniversityProgramID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.ID);
                     table.UniqueConstraint("AK_Courses_CourseID", x => x.CourseID);
+                    table.ForeignKey(
+                        name: "FK_Courses_Program_UniversityProgramID",
+                        column: x => x.UniversityProgramID,
+                        principalSchema: "dbo",
+                        principalTable: "Program",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -366,7 +427,7 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ModuleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ModuleID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ModuleName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ModuleCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CourseID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
@@ -391,13 +452,13 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProgramID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProgramID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ProgramName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ProgramCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    UniID = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UniID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CourseID = table.Column<int>(type: "int", nullable: true),
                     UniversityID = table.Column<int>(type: "int", nullable: true)
@@ -413,17 +474,17 @@ namespace FYP_25_S3_15P.Migrations
                         principalTable: "Courses",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_Programs_University_UniID",
+                        name: "FK_Programs_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "UniID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Programs_University_UniversityID",
+                        name: "FK_Programs_Universities_UniversityID",
                         column: x => x.UniversityID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID");
                 });
 
@@ -436,7 +497,7 @@ namespace FYP_25_S3_15P.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentID = table.Column<int>(type: "int", maxLength: 50, nullable: false),
                     UserID = table.Column<int>(type: "int", maxLength: 50, nullable: false),
-                    CourseID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CourseID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     PhoneNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SessionID = table.Column<int>(type: "int", maxLength: 20, nullable: false),
                     isFullTime = table.Column<bool>(type: "bit", nullable: false)
@@ -465,7 +526,7 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -487,14 +548,14 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Modules",
                         principalColumn: "ModuleID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_StaffModules_StaffProfiles_StaffID",
                         column: x => x.StaffID,
                         principalSchema: "dbo",
                         principalTable: "StaffProfiles",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StaffID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -510,7 +571,7 @@ namespace FYP_25_S3_15P.Migrations
                     TopicDesc = table.Column<string>(type: "nvarchar(max)", maxLength: 500, nullable: true),
                     Tag = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SessionID = table.Column<int>(type: "int", nullable: true),
-                    ProgramID = table.Column<int>(type: "int", nullable: true),
+                    ProgramID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UniversityID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -522,7 +583,8 @@ namespace FYP_25_S3_15P.Migrations
                         column: x => x.ProgramID,
                         principalSchema: "dbo",
                         principalTable: "Programs",
-                        principalColumn: "ID");
+                        principalColumn: "ProgramID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FYPTopics_Sessions_SessionID",
                         column: x => x.SessionID,
@@ -530,11 +592,44 @@ namespace FYP_25_S3_15P.Migrations
                         principalTable: "Sessions",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_FYPTopics_University_UniversityID",
+                        name: "FK_FYPTopics_Universities_UniversityID",
                         column: x => x.UniversityID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentModules",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    ModuleID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentModules", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_StudentModules_Modules_ModuleID",
+                        column: x => x.ModuleID,
+                        principalSchema: "dbo",
+                        principalTable: "Modules",
+                        principalColumn: "ModuleID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentModules_StudentProfiles_StudentID",
+                        column: x => x.StudentID,
+                        principalSchema: "dbo",
+                        principalTable: "StudentProfiles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -544,21 +639,21 @@ namespace FYP_25_S3_15P.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UniID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    ProgramID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UniID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProgramID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ProjectName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FYPTopicsID = table.Column<int>(type: "int", nullable: true)
+                    FYPTopicID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FYPTemplates", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_FYPTemplates_FYPTopics_FYPTopicsID",
-                        column: x => x.FYPTopicsID,
+                        name: "FK_FYPTemplates_FYPTopics_FYPTopicID",
+                        column: x => x.FYPTopicID,
                         principalSchema: "dbo",
                         principalTable: "FYPTopics",
                         principalColumn: "ID");
@@ -570,10 +665,10 @@ namespace FYP_25_S3_15P.Migrations
                         principalColumn: "ProgramID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FYPTemplates_University_UniID",
+                        name: "FK_FYPTemplates_Universities_UniID",
                         column: x => x.UniID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "UniID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -599,12 +694,12 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "FYPTopics",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Groups_University_UniversityID",
+                        name: "FK_Groups_Universities_UniversityID",
                         column: x => x.UniversityID,
                         principalSchema: "dbo",
-                        principalTable: "University",
+                        principalTable: "Universities",
                         principalColumn: "ID");
                 });
 
@@ -617,8 +712,7 @@ namespace FYP_25_S3_15P.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     FYPTopics = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Rank = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    UserID1 = table.Column<int>(type: "int", nullable: true)
+                    Rank = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -629,20 +723,14 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "FYPTopics",
                         principalColumn: "TopicID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Preferences_Users_UserID",
                         column: x => x.UserID,
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Preferences_Users_UserID1",
-                        column: x => x.UserID1,
-                        principalSchema: "dbo",
-                        principalTable: "Users",
-                        principalColumn: "ID");
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -656,7 +744,7 @@ namespace FYP_25_S3_15P.Migrations
                     TaskTitle = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TaskDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DueAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SubmittedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -682,9 +770,7 @@ namespace FYP_25_S3_15P.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: true),
                     GroupID = table.Column<int>(type: "int", nullable: true),
-                    RoleID = table.Column<int>(type: "int", nullable: true),
-                    GroupID1 = table.Column<int>(type: "int", nullable: true),
-                    UserID1 = table.Column<int>(type: "int", nullable: true)
+                    RoleID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -695,13 +781,7 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Groups",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserGroups_Groups_GroupID1",
-                        column: x => x.GroupID1,
-                        principalSchema: "dbo",
-                        principalTable: "Groups",
-                        principalColumn: "ID");
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserGroups_Roles_RoleID",
                         column: x => x.RoleID,
@@ -714,13 +794,7 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserGroups_Users_UserID1",
-                        column: x => x.UserID1,
-                        principalSchema: "dbo",
-                        principalTable: "Users",
-                        principalColumn: "ID");
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -736,7 +810,7 @@ namespace FYP_25_S3_15P.Migrations
                     Weighted = table.Column<double>(type: "float", nullable: false),
                     DeliverableScore = table.Column<double>(type: "float", nullable: false),
                     FinalContribution = table.Column<double>(type: "float", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SAvedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TaskID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -749,7 +823,7 @@ namespace FYP_25_S3_15P.Migrations
                         principalSchema: "dbo",
                         principalTable: "Tasks",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -796,10 +870,16 @@ namespace FYP_25_S3_15P.Migrations
                 column: "ProgramID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FYPTemplates_FYPTopicsID",
+                name: "IX_Courses_UniversityProgramID",
+                schema: "dbo",
+                table: "Courses",
+                column: "UniversityProgramID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FYPTemplates_FYPTopicID",
                 schema: "dbo",
                 table: "FYPTemplates",
-                column: "FYPTopicsID");
+                column: "FYPTopicID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FYPTemplates_ProgramID",
@@ -888,10 +968,10 @@ namespace FYP_25_S3_15P.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Preferences_UserID1",
+                name: "IX_Program_UniID",
                 schema: "dbo",
-                table: "Preferences",
-                column: "UserID1");
+                table: "Program",
+                column: "UniID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Programs_CourseID",
@@ -964,6 +1044,18 @@ namespace FYP_25_S3_15P.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_StudentModules_ModuleID",
+                schema: "dbo",
+                table: "StudentModules",
+                column: "ModuleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentModules_StudentID",
+                schema: "dbo",
+                table: "StudentModules",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StudentProfiles_CourseID",
                 schema: "dbo",
                 table: "StudentProfiles",
@@ -995,9 +1087,15 @@ namespace FYP_25_S3_15P.Migrations
                 column: "GroupID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_University_UniID",
+                name: "IX_UniSession_SessionID",
                 schema: "dbo",
-                table: "University",
+                table: "UniSession",
+                column: "SessionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Universities_UniID",
+                schema: "dbo",
+                table: "Universities",
                 column: "UniID",
                 unique: true);
 
@@ -1006,12 +1104,6 @@ namespace FYP_25_S3_15P.Migrations
                 schema: "dbo",
                 table: "UserGroups",
                 column: "GroupID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserGroups_GroupID1",
-                schema: "dbo",
-                table: "UserGroups",
-                column: "GroupID1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserGroups_RoleID",
@@ -1024,12 +1116,6 @@ namespace FYP_25_S3_15P.Migrations
                 schema: "dbo",
                 table: "UserGroups",
                 column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserGroups_UserID1",
-                schema: "dbo",
-                table: "UserGroups",
-                column: "UserID1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleID",
@@ -1112,17 +1198,27 @@ namespace FYP_25_S3_15P.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Programs_University_UniID",
+                name: "FK_Program_Universities_UniID",
+                schema: "dbo",
+                table: "Program");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Programs_Universities_UniID",
                 schema: "dbo",
                 table: "Programs");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Programs_University_UniversityID",
+                name: "FK_Programs_Universities_UniversityID",
                 schema: "dbo",
                 table: "Programs");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Courses_Modules_ModuleID",
+                schema: "dbo",
+                table: "Courses");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Courses_Program_UniversityProgramID",
                 schema: "dbo",
                 table: "Courses");
 
@@ -1164,11 +1260,15 @@ namespace FYP_25_S3_15P.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "StudentProfiles",
+                name: "StudentModules",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "TaskEvaluations",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "UniSession",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -1189,6 +1289,10 @@ namespace FYP_25_S3_15P.Migrations
 
             migrationBuilder.DropTable(
                 name: "StaffProfiles",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "StudentProfiles",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -1216,11 +1320,15 @@ namespace FYP_25_S3_15P.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "University",
+                name: "Universities",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Modules",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Program",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
