@@ -25,42 +25,42 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="Index">
-                            <i class="bi bi-speedometer2"></i> Dashboard
+                            Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ViewProfile">
-                            <i class="bi bi-person"></i> Manage Profile
+                            Manage Profile
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="SetUniversityConstraints">
-                            <i class="bi bi-building"></i> Manage University
+                            Manage University
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ManageProgram">
-                            <i class="bi bi-journals"></i> Manage Program
+                            Manage Program
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ManageCourse">
-                            <i class="bi bi-book"></i> Manage Course
+                            Manage Course
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ManageUsersList">
-                            <i class="bi bi-people"></i> Manage Users
+                            Manage Users
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ManageReports">
-                            <i class="bi bi-file-earmark-bar-graph"></i> Manage Reports
+                            Manage Reports
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="UADashboard" asp-action="ManageExpertise">
-                            <i class="bi bi-mortarboard"></i> Manage Expertise
+                            Manage Expertise
                         </a>
                     </li>
                 </ul>
@@ -68,12 +68,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> Welcome, @User.Identity?.Name
+                            Welcome, @User.Identity?.Name
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
                                 <a class="dropdown-item" asp-controller="UADashboard" asp-action="ViewProfile">
-                                    <i class="bi bi-person"></i> My Profile
+                                    My Profile
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider" /></li>
@@ -81,7 +81,7 @@
                                 <form asp-controller="Account" asp-action="Logout" method="post">
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        Logout
                                     </button>
                                 </form>
                             </li>

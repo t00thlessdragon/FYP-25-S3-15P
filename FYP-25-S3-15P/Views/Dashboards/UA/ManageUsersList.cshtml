@@ -6,7 +6,7 @@
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle"></i> @TempData["Success"]
+        @TempData["Success"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
@@ -14,7 +14,7 @@
 @if (TempData["Error"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-circle"></i> @TempData["Error"]
+        @TempData["Error"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-6 text-end">
             <a href="@Url.Action("CreateUserAccount", "UADashboard")" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create User
+                Create User
             </a>
         </div>
     </div>
@@ -46,7 +46,7 @@
                            placeholder="Search by name or email..."
                            value="@ViewBag.SearchQuery">
                     <button class="btn btn-outline-secondary" type="submit">
-                        <i class="bi bi-search"></i> Search
+                        Search
                     </button>
                 </div>
             </form>
@@ -95,7 +95,7 @@
                                     <td>
                                         <a href="@Url.Action("ViewUserProfile", "UADashboard", new { id = user.ID })"
                                            class="btn btn-sm btn-primary">
-                                            <i class="bi bi-eye"></i> View
+                                            View
                                         </a>
                                     </td>
                                 </tr>
@@ -107,7 +107,7 @@
             else
             {
                 <div class="alert alert-info">
-                    <i class="bi bi-info-circle"></i> No users found.
+                    No users found.
                 </div>
             }
         </div>

@@ -71,13 +71,13 @@
                     <form method="post" action="@Url.Action("ReactivateUserAccount", "UADashboard", new { id = Model.ID })" style="display:inline;">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-unlock"></i> Re-enable User
+                            Re-enable User
                         </button>
                     </form>
                 }
 
                 <a href="@Url.Action("ManageUsersList", "UADashboard")" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Back
+                    Back
                 </a>
             </div>
         </div>

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+417bd65b7a35aa5ea3f2e4e2005c6aa644b8c775")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89e0151914b8c924b5f8783a40b724ff7f75bedb")]
 [assembly: System.Reflection.AssemblyProductAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FYP-25-S3-15P")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
