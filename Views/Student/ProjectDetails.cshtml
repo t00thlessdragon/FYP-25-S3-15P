@@ -1,0 +1,114 @@
+@model FYP_25_S3_15P.ViewModels.StudentProjectDetailsVm
+@{
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    ViewData["Title"] = "Project Details";
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <!-- Header + Close -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <h2 class="mb-0">Project Details</h2>
+      <a asp-action="Dashboard" class="btn-close" aria-label="Close"></a>
+    </div>
+
+    <!-- Body -->
+    <div class="fs-5">
+      <p class="mb-2"><strong>Project ID:</strong> @Model.ProjectCode</p>
+      <p class="mb-2"><strong>Project Title:</strong> @Model.Title</p>
+
+      <p class="mb-2"><strong>Project Description:</strong></p>
+
+      @* lead paragraph *@
+      @if (!string.IsNullOrWhiteSpace(Model.DescriptionLead))
+      {
+        <p>@Model.DescriptionLead</p>
+      }
+
+      @* bullet list of functionalities *@
+      @if (Model.Functionalities?.Any() ?? false)
+      {
+        <ul class="mb-3">
+          @foreach (var item in Model.Functionalities!)
+          {
+            <li>@item</li>
+          }
+        </ul>
+      }
+
+      @* tail paragraph *@
+      @if (!string.IsNullOrWhiteSpace(Model.DescriptionTail))
+      {
+        <p>@Model.DescriptionTail</p>
+      }
+
+      @* tags *@
+      @if (Model.Tags?.Any() ?? false)
+      {
+        <div class="mb-4">
+          <span class="me-2 fw-semibold">Tags:</span>
+          @foreach (var t in Model.Tags!)
+          {
+            <span class="badge text-bg-light border me-1">✓ @t</span>
+          }
+        </div>
+      }
+
+      <div class="text-end">
+        <!-- Opens the pop-up -->
+        <button type="button"
+                class="btn btn-dark"
+                data-bs-toggle="modal"
+                data-bs-target="#prefModal">
+          Add to Preferences
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== Preferences Modal (pop-up) ============== -->
+<div class="modal fade" id="prefModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title">Project Preferences</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form asp-controller="Student" asp-action="AddToPreferences" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="from" value="details" />
+
+        <div class="modal-body fs-5">
+          <p class="mb-2"><strong>Project ID:</strong> @Model.ProjectCode</p>
+          <p class="mb-3"><strong>Project Title:</strong> @Model.Title</p>
+
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <label for="rank" class="col-form-label fw-semibold">Preferences Rank:</label>
+            </div>
+            <div class="col-12 col-md-6">
+              <select id="rank" name="rank" class="form-select form-select-lg">
+                <option disabled selected value="">Rank</option>
+                <option value="1">1 (Top)</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark px-4" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-dark px-4">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

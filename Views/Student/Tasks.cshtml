@@ -1,0 +1,211 @@
+@model FYP_25_S3_15P.ViewModels.StudentTasksVm
+@{ Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
+@{ ViewData["Title"] = "Tasks"; }
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+    <h2 class="mb-3">Tasks</h2>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th style="width:120px;">Task ID</th>
+            <th>Task Title</th>
+            <th style="width:180px;">Due Date</th>
+            <th style="width:160px;">Status</th>
+            <th class="text-end" style="width:220px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        @if (Model?.Tasks != null && Model.Tasks.Any())
+        {
+            foreach (var t in Model.Tasks)
+            {
+                var due = t.DueDate?.ToString("dd MMM yyyy") ?? "";
+                <tr>
+                  <td>@t.TaskId</td>
+                  <td>@t.Title</td>
+                  <td>@due</td>
+                  <td>@t.Status</td>
+                  <td class="text-end">
+                    <button type="button"
+                            class="btn btn-dark btn-sm px-4 btn-task-view"
+                            data-id="@t.TaskId"
+                            data-title="@t.Title"
+                            data-due="@due"
+                            data-status="@t.Status"
+                            data-desc-id="desc-@t.TaskId">
+                      View
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Keep each row's description hidden for injection into modal -->
+                <div id="desc-@t.TaskId" class="d-none">
+                  <ul class="mb-0">
+                    <li>Prepare the Project Requirement Documentation (PRD).</li>
+                    <li>Include scope, business model, motivation, etc.</li>
+                    <li>Submit by the due date in PDF format.</li>
+                  </ul>
+                </div>
+            }
+        }
+        else
+        {
+            <tr>
+              <td colspan="5">
+                <div class="text-center text-muted py-5">Currently no task available</div>
+              </td>
+            </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Task Details Modal — styled like Meeting Details -->
+<div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Task Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="mb-2">
+          <span class="fw-semibold">Task ID:</span>
+          <span id="mTaskId"></span>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold">Title:</span>
+          <span id="mTitle"></span>
+        </div>
+
+        <div class="row g-3 mb-2">
+          <div class="col-12 col-md-6">
+            <span class="fw-semibold">Due Date:</span>
+            <span id="mDue"></span>
+          </div>
+          <div class="col-12 col-md-6">
+            <span class="fw-semibold">Status:</span>
+            <span id="mStatus"></span>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <span class="fw-semibold d-block">Description:</span>
+          <div id="mDesc"><!-- injected bullets here --></div>
+        </div>
+
+        <!-- File Submission (keeps your pill control, sized like meeting modal) -->
+        <div class="mt-3">
+          <span class="fw-semibold me-2">File Submission:</span>
+          <div id="dropZone" class="dz-pill d-flex align-items-center justify-content-between px-4 py-3 rounded-pill">
+            <span id="dzText" class="text-muted flex-grow-1 me-3">You can drag and drop file here.</span>
+            <i class="bi bi-upload fs-5"></i>
+            <input id="fileInput" type="file" class="d-none" />
+          </div>
+          <div id="fileMeta" class="small text-muted mt-1 d-none"></div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+<script>
+(function () {
+  const taskModalEl = document.getElementById('taskModal');
+  const taskModal = new bootstrap.Modal(taskModalEl);
+
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-task-view');
+    if (!btn) return;
+
+    const id     = btn.getAttribute('data-id')     || '';
+    const title  = btn.getAttribute('data-title')  || '';
+    const due    = btn.getAttribute('data-due')    || '';
+    const status = btn.getAttribute('data-status') || '';
+    const descId = btn.getAttribute('data-desc-id')|| '';
+
+    document.getElementById('mTaskId').textContent = id;
+    document.getElementById('mTitle').textContent  = title;
+    document.getElementById('mDue').textContent    = due;
+    document.getElementById('mStatus').textContent = status;
+
+    // Copy UL bullets into modal
+    const holder = document.getElementById('mDesc');
+    holder.innerHTML = '';
+    const src = document.getElementById(descId);
+    if (src && src.firstElementChild) {
+      holder.appendChild(src.firstElementChild.cloneNode(true));
+    }
+
+    taskModal.show();
+  });
+
+  // simple drop zone behaviour (optional)
+  const dz   = document.getElementById('dropZone');
+  const inp  = document.getElementById('fileInput');
+  const meta = document.getElementById('fileMeta');
+  const text = document.getElementById('dzText');
+
+  if (dz && inp) {
+    dz.addEventListener('click', () => inp.click());
+
+    ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, (e)=>{
+      e.preventDefault(); e.stopPropagation(); dz.classList.add('drag');
+    }));
+    ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, (e)=>{
+      e.preventDefault(); e.stopPropagation(); dz.classList.remove('drag');
+    }));
+    dz.addEventListener('drop', (e)=>{
+      const f = e.dataTransfer.files?.[0];
+      if (!f) return;
+      inp.files = e.dataTransfer.files;
+      text.textContent = f.name;
+      meta.textContent = `${f.name} • ${Math.round(f.size/1024)} KB`;
+      meta.classList.remove('d-none');
+    });
+    inp.addEventListener('change', ()=>{
+      const f = inp.files?.[0];
+      if (!f) return;
+      text.textContent = f.name;
+      meta.textContent = `${f.name} • ${Math.round(f.size/1024)} KB`;
+      meta.classList.remove('d-none');
+    });
+  }
+})();
+</script>
+
+<style>
+  /* Match meeting modal sizing (normal Bootstrap body copy) */
+  #taskModal .modal-title { font-weight: 700; }
+  #taskModal .modal-body span.fw-semibold { display:inline-block; min-width: 7.5rem; }
+  #taskModal .modal-body ul { margin: .25rem 0 0 1.25rem; }
+
+  /* File pill look */
+  .dz-pill{
+    border:2px solid #dee2e6;
+    background:#f8f9fa;
+    cursor:pointer;
+    transition: all .15s ease-in-out;
+  }
+  .dz-pill.drag{
+    border-color:#0d6efd;
+    background:#eef5ff;
+    box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+  }
+  #dzText{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+</style>
+}

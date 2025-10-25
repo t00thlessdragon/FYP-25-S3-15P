@@ -1,0 +1,152 @@
+@model FYP_25_S3_15P.ViewModels.AssessorProfileVm
+@{ Layout = "~/Views/Shared/_AssessorLayout.cshtml"; ViewData["Title"] = "Profile"; }
+
+<div class="container-wide pt-3 pb-5">
+
+  <!-- Header -->
+  <div class="d-flex align-items-center gap-3 mb-3">
+    <img src="@Url.Content(Model.AvatarUrl)" alt="avatar"
+         class="rounded-circle object-fit-cover" width="56" height="56" />
+    <div>
+      <div class="h4 mb-0">@Model.Name</div>
+      <div class="text-muted">@Model.Role</div>
+    </div>
+  </div>
+
+  @if (TempData["Msg"] is string msg)
+  {
+      <div class="alert alert-success">@msg</div>
+  }
+
+  <!-- Assessor Details -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="fw-semibold">Assessor Details</span>
+      <button type="submit" form="frmAssessor" class="btn btn-dark btn-sm px-3">Save</button>
+    </div>
+
+    <div class="card-body">
+      <form id="frmAssessor" asp-action="Profile" asp-controller="Assessor" method="post" class="row g-3">
+        @Html.AntiForgeryToken()
+
+        <div class="col-12 col-md-4">
+          <div class="text-muted">Assessor ID</div>
+          <div class="fs-6">@Model.AssessorId</div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label asp-for="Email" class="form-label">Email</label>
+          <input asp-for="Email" class="form-control" />
+          <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <label asp-for="Phone" class="form-label">Phone</label>
+          <input asp-for="Phone" class="form-control" />
+          <span asp-validation-for="Phone" class="text-danger small"></span>
+        </div>
+
+        <!-- hidden round-trip for chips -->
+        <input type="hidden" asp-for="ExpertiseCsv" id="expertiseCsv" />
+      </form>
+    </div>
+  </div>
+
+  <!-- Professional Details -->
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="fw-semibold">Professional Details</span>
+      <button type="button" class="btn btn-dark btn-sm px-3" id="btnSavePro">Save</button>
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="text-muted">Program</div>
+          <div class="fs-6">@Model.Program</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="text-muted">Role</div>
+          <div class="fs-6">@Model.Title</div>
+        </div>
+
+        <div class="col-12">
+          <div class="text-muted mb-2">Area of Expertise</div>
+
+          <div id="chipBox" class="mb-2">
+            @foreach (var tag in Model.Expertise)
+            {
+                <span class="badge rounded-pill text-bg-light border me-2 mb-2 chip" data-val="@tag">
+                    @tag <button type="button" class="btn btn-link p-0 ms-1 chip-x" aria-label="Remove">&times;</button>
+                </span>
+            }
+          </div>
+
+          <div class="d-flex gap-2">
+            <input type="text" id="txtChip" class="form-control" placeholder="Add expertise…" style="max-width:360px" />
+            <button type="button" class="btn btn-dark" id="btnAddChip">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .object-fit-cover { object-fit: cover; }
+  .card { border-radius: .75rem; }
+  .chip .chip-x { color:#666; text-decoration:none; }
+  .chip .chip-x:hover { color:#000; }
+</style>
+
+@section Scripts{
+  <partial name="_ValidationScriptsPartial" />
+  <script>
+    (function () {
+      const chipBox = document.getElementById('chipBox');
+      const txt = document.getElementById('txtChip');
+      const csv = document.getElementById('expertiseCsv');
+      const addBtn = document.getElementById('btnAddChip');
+      const savePro = document.getElementById('btnSavePro');
+      const mainForm = document.getElementById('frmAssessor');
+
+      function rebuildCsv() {
+        const vals = [...chipBox.querySelectorAll('.chip')].map(c => c.dataset.val);
+        csv.value = vals.join(',');
+      }
+
+      function addChip(val) {
+        const v = (val || '').trim();
+        if (!v) return;
+        // prevent duplicates (case-insensitive)
+        const exists = [...chipBox.querySelectorAll('.chip')]
+          .some(c => c.dataset.val.toLowerCase() === v.toLowerCase());
+        if (exists) { txt.value = ''; return; }
+
+        const span = document.createElement('span');
+        span.className = 'badge rounded-pill text-bg-light border me-2 mb-2 chip';
+        span.dataset.val = v;
+        span.innerHTML = `${v} <button type="button" class="btn btn-link p-0 ms-1 chip-x" aria-label="Remove">&times;</button>`;
+        chipBox.appendChild(span);
+        txt.value = '';
+        rebuildCsv();
+      }
+
+      chipBox.addEventListener('click', (e) => {
+        if (e.target.classList.contains('chip-x')) {
+          const chip = e.target.closest('.chip');
+          chip.remove();
+          rebuildCsv();
+        }
+      });
+
+      addBtn.addEventListener('click', () => addChip(txt.value));
+      txt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); addChip(txt.value); }
+      });
+
+      // Save button in “Professional Details” submits main form as well
+      savePro.addEventListener('click', () => { rebuildCsv(); mainForm.submit(); });
+    })();
+  </script>
+}

@@ -1,0 +1,95 @@
+@model FYP_25_S3_15P.Controllers.ApplicationFormController.ApplicationFormVm
+
+<section class="my-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Narrow, centered card -->
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+          <h2 class="mb-4">Join Us</h2>
+
+          <form asp-action="Index" asp-controller="ApplicationForm" method="post" novalidate>
+            <div class="mb-3">
+              <label asp-for="Name" class="form-label">Name</label>
+              <input asp-for="Name" class="form-control" />
+              <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+              <label asp-for="Email" class="form-label">Email</label>
+              <input asp-for="Email" class="form-control" />
+              <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+              <label asp-for="UniversityName" class="form-label">University Name</label>
+              <input asp-for="UniversityName" class="form-control" />
+              <span asp-validation-for="UniversityName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+              <label asp-for="UEN" class="form-label">UEN</label>
+              <input asp-for="UEN" class="form-control" />
+              <span asp-validation-for="UEN" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+              <label asp-for="Role" class="form-label"></label>
+              <input asp-for="Role" class="form-control" />
+              <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+            <div class="mb-5">
+              <label asp-for="PlanID" class="form-label">Plan</label>
+              <select asp-for="PlanID" asp-items="Model.Plans" class="form-select">
+                <option value="">-- Select plan --</option>
+              </select>
+              <span asp-validation-for="PlanID" class="text-danger small"></span>
+            </div>
+
+            <div class="text-center mt-3 pt-2">
+              <button type="submit" class="btn btn-primary">Submit Application</button>
+            </div>
+          </form>
+          
+          <div id="app-form-root"
+               data-app-success="@((TempData["AppSuccess"] != null).ToString().ToLower())"></div>
+          
+          <!-- Success modal (shown after redirect if TempData flag is set) -->
+          <div class="modal fade" id="appSuccessModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content text-center p-3">
+                <div class="display-6 text-success">✓</div>
+                <h5 class="mt-2 mb-2">Application Submitted Successfully!</h5>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+@section Scripts {
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  <partial name="_ValidationScriptsPartial" />
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Razor evaluates to "True" or "" (empty) after the redirect
+      const justSubmitted = "@(TempData["AppSuccess"] != null)" === "True";
+      if (justSubmitted) {
+        Swal.fire({
+          title: 'Application submitted!',
+          text:  'We’ll reach out shortly.',
+          icon:  'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#0d6efd'
+        });
+      }
+    });
+  </script>
+}

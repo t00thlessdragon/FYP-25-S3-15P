@@ -1,0 +1,294 @@
+@model FYP_25_S3_15P.ViewModels.ScGroupDetailsVm
+@{
+    Layout = "~/Views/Shared/_SubjectCoordinatorLayout.cshtml";
+    ViewData["Title"] = "Group Details";
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <h3 class="fw-bold mb-0">Group Details</h3>
+      <a class="btn-close" asp-action="GroupList" asp-route-projectId="CSIT-25-S1-01" aria-label="Close"></a>
+    </div>
+
+    <!-- ===== Header (common) ===== -->
+    <div class="mb-2"><strong>Group ID:</strong> @Model.GroupId</div>
+    <div class="mb-2"><strong>Project Title:</strong> @Model.ProjectTitle</div>
+    <div class="mb-4"><strong>Module :</strong> @string.Join(", ", Model.Modules)</div>
+
+    <!-- ================= READ-ONLY ================= -->
+    <div id="view-mode">
+      <div class="fw-semibold mb-2">Student:</div>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr><th style="width:180px;">Student ID</th><th style="width:240px;">Name</th><th>Email</th></tr>
+          </thead>
+          <tbody>
+            @foreach (var s in Model.Students)
+            { <tr><td>@s.Id</td><td>@s.Name</td><td><a href="mailto:@s.Email">@s.Email</a></td></tr> }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="fw-semibold mb-2">Supervisor:</div>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+          <tbody>
+            <tr><td style="width:240px;">@Model.Supervisor.Name</td><td><a href="mailto:@Model.Supervisor.Email">@Model.Supervisor.Email</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="fw-semibold mb-2">Assessor:</div>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+          <tbody>
+            <tr><td style="width:240px;">@Model.Assessor.Name</td><td><a href="mailto:@Model.Assessor.Email">@Model.Assessor.Email</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-end">
+        <button class="btn btn-dark px-5" id="btn-edit">Edit</button>
+      </div>
+    </div>
+
+    <!-- ================= EDIT MODE (wireframe) ================= -->
+    <div id="edit-mode" class="d-none">
+      <!-- Students toolbar -->
+      <div class="fw-semibold mb-2">Student:</div>
+      <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+        <div class="input-group" style="max-width:340px;">
+          <span class="input-group-text">Student ID:</span>
+          <input class="form-control" id="ed-student-id" placeholder="e.g. 123456" />
+          <button class="btn btn-dark" id="ed-add">Add</button>
+          <button class="btn btn-outline-dark" id="ed-remove">Remove</button>
+        </div>
+      </div>
+
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered align-middle" id="ed-students-table">
+          <thead>
+            <tr>
+              <th style="width:44px;" class="text-center"><input id="ed-checkall" type="checkbox" /></th>
+              <th style="width:180px;">Student ID</th>
+              <th style="width:240px;">Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var s in Model.Students)
+            {
+              <tr>
+                <td class="text-center"><input type="checkbox" class="ed-rowchk" /></td>
+                <td><input class="form-control form-control-sm" value="@s.Id"    data-field="id" /></td>
+                <td><input class="form-control form-control-sm" value="@s.Name"  data-field="name" /></td>
+                <td><input class="form-control form-control-sm" value="@s.Email" data-field="email" /></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Supervisor -->
+      <div class="fw-semibold mb-2">Supervisor:</div>
+      <div class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-lg-8">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td style="width:240px;"><input id="ed-sup-name" class="form-control" value="@Model.Supervisor.Name" /></td>
+                <td><input id="ed-sup-email" class="form-control" value="@Model.Supervisor.Email" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 col-lg-4 d-flex align-items-center gap-3">
+          <div class="text-nowrap">Current Load: <span id="ed-sup-load">2</span>/4</div>
+          <button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#pickSupervisor">Change</button>
+        </div>
+      </div>
+
+      <!-- Assessor -->
+      <div class="fw-semibold mb-2">Assessor:</div>
+      <div class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-lg-8">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td style="width:240px;"><input id="ed-ass-name" class="form-control" value="@Model.Assessor.Name" /></td>
+                <td><input id="ed-ass-email" class="form-control" value="@Model.Assessor.Email" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 col-lg-4 d-flex align-items-center gap-3">
+          <div class="text-nowrap">Current Load: <span id="ed-ass-load">1</span>/6</div>
+          <button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#pickAssessor">Change</button>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-outline-secondary" id="btn-cancel">Cancel</button>
+        <button class="btn btn-dark px-5" id="btn-save">Save</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= Pick Supervisor Modal ======= -->
+<div class="modal fade" id="pickSupervisor" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Choose Supervisor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead class="table-dark">
+              <tr><th>Name</th><th>Email</th><th>Load</th><th class="text-end">Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mr Prem</td><td>aaa@gmail.com</td><td>2/4</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-sup" data-name="Mr Prem" data-email="aaa@gmail.com" data-load="2/4">Select</button></td></tr>
+              <tr><td>Dr Kuan</td><td>kuan@example.com</td><td>1/4</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-sup" data-name="Dr Kuan" data-email="kuan@example.com" data-load="1/4">Select</button></td></tr>
+              <tr><td>Mr Tan</td><td>tan@example.com</td><td>0/4</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-sup" data-name="Mr Tan" data-email="tan@example.com" data-load="0/4">Select</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= Pick Assessor Modal ======= -->
+<div class="modal fade" id="pickAssessor" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Choose Assessor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead class="table-dark">
+              <tr><th>Name</th><th>Email</th><th>Load</th><th class="text-end">Action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mr Tian</td><td>sss@gmail.com</td><td>1/6</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-ass" data-name="Mr Tian" data-email="sss@gmail.com" data-load="1/6">Select</button></td></tr>
+              <tr><td>Ms Neo</td><td>neo@example.com</td><td>2/6</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-ass" data-name="Ms Neo" data-email="neo@example.com" data-load="2/6">Select</button></td></tr>
+              <tr><td>Dr Lim</td><td>lim@example.com</td><td>0/6</td><td class="text-end"><button class="btn btn-dark btn-sm js-pick-ass" data-name="Dr Lim" data-email="lim@example.com" data-load="0/6">Select</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+<script>
+(() => {
+  const view = document.getElementById('view-mode');
+  const edit = document.getElementById('edit-mode');
+  const btnEdit = document.getElementById('btn-edit');
+  const btnCancel = document.getElementById('btn-cancel');
+  const btnSave = document.getElementById('btn-save');
+
+  function showEdit(on) {
+    view.classList.toggle('d-none', on);
+    edit.classList.toggle('d-none', !on);
+  }
+
+  btnEdit?.addEventListener('click', () => showEdit(true));
+  btnCancel?.addEventListener('click', () => showEdit(false));
+
+  // Students add/remove
+  const tbl = document.getElementById('ed-students-table').querySelector('tbody');
+  const addBtn = document.getElementById('ed-add');
+  const removeBtn = document.getElementById('ed-remove');
+  const idBox = document.getElementById('ed-student-id');
+  const checkAll = document.getElementById('ed-checkall');
+
+  addBtn.addEventListener('click', () => {
+    const id = (idBox.value || '').trim();
+    if (!id) return;
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="text-center"><input type="checkbox" class="ed-rowchk" /></td>
+       <td><input class="form-control form-control-sm" value="${id}" data-field="id" /></td>
+       <td><input class="form-control form-control-sm" value="(Name)" data-field="name" /></td>
+       <td><input class="form-control form-control-sm" value="(email@example.com)" data-field="email" /></td>`;
+    tbl.appendChild(tr);
+    idBox.value = '';
+  });
+
+  removeBtn.addEventListener('click', () => {
+    tbl.querySelectorAll('tr').forEach(tr => {
+      const chk = tr.querySelector('.ed-rowchk');
+      if (chk && chk.checked) tr.remove();
+    });
+    checkAll.checked = false;
+  });
+
+  checkAll.addEventListener('change', e=>{
+    tbl.querySelectorAll('.ed-rowchk').forEach(c => c.checked = e.target.checked);
+  });
+
+  // Pickers
+  document.addEventListener('click', (e) => {
+    const sup = e.target.closest('.js-pick-sup');
+    if (sup) {
+      document.getElementById('ed-sup-name').value = sup.dataset.name;
+      document.getElementById('ed-sup-email').value = sup.dataset.email;
+      document.getElementById('ed-sup-load').textContent = sup.dataset.load.split('/')[0];
+      bootstrap.Modal.getInstance(document.getElementById('pickSupervisor'))?.hide();
+    }
+    const ass = e.target.closest('.js-pick-ass');
+    if (ass) {
+      document.getElementById('ed-ass-name').value = ass.dataset.name;
+      document.getElementById('ed-ass-email').value = ass.dataset.email;
+      document.getElementById('ed-ass-load').textContent = ass.dataset.load.split('/')[0];
+      bootstrap.Modal.getInstance(document.getElementById('pickAssessor'))?.hide();
+    }
+  });
+
+  // Save (demo)
+  btnSave.addEventListener('click', () => {
+    // gather payload (you can POST this later)
+    const students = Array.from(tbl.querySelectorAll('tr')).map(tr => ({
+      id:    tr.querySelector('[data-field="id"]').value.trim(),
+      name:  tr.querySelector('[data-field="name"]').value.trim(),
+      email: tr.querySelector('[data-field="email"]').value.trim()
+    }));
+    const payload = {
+      groupId: '@Model.GroupId',
+      supervisor: {
+        name:  document.getElementById('ed-sup-name').value.trim(),
+        email: document.getElementById('ed-sup-email').value.trim()
+      },
+      assessor: {
+        name:  document.getElementById('ed-ass-name').value.trim(),
+        email: document.getElementById('ed-ass-email').value.trim()
+      },
+      students
+    };
+    console.log('SAVE payload (demo):', payload);
+
+    // Toasty confirmation
+    const alert = document.createElement('div');
+    alert.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+    alert.style.zIndex = 2000;
+    alert.textContent = 'Group updated (demo). Hook this to a POST later.';
+    document.body.appendChild(alert);
+    setTimeout(() => alert.remove(), 2200);
+
+    showEdit(false);
+  });
+})();
+</script>
+}

@@ -1,0 +1,1760 @@
+@model FYP_25_S3_15P.ViewModels.CatalogVm
+@{
+    Layout = "~/Views/Shared/_UALayout.cshtml";
+    ViewData["Title"] = "Catalog";
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg border-0">
+
+    <!-- Page header: title + template CSV split button + upload button -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+      <h2 class="mb-0">Catalog</h2>
+
+      <div class="d-flex align-items-center gap-2">
+        <!-- Template CSV -->
+        <div class="btn-group">
+          <span class="btn btn-outline-secondary disabled text-muted pe-none" aria-disabled="true">
+            <i class="bi bi-file-earmark-text me-1"></i> Template CSV
+          </span>
+
+          <!-- Actual dropdown trigger for choosing which CSV template to download -->
+          <button
+            type="button"
+            class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="Choose CSV template">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+
+          <!-- Menu items map to server actions that return CSVs -->
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a
+                class="dropdown-item"
+                href="@Url.Action("TemplateCsv","UADashboard", new { kind = "programs" })">
+                programs.csv
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="@Url.Action("TemplateCsv","UADashboard", new { kind = "courses" })">
+                courses.csv
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="@Url.Action("TemplateCsv","UADashboard", new { kind = "modules" })">
+                modules.csv
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Upload CSV -->
+        <button class="btn btn-primary" id="btnUploadCsv">
+          <i class="bi bi-upload me-1"></i> Upload CSV
+        </button>
+        <input id="csvFiles" type="file" accept=".csv" multiple class="d-none" />
+      </div>
+    </div>
+
+    <!-- Toolbar with 3 filters: Program, Course, and text search -->
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+      <!-- Program -->
+      <div class="flex-fill" style="min-width:220px;">
+        <select id="fltProgram" class="form-select">
+          <option value="">Program: All</option>
+          @foreach (var p in Model.Programs)
+          {
+            <option value="@p.Code">@p.Code – @p.Name</option>
+          }
+        </select>
+      </div>
+
+      <!-- Course -->
+      <div class="flex-fill" style="min-width:220px;">
+        <select id="fltCourse" class="form-select">
+          <option value="">Course: All</option>
+          @foreach (var c in Model.Courses)
+          {
+            <option value="@c.Code" data-program="@c.ProgramCode">@c.Code – @c.Name</option>
+          }
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="flex-fill" style="min-width:220px;">
+        <input id="fltSearch" class="form-control" placeholder="Search code/name…">
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <!-- Programs Card-->
+      <div class="col-12 col-lg-4">
+        <div class="card rounded-4 shadow-lg h-100 border-0">
+          <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center border-0">
+            <span>Programs</span>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+              <!--
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlCreateProgram">Create Program</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlSelectProgram">Update Program</a>
+                </li>
+                -->
+                <li>
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlSelectProgramDelete">Delete Program</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <div id="listPrograms" class="list-group list-group-flush" style="max-height:60vh; overflow:auto;">
+              @foreach (var p in Model.Programs)
+              {
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  data-code="@p.Code"
+                  data-name="@p.Name">
+                  <span>
+                    <span class="badge bg-secondary me-2">@p.Code</span> @p.Name
+                  </span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Courses Card -->
+      <div class="col-12 col-lg-4">
+        <div class="card rounded-4 shadow-lg h-100 border-0">
+          <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center border-0">
+            <span>Courses</span>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+              <!--
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlCreateCourse">Create Course</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlUpdateCourse">Update Course</a></li>
+                -->
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlDeleteCourse">Delete Course</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <div id="listCourses" class="list-group list-group-flush" style="max-height:60vh; overflow:auto;">
+              @foreach (var c in Model.Courses)
+              {
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  data-code="@c.Code"
+                  data-name="@c.Name"
+                  data-program="@c.ProgramCode">
+                  <span>
+                    <span class="badge bg-secondary me-2">@c.Code</span> @c.Name
+                  </span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modules Card-->
+      <div class="col-12 col-lg-4">
+        <div class="card rounded-4 shadow-lg h-100 border-0">
+          <div class="card-header bg-white fw-semibold d-flex justify-content-between align-items-center border-0">
+            <span>Modules</span>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+              <!--
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlCreateModule">Create Module</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlUpdateModule">Update Module</a></li>
+                -->
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#mdlDeleteModule">Delete Module</a></li>
+                <li><hr class="dropdown-divider" /></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-body p-3">
+            <div id="listModules" class="list-group list-group-flush" style="max-height:60vh; overflow:auto;">
+              @foreach (var m in Model.Modules)
+              {
+                <button
+                  type="button"
+                  class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  data-code="@m.Code"
+                  data-name="@m.Name"
+                  data-courses='@string.Join("|", m.CourseCodes ?? new List<string>())'>
+                  <span>
+                    <span class="badge bg-secondary me-2">@m.Code</span> @m.Name
+                  </span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer status -->
+    <div class="d-flex justify-content-between small text-muted mt-4">
+      <div>
+        Showing Programs @Model.Programs.Count • Courses @Model.Courses.Count • Modules @Model.Modules.Count
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Create Program -->
+<div class="modal fade" id="mdlCreateProgram" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/CreateProgram" novalidate autocomplete="off">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Create Program</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        @{
+          var cpId   = (TempData["Form.CreateProgram.ProgramID"]   as string) ?? "";
+          var cpCode = (TempData["Form.CreateProgram.ProgramCode"] as string) ?? "";
+          var cpName = (TempData["Form.CreateProgram.ProgramName"] as string) ?? "";
+
+          var peId   = TempData["Err.CreateProgram.ProgramID"]   as string;
+          var peCode = TempData["Err.CreateProgram.ProgramCode"] as string;
+          var peName = TempData["Err.CreateProgram.ProgramName"] as string;
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Program ID</label>
+          <input
+            name="ProgramID"
+            id="ProgramID_Create"
+            type="number"
+            min="1"
+            class="form-control @(peId!=null ? "is-invalid" : "")"
+            value="@cpId"
+            required />
+          <div class="form-text">Numeric ID (unique per university)</div>
+          <div class="invalid-feedback @(peId!=null ? "d-block" : "")">@peId</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Program Code</label>
+          <input
+            name="ProgramCode"
+            id="ProgramCode_Create"
+            class="form-control @(peCode!=null ? "is-invalid" : "")"
+            placeholder="e.g., IT"
+            pattern="^[A-Z0-9\-]+$"
+            value="@cpCode"
+            required />
+          <div class="form-text">
+            <i class="bi bi-info-circle me-1"></i> Codes are unique, <strong>UPPERCASE</strong>
+          </div>
+          <div class="invalid-feedback @(peCode!=null ? "d-block" : "")">@peCode</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Program Name</label>
+          <input
+            name="ProgramName"
+            class="form-control @(peName!=null ? "is-invalid" : "")"
+            value="@cpName"
+            placeholder="e.g., Information Technology"
+            required />
+          <div class="invalid-feedback @(peName!=null ? "d-block" : "")">@peName</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Create Course -->
+<div class="modal fade" id="mdlCreateCourse" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/CreateCourse" novalidate autocomplete="off">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Create Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        @{
+          var ccId   = (TempData["Form.CreateCourse.CourseID"]   as string) ?? "";
+          var ccCode = (TempData["Form.CreateCourse.CourseCode"] as string) ?? "";
+          var ccName = (TempData["Form.CreateCourse.CourseName"] as string) ?? "";
+          var ccProg = (TempData["Form.CreateCourse.ProgramCode"] as string) ?? "";
+
+          var ceId   = TempData["Err.CreateCourse.CourseID"]   as string;
+          var ceCode = TempData["Err.CreateCourse.CourseCode"] as string;
+          var ceName = TempData["Err.CreateCourse.CourseName"] as string;
+          var ceProg = TempData["Err.CreateCourse.ProgramCode"] as string;
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Course ID</label>
+          <input
+            name="CourseID"
+            type="number"
+            min="1"
+            class="form-control @(ceId!=null ? "is-invalid" : "")"
+            value="@ccId"
+            required />
+          <div class="form-text">Numeric ID (unique per university)</div>
+          <div class="invalid-feedback @(ceId!=null ? "d-block" : "")">@ceId</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Course Code</label>
+          <input
+            name="CourseCode"
+            id="CourseCode_Create"
+            class="form-control @(ceCode!=null ? "is-invalid" : "")"
+            placeholder="e.g., CSIT-BD"
+            pattern="^[A-Z0-9\-]+$"
+            value="@ccCode"
+            required />
+          <div class="form-text">
+            <i class="bi bi-info-circle me-1"></i> Codes are unique, <strong>UPPERCASE</strong>
+          </div>
+          <div class="invalid-feedback @(ceCode!=null ? "d-block" : "")">@ceCode</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Course Name</label>
+          <input
+            name="CourseName"
+            class="form-control @(ceName!=null ? "is-invalid" : "")"
+            value="@ccName"
+            placeholder="e.g., Computer Science (Big Data)"
+            required />
+          <div class="invalid-feedback @(ceName!=null ? "d-block" : "")">@ceName</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Program</label>
+          <div
+            id="progList_Create"
+            class="list-group border rounded @((ceProg!=null ? "border-danger" : ""))"
+            style="max-height:260px; overflow:auto;">
+
+            <!-- sticky search inside the list -->
+            <div class="list-group-item search-row bg-light position-sticky top-0" style="z-index:1;">
+              <input id="progSearch_Create" class="form-control form-control-sm" placeholder="Search programs…">
+            </div>
+
+            @for (int i = 0; i < Model.Programs.Count; i++)
+            {
+              var p = Model.Programs[i];
+              var isChecked = string.Equals(ccProg, p.Code, StringComparison.OrdinalIgnoreCase);
+              <label
+                class="list-group-item program-item d-flex align-items-center gap-2"
+                data-code="@p.Code"
+                data-name="@p.Name"
+                data-idx="@i">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ProgramCode"
+                  value="@p.Code"
+                  @(isChecked ? "checked" : "")
+                  @(i == 0 ? "required" : "") />
+                <span><span class="badge bg-secondary me-2">@p.Code</span>@p.Name</span>
+              </label>
+            }
+          </div>
+
+          <div class="invalid-feedback d-block @(ceProg!=null ? "" : "visually-hidden")">@ceProg</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Create Module -->
+<div class="modal fade" id="mdlCreateModule" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/CreateModule" novalidate autocomplete="off">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Create Module</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      @{
+        var cmId   = (TempData["Form.CreateModule.ModuleID"]   as string) ?? "";
+        var cmCode = (TempData["Form.CreateModule.ModuleCode"] as string) ?? "";
+        var cmName = (TempData["Form.CreateModule.ModuleName"] as string) ?? "";
+
+        var ceId   = TempData["Err.CreateModule.ModuleID"]    as string;
+        var ceCode = TempData["Err.CreateModule.ModuleCode"]  as string;
+        var ceName = TempData["Err.CreateModule.ModuleName"]  as string;
+        var ceCc   = TempData["Err.CreateModule.CourseCodes"] as string;
+      }
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Module ID</label>
+          <input
+            name="ModuleID"
+            id="ModuleID_Create"
+            type="number"
+            min="1"
+            class="form-control @(ceId!=null ? "is-invalid" : "")"
+            value="@cmId"
+            required />
+          <div class="form-text">Numeric ID (unique globally)</div>
+          <div class="invalid-feedback @(ceId!=null ? "d-block" : "")">@ceId</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Module Code</label>
+          <input
+            name="ModuleCode"
+            id="ModuleCode_Create"
+            class="form-control @(ceCode!=null ? "is-invalid" : "")"
+            placeholder="e.g., CSCI316"
+            pattern="^[A-Z0-9\-]+$"
+            value="@cmCode"
+            required />
+          <div class="form-text">
+            <i class="bi bi-info-circle me-1"></i> Codes are unique, <strong>UPPERCASE</strong>
+          </div>
+          <div class="invalid-feedback @(ceCode!=null ? "d-block" : "")">@ceCode</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Module Name</label>
+          <input
+            name="ModuleName"
+            id="ModuleName_Create"
+            class="form-control @(ceName!=null ? "is-invalid" : "")"
+            value="@cmName"
+            placeholder="e.g., Big Data Mining"
+            required />
+          <div class="invalid-feedback @(ceName!=null ? "d-block" : "")">@ceName</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Courses</label>
+          <div
+            id="courseList_Create"
+            class="list-group border rounded @((ceCc!=null ? "border-danger" : ""))"
+            style="max-height:260px; overflow:auto;">
+
+            <div class="list-group-item search-row bg-light position-sticky top-0" style="z-index:1;">
+              <input id="courseSearch_Create" class="form-control form-control-sm" placeholder="Search courses…">
+            </div>
+
+            @for (int i = 0; i < Model.Courses.Count; i++)
+            {
+              var c = Model.Courses[i];
+              <label
+                class="list-group-item course-item d-flex align-items-center gap-2"
+                data-code="@c.Code"
+                data-name="@c.Name"
+                data-idx="@i">
+                <input type="checkbox" class="form-check-input" name="CourseCodes" value="@c.Code" />
+                <span><span class="badge bg-secondary me-2">@c.Code</span>@c.Name</span>
+              </label>
+            }
+          </div>
+
+          <div class="invalid-feedback d-block @(ceCc!=null ? "" : "visually-hidden")">@ceCc</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Update Program -->
+<div class="modal fade" id="mdlUpdateProgram" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/UpdateProgram" novalidate>
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Update Program</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        @{
+          var upCode = (TempData["Form.UpdateProgram.ProgramCode"] as string) ?? "";
+          var upName = (TempData["Form.UpdateProgram.ProgramName"] as string) ?? "";
+
+          var ueCode = TempData["Err.UpdateProgram.ProgramCode"] as string;
+          var ueName = TempData["Err.UpdateProgram.ProgramName"] as string;
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Program Code</label>
+          <input
+            name="ProgramCode"
+            id="ProgramCode_Update"
+            class="form-control @(ueCode!=null ? "is-invalid" : "")"
+            value="@upCode"
+            readonly />
+          <div class="invalid-feedback @(ueCode!=null ? "d-block" : "")">@ueCode</div>
+          <div class="form-text text-muted">(read-only)</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Program Name</label>
+          <input
+            name="ProgramName"
+            id="ProgramName_Update"
+            class="form-control @(ueName!=null ? "is-invalid" : "")"
+            value="@upName"
+            required />
+          <div class="invalid-feedback @(ueName!=null ? "d-block" : "")">@ueName</div>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-bs-target="#mdlDeleteProgram"
+          data-bs-toggle="modal">
+          Delete
+        </button>
+        <div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Update Course -->
+<div class="modal fade" id="mdlUpdateCourse" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/UpdateCourse" novalidate>
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Update Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        @{
+          var ucId   = (TempData["Form.UpdateCourse.CourseID"]   as string) ?? "";
+          var ucCode = (TempData["Form.UpdateCourse.CourseCode"] as string) ?? "";
+          var ucName = (TempData["Form.UpdateCourse.CourseName"] as string) ?? "";
+          var ucProg = (TempData["Form.UpdateCourse.ProgramCode"] as string) ?? "";
+
+          var ueId   = TempData["Err.UpdateCourse.CourseID"]   as string;
+          var ueCode = TempData["Err.UpdateCourse.CourseCode"] as string;
+          var ueName = TempData["Err.UpdateCourse.CourseName"] as string;
+          var ueProg = TempData["Err.UpdateCourse.ProgramCode"] as string;
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Course ID</label>
+          <input
+            name="CourseID"
+            id="CourseID_Update"
+            type="number"
+            min="1"
+            class="form-control @(ueId!=null ? "is-invalid" : "")"
+            value="@ucId"
+            required />
+          <div class="form-text">Numeric ID (unique per university)</div>
+          <div class="invalid-feedback @(ueId!=null ? "d-block" : "")">@ueId</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Course Code</label>
+          <input
+            name="CourseCode"
+            id="CourseCode_Update"
+            class="form-control @(ueCode!=null ? "is-invalid" : "")"
+            value="@ucCode"
+            readonly />
+          <div class="invalid-feedback @(ueCode!=null ? "d-block" : "")">@ueCode</div>
+          <div class="form-text text-muted">(read-only)</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Course Name</label>
+          <input
+            name="CourseName"
+            id="CourseName_Update"
+            class="form-control @(ueName!=null ? "is-invalid" : "")"
+            value="@ucName"
+            required />
+          <div class="invalid-feedback @(ueName!=null ? "d-block" : "")">@ueName</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Program</label>
+          <div
+            id="progList_Update"
+            class="list-group border rounded @((ueProg!=null ? "border-danger" : ""))"
+            style="max-height:260px; overflow:auto;">
+
+            <div class="list-group-item search-row bg-light position-sticky top-0" style="z-index:1;">
+              <input id="progSearch_Update" class="form-control form-control-sm" placeholder="Search programs…">
+            </div>
+
+            @for (int i = 0; i < Model.Programs.Count; i++)
+            {
+              var p = Model.Programs[i];
+              var isChecked = string.Equals(ucProg, p.Code, StringComparison.OrdinalIgnoreCase);
+              <label
+                class="list-group-item program-item d-flex align-items-center gap-2"
+                data-code="@p.Code"
+                data-name="@p.Name"
+                data-idx="@i">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="ProgramCode"
+                  value="@p.Code"
+                  @(isChecked ? "checked" : "")
+                  @(i == 0 ? "required" : "") />
+                <span><span class="badge bg-secondary me-2">@p.Code</span>@p.Name</span>
+              </label>
+            }
+          </div>
+
+          <div class="invalid-feedback d-block @(ueProg!=null ? "" : "visually-hidden")">@ueProg</div>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-bs-target="#mdlDeleteCourse"
+          data-bs-toggle="modal">
+          Delete
+        </button>
+        <div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Update Module -->
+<div class="modal fade" id="mdlUpdateModule" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <form class="modal-content needs-validation" method="post" action="/UADashboard/UpdateModule" novalidate autocomplete="off">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Update Module</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      @{
+        var umId   = (TempData["Form.UpdateModule.ModuleID"]   as string) ?? "";
+        var umCode = (TempData["Form.UpdateModule.ModuleCode"] as string) ?? "";
+        var umName = (TempData["Form.UpdateModule.ModuleName"] as string) ?? "";
+
+        var ueId   = TempData["Err.UpdateModule.ModuleID"]    as string;
+        var ueCode = TempData["Err.UpdateModule.ModuleCode"]  as string;
+        var ueName = TempData["Err.UpdateModule.ModuleName"]  as string;
+        var ueCc   = TempData["Err.UpdateModule.CourseCodes"] as string;
+      }
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Module ID</label>
+          <input
+            name="ModuleID"
+            id="ModuleID_Update"
+            type="number"
+            min="1"
+            class="form-control @(ueId!=null ? "is-invalid" : "")"
+            value="@umId"
+            required />
+          <div class="form-text">Numeric ID (unique globally)</div>
+          <div class="invalid-feedback @(ueId!=null ? "d-block" : "")">@ueId</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Module Code</label>
+          <input
+            name="ModuleCode"
+            id="ModuleCode_Update"
+            class="form-control @(ueCode!=null ? "is-invalid" : "")"
+            value="@umCode"
+            readonly />
+          <div class="invalid-feedback @(ueCode!=null ? "d-block" : "")">@ueCode</div>
+          <div class="form-text text-muted">(read-only)</div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Module Name</label>
+          <input
+            name="ModuleName"
+            id="ModuleName_Update"
+            class="form-control @(ueName!=null ? "is-invalid" : "")"
+            value="@umName"
+            required />
+          <div class="invalid-feedback @(ueName!=null ? "d-block" : "")">@ueName</div>
+        </div>
+
+        <div class="mb-1">
+          <label class="form-label">Courses</label>
+          <div
+            id="courseList_Update"
+            class="list-group border rounded @((ueCc!=null ? "border-danger" : ""))"
+            style="max-height:260px; overflow:auto;">
+
+            <div class="list-group-item search-row bg-light position-sticky top-0" style="z-index:1;">
+              <input id="courseSearch_Update" class="form-control form-control-sm" placeholder="Search courses…">
+            </div>
+
+            @for (int i = 0; i < Model.Courses.Count; i++)
+            {
+              var c = Model.Courses[i];
+              <label
+                class="list-group-item course-item d-flex align-items-center gap-2"
+                data-code="@c.Code"
+                data-name="@c.Name"
+                data-idx="@i">
+                <input type="checkbox" class="form-check-input" name="CourseCodes" value="@c.Code" />
+                <span><span class="badge bg-secondary me-2">@c.Code</span>@c.Name</span>
+              </label>
+            }
+          </div>
+
+          <div class="invalid-feedback d-block @(ueCc!=null ? "" : "visually-hidden")">@ueCc</div>
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          data-bs-target="#mdlDeleteModule"
+          data-bs-toggle="modal">
+          Delete
+        </button>
+        <div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Select Program to Update -->
+<div class="modal fade" id="mdlSelectProgram" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Program to Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchProgramUpd" class="form-control mb-3" placeholder="Search programs...">
+        <div id="listProgramUpd" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var p in Model.Programs)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input single-program" type="checkbox" value="@p.Code" data-name="@p.Name">
+              <span><span class="badge bg-secondary me-2">@p.Code</span>@p.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="confirmProgramUpd" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Select Course to Update -->
+<div class="modal fade" id="mdlSelectCourse" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Course to Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchCourseUpd" class="form-control mb-3" placeholder="Search courses...">
+        <div id="listCourseUpd" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var c in Model.Courses)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input
+                class="form-check-input single-course"
+                type="checkbox"
+                value="@c.Code"
+                data-courseid="@c.CourseId"
+                data-name="@c.Name"
+                data-program="@c.ProgramCode">
+              <span><span class="badge bg-secondary me-2">@c.Code</span>@c.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="confirmCourseUpd" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Select Module to Update -->
+<div class="modal fade" id="mdlSelectModule" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Module to Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchModuleUpd" class="form-control mb-3" placeholder="Search modules...">
+        <div id="listModuleUpd" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var m in Model.Modules)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input
+                class="form-check-input single-module"
+                type="checkbox"
+                value="@m.Code"
+                data-name="@m.Name"
+                data-moduleid="@m.ModuleId"
+                data-courses='@string.Join("|", m.CourseCodes ?? new List<string>())' />
+              <span><span class="badge bg-secondary me-2">@m.Code</span>@m.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="confirmModuleUpd" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Select Program to Delete -->
+<div class="modal fade" id="mdlSelectProgramDelete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Program to Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchProgramDel" class="form-control mb-3" placeholder="Search programs...">
+        <div id="listProgramDel" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var p in Model.Programs)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input del-program" type="checkbox" value="@p.Code" data-name="@p.Name">
+              <span><span class="badge bg-secondary me-2">@p.Code</span>@p.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="nextDeleteProgram" class="btn btn-danger">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Program -->
+<div class="modal fade" id="mdlConfirmDeleteProgram" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" method="post" action="/UADashboard/DeleteProgram" id="frmDeleteProgram">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Delete Program</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="ProgramCode" id="ProgramCode_DeleteHidden">
+        <p class="mb-2">
+          Are you sure you want to delete program <strong id="delProgLabel"></strong>?
+        </p>
+        <p class="text-muted mb-0">
+          You <strong>cannot delete a program that still has courses</strong>.
+          Reassign or delete its courses first.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Select Course to Delete -->
+<div class="modal fade" id="mdlSelectCourseDelete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Course to Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchCourseDel" class="form-control mb-3" placeholder="Search courses...">
+        <div id="listCourseDel" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var c in Model.Courses)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input del-course" type="checkbox" value="@c.Code" data-name="@c.Name">
+              <span><span class="badge bg-secondary me-2">@c.Code</span>@c.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="nextDeleteCourse" class="btn btn-danger">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Course -->
+<div class="modal fade" id="mdlConfirmDeleteCourse" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" method="post" action="/UADashboard/DeleteCourse" id="frmDeleteCourse">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Delete Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="CourseCode" id="CourseCode_DeleteHidden">
+        <p class="mb-2">
+          Are you sure you want to delete course <strong id="delCourseLabel"></strong>?
+        </p>
+        <p class="text-muted mb-0">
+          It will be <strong>unlinked from its program and from all of its modules</strong>.
+          Program and modules remain.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Select Module to Delete -->
+<div class="modal fade" id="mdlSelectModuleDelete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Select Module to Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input id="searchModuleDel" class="form-control mb-3" placeholder="Search modules...">
+        <div id="listModuleDel" class="list-group" style="max-height:50vh; overflow:auto;">
+          @foreach (var m in Model.Modules)
+          {
+            <label class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input del-module" type="checkbox" value="@m.Code" data-name="@m.Name">
+              <span><span class="badge bg-secondary me-2">@m.Code</span>@m.Name</span>
+            </label>
+          }
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="nextDeleteModule" class="btn btn-danger">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Module -->
+<div class="modal fade" id="mdlConfirmDeleteModule" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" method="post" action="/UADashboard/DeleteModule" id="frmDeleteModule">
+      @Html.AntiForgeryToken()
+
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Delete Module</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" name="ModuleCode" id="ModuleCode_DeleteHidden">
+        <!-- inside your Module delete confirm modal .modal-body -->
+        <p class="mb-2">
+          Are you sure you want to delete module <strong id="delModuleLabel"></strong>?
+        </p>
+        <p class="text-muted mb-0">
+          It will be <strong>unlinked from all courses</strong>. Programs and courses remain.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Upload result (success) -->
+<div class="modal fade" id="mdlUploadResult" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Upload complete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="uploadSummaryBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload errors -->
+<div class="modal fade" id="mdlUploadErrors" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Upload failed</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger mb-2">Please fix the following issues and re-upload:</p>
+        <ul class="mb-0" id="uploadErrorsList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+@{
+  // TempData values from controller (used for toast + modal reopen)
+    var toastMsg   = TempData["Toast"] as string;
+    var toastLevel = (TempData["ToastLevel"] as string) ?? "info"; 
+    var reopenId   = TempData["ReopenModal"] as string;
+}
+@if (!string.IsNullOrWhiteSpace(toastMsg))
+{
+   //Toast notification at top-right
+  <div class="position-fixed top-0 end-0 p-3" style="z-index:1080">
+    <div id="mainToast" class="toast align-items-center text-bg-@toastLevel border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">@toastMsg</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  //Auto-show toast after DOM is loaded
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var t = document.getElementById('mainToast');
+      if (t) new bootstrap.Toast(t, { delay: 6000 }).show();
+    });
+  </script>
+}
+@if (!string.IsNullOrWhiteSpace(reopenId))
+// Reopen modal automatically if controller asked for it (e.g. validation fail)
+{
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      var m = document.getElementById('@reopenId');
+      if (m) new bootstrap.Modal(m).show();
+    });
+  </script>
+}
+
+
+@section Scripts {
+<script>
+// ---------- Auto-UPPERCASE for code fields ----------
+["ProgramCode_Create","CourseCode_Create","ModuleCode_Create"].forEach(id=>{
+  const el = document.getElementById(id);
+  if (el) el.addEventListener("input", () => { el.value = el.value.toUpperCase(); });
+});
+
+// ---------- Bootstrap client-side validation ----------
+(() => {
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+
+<script>
+// Selectors + Update flow
+// Retarget update menu items to open SELECT modals
+document.addEventListener('DOMContentLoaded', () => {
+  const retarget = (selector, newTargetId) => {
+    document.querySelectorAll(selector).forEach(a => {
+      a.setAttribute('data-bs-target', `#${newTargetId}`);
+      a.setAttribute('href', '#'); 
+    });
+  };
+  
+  retarget('a[data-bs-target="#mdlUpdateCourse"]',  'mdlSelectCourse');
+  retarget('a[data-bs-target="#mdlUpdateModule"]',  'mdlSelectModule');
+});
+
+// Enforce single-select checkboxes
+function enableSingleSelect(selector) {
+  document.querySelectorAll(selector).forEach(cb=>{
+    cb.addEventListener('change', ()=> {
+      if (cb.checked) {
+        document.querySelectorAll(selector).forEach(o => { if (o!==cb) o.checked = false; });
+      }
+    });
+  });
+}
+enableSingleSelect('.single-program');
+enableSingleSelect('.single-course');
+enableSingleSelect('.single-module');
+
+ // Simple search filter
+function attachFilter(inputId, listSelector){
+  const q = document.getElementById(inputId);
+  if (!q) return;
+  q.addEventListener('input', ()=>{
+    const term = q.value.toLowerCase();
+    document.querySelectorAll(listSelector+' .list-group-item').forEach(li=>{
+      const txt = li.innerText.toLowerCase();
+      li.style.display = txt.includes(term) ? '' : 'none';
+    });
+  });
+}
+attachFilter('searchProgramUpd', '#listProgramUpd');
+attachFilter('searchCourseUpd',  '#listCourseUpd');
+attachFilter('searchModuleUpd',  '#listModuleUpd');
+
+// Hide whichever modal is showing
+function hideOpenModal() {
+  const shown = document.querySelector('.modal.show');
+  if (shown) {
+    const inst = bootstrap.Modal.getInstance(shown);
+    if (inst) inst.hide();
+  }
+}
+
+// Confirm update handlers
+
+// Program
+document.getElementById('confirmProgramUpd')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.single-program')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a program.');
+  document.getElementById('ProgramCode_Update').value = chosen.value || '';
+  document.getElementById('ProgramName_Update').value = chosen.dataset.name || '';
+  hideOpenModal();
+  new bootstrap.Modal(document.getElementById('mdlUpdateProgram')).show();
+});
+
+// Course
+document.getElementById('confirmCourseUpd')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.single-course')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a course.');
+  document.getElementById('CourseCode_Update').value = chosen.value || '';
+  document.getElementById('CourseName_Update').value = chosen.dataset.name || '';
+  document.getElementById('CourseID_Update').value   = chosen.dataset.courseid || '';
+  hideOpenModal();
+  new bootstrap.Modal(document.getElementById('mdlUpdateCourse')).show();
+});
+
+</script>
+
+<script>
+// Helpers for Delete flows
+if (typeof attachFilter !== 'function') {
+  window.attachFilter = function(inputId, listSelector){
+    const q = document.getElementById(inputId);
+    if (!q) return;
+    q.addEventListener('input', ()=>{
+      const term = q.value.toLowerCase();
+      document.querySelectorAll(listSelector+' .list-group-item').forEach(li=>{
+        const txt = li.innerText.toLowerCase();
+        li.style.display = txt.includes(term) ? '' : 'none';
+      });
+    });
+  };
+}
+function singleSelect(className){
+  document.querySelectorAll('.'+className).forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if (cb.checked) {
+        document.querySelectorAll('.'+className).forEach(o=>{ if(o!==cb) o.checked=false; });
+      }
+    });
+  });
+}
+
+ // Retarget delete links to select modals
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Programs
+  document.querySelectorAll('a[data-bs-target="#mdlDeleteProgram"]').forEach(a=>{
+    a.setAttribute('data-bs-target', '#mdlSelectProgramDelete'); a.href = '#';
+  });
+  // Courses
+  document.querySelectorAll('a[data-bs-target="#mdlDeleteCourse"]').forEach(a=>{
+    a.setAttribute('data-bs-target', '#mdlSelectCourseDelete'); a.href = '#';
+  });
+  // Modules
+  document.querySelectorAll('a[data-bs-target="#mdlDeleteModule"]').forEach(a=>{
+    a.setAttribute('data-bs-target', '#mdlSelectModuleDelete'); a.href = '#';
+  });
+});
+
+// Attach search + single select for delete lists
+attachFilter('searchProgramDel', '#listProgramDel');
+attachFilter('searchCourseDel',  '#listCourseDel');
+attachFilter('searchModuleDel',  '#listModuleDel');
+
+singleSelect('del-program');
+singleSelect('del-course');
+singleSelect('del-module');
+
+// Confirm delete handlers
+document.getElementById('nextDeleteProgram')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.del-program')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a program.');
+  const code = chosen.value, name = chosen.dataset.name || '';
+  document.getElementById('ProgramCode_DeleteHidden').value = code;
+  document.getElementById('delProgLabel').textContent = `${code} — ${name}`;
+  const sel = bootstrap.Modal.getInstance(document.getElementById('mdlSelectProgramDelete'));
+  if (sel) sel.hide();
+  new bootstrap.Modal(document.getElementById('mdlConfirmDeleteProgram')).show();
+});
+
+// move from select to confirm (Course)
+document.getElementById('nextDeleteCourse')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.del-course')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a course.');
+  const code = chosen.value, name = chosen.dataset.name || '';
+  document.getElementById('CourseCode_DeleteHidden').value = code;
+  document.getElementById('delCourseLabel').textContent = `${code} — ${name}`;
+  const sel = bootstrap.Modal.getInstance(document.getElementById('mdlSelectCourseDelete'));
+  if (sel) sel.hide();
+  new bootstrap.Modal(document.getElementById('mdlConfirmDeleteCourse')).show();
+});
+
+// move from select to confirm (Module) 
+document.getElementById('nextDeleteModule')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.del-module')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a module.');
+  const code = chosen.value, name = chosen.dataset.name || '';
+  document.getElementById('ModuleCode_DeleteHidden').value = code;
+  document.getElementById('delModuleLabel').textContent = `${code} — ${name}`;
+  const sel = bootstrap.Modal.getInstance(document.getElementById('mdlSelectModuleDelete'));
+  if (sel) sel.hide();
+  new bootstrap.Modal(document.getElementById('mdlConfirmDeleteModule')).show();
+});
+</script>
+
+<script>
+//CSV upload
+(() => {
+  const btn   = document.getElementById('btnUploadCsv');
+  const input = document.getElementById('csvFiles');
+
+  // Read any anti-forgery token already rendered on the page
+  function getAntiForgery() {
+    const el = document.querySelector("input[name='__RequestVerificationToken']");
+    return el ? el.value : '';
+  }
+
+  btn?.addEventListener('click', () => input?.click());
+
+  input?.addEventListener('change', async () => {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+
+    const fd = new FormData();
+    files.forEach(f => fd.append('files', f, f.name));
+
+    // Include anti-forgery token both as field and header
+    const token = getAntiForgery();
+    if (token) fd.append('__RequestVerificationToken', token);
+
+    let resp, data;
+
+    try {
+      resp = await fetch('@Url.Action("UploadCatalogCsv","UADashboard")', {
+        method: 'POST',
+        body: fd,
+        credentials: 'same-origin',                            
+        headers: { 'RequestVerificationToken': token || '' }   
+      });
+
+      // Only try JSON if the server actually sent JSON
+      const ct = resp.headers.get('content-type') || '';
+      if (ct.includes('application/json')) {
+        data = await resp.json();
+      } else {
+        const text = await resp.text();
+        throw new Error(
+          (resp.status === 401 || resp.status === 403)
+            ? 'Not authorized. Please sign in again.'
+            : (text || 'Unexpected response.')
+        );
+      }
+    } catch (err) {
+      const list = document.getElementById('uploadErrorsList');
+      list.innerHTML = `<li>${String(err.message || err).replace(/</g,'&lt;')}</li>`;
+      new bootstrap.Modal(document.getElementById('mdlUploadErrors')).show();
+      input.value = '';
+      return;
+    }
+
+    if (!resp.ok || !data || data.ok === false) {
+      const errors = (data && data.errors) ? data.errors : ['Upload failed.'];
+      const list = document.getElementById('uploadErrorsList');
+      list.innerHTML = errors.map(e => `<li>${e.replace(/</g,'&lt;')}</li>`).join('');
+      new bootstrap.Modal(document.getElementById('mdlUploadErrors')).show();
+      input.value = '';
+      return;
+    }
+
+    // Success modal
+    const s = data.summary || {};
+    const html = `
+      <ul class="list-unstyled mb-0">
+        <li><strong>Programs</strong> — inserted ${s.programsInserted||0}, updated ${s.programsUpdated||0}</li>
+        <li><strong>Courses</strong> — inserted ${s.coursesInserted||0}, updated ${s.coursesUpdated||0}</li>
+        <li><strong>Modules</strong> — inserted ${s.modulesInserted||0}, updated ${s.modulesUpdated||0}</li>
+      </ul>`;
+    document.getElementById('uploadSummaryBody').innerHTML = html;
+    new bootstrap.Modal(document.getElementById('mdlUploadResult')).show();
+
+    input.value = '';
+    document.getElementById('mdlUploadResult').addEventListener('hidden.bs.modal', () => location.reload(), { once:true });
+  });
+})();
+</script>
+
+<script>
+//Clear forms when opening create modals
+(function () {
+  const reopenedId = '@(reopenId ?? "")';
+  // Wipe inputs when a modal opens (fresh create flows)
+  function clearOnOpen(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.addEventListener('show.bs.modal', () => {
+      // Keep values when re-opening because of server validation errors
+      if (reopenedId && modalId === reopenedId) return;
+
+      const form = modal.querySelector('form');
+      if (!form) return;
+
+      form.reset();
+      form.classList.remove('was-validated');
+
+      // text inputs + textareas
+      form.querySelectorAll('input:not([type=hidden]):not([type=radio]):not([type=checkbox]), textarea')
+          .forEach(el => { el.value = ''; el.classList.remove('is-invalid'); });
+
+      // uncheck radios/checkboxes
+      form.querySelectorAll('input[type=radio],input[type=checkbox]')
+          .forEach(el => { el.checked = false; el.classList.remove('is-invalid'); });
+
+      // selects
+      form.querySelectorAll('select').forEach(sel => {
+        sel.classList.remove('is-invalid');
+        Array.from(sel.options).forEach(o => (o.selected = false));
+        sel.selectedIndex = -1; // nothing selected
+      });
+
+      // clear any embedded search boxes in the list
+      form.querySelectorAll('.search-row input').forEach(s => {
+        s.value = '';
+        s.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    });
+  }
+
+  ['mdlCreateProgram','mdlCreateCourse','mdlCreateModule'].forEach(clearOnOpen);
+})();
+</script>
+
+<script>
+// Wire “search in modal lists” filters
+(function () {
+  function wireModalFilter(modalId, inputId, listSelector) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    modal.addEventListener('shown.bs.modal', function () {
+      const q = document.getElementById(inputId);
+      const items = Array.from(document.querySelectorAll(listSelector + ' .list-group-item'));
+      if (!q || !items.length) return;
+
+      // reset + focus every time the modal opens
+      q.value = '';
+      q.focus();
+
+      const doFilter = () => {
+        const term = q.value.trim().toLowerCase();
+        let firstVisible = null;
+
+        items.forEach(li => {
+          const hay = li.innerText.toLowerCase();
+          const match = !term || hay.includes(term);
+          li.style.display = match ? '' : 'none';
+          if (match && !firstVisible) firstVisible = li;
+        });
+
+        if (firstVisible) firstVisible.scrollIntoView({ block: 'nearest' });
+      };
+
+      q.oninput = doFilter;
+      q.onkeyup = doFilter;   
+      doFilter();
+    });
+  }
+
+  // Programs
+  wireModalFilter('mdlSelectProgram',        'searchProgramUpd', '#listProgramUpd');
+  wireModalFilter('mdlSelectProgramDelete',  'searchProgramDel', '#listProgramDel');
+
+  // Courses
+  wireModalFilter('mdlSelectCourse',         'searchCourseUpd',  '#listCourseUpd');
+  wireModalFilter('mdlSelectCourseDelete',   'searchCourseDel',  '#listCourseDel');
+
+  // (optional) Modules too, for completeness
+  wireModalFilter('mdlSelectModule',         'searchModuleUpd',  '#listModuleUpd');
+  wireModalFilter('mdlSelectModuleDelete',   'searchModuleDel',  '#listModuleDel');
+})();
+</script>
+
+<script>
+(function () {
+  // add an extra check for Module forms: require at least one CourseCodes checked
+  function needsCourseValidation(form) {
+    const action = (form.getAttribute('action') || '').toLowerCase();
+    return action.endsWith('/createmodule') || action.endsWith('/updatemodule');
+  }
+
+  document.querySelectorAll('.needs-validation').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      if (!needsCourseValidation(form)) return;
+
+      const any = form.querySelectorAll('input[name="CourseCodes"]:checked').length > 0;
+      const msgId = form.id === 'mdlCreateModule' ? 'createModCoursesInvalid' : 'updateModCoursesInvalid';
+      const msg = document.getElementById(msgId);
+
+      if (!any) {
+        e.preventDefault(); e.stopPropagation();
+        msg?.classList.remove('d-none');
+        form.classList.add('was-validated');
+      } else {
+        msg?.classList.add('d-none');
+      }
+    }, false);
+  });
+})();
+</script>
+
+<script>
+// Searchable course list
+(function () {
+  function score(item, q) {
+    if (!q) return 0;
+    const code = (item.dataset.code || '').toLowerCase();
+    const name = (item.dataset.name || '').toLowerCase();
+    if (code === q || name === q) return 1000;
+    if (code.startsWith(q) || name.startsWith(q)) return 800;
+    if (code.includes(q)) return 500;
+    if (name.includes(q)) return 300;
+    return 0;
+  }
+  function makeCourseSearchable(boxId, inputId) {
+    const box = document.getElementById(boxId);
+    const qEl = document.getElementById(inputId);
+    if (!box || !qEl) return;
+    const items = Array.from(box.querySelectorAll('.course-item'));
+    items.forEach((li, i) => li.dataset.idx ??= String(i));
+    function apply() {
+      const q = qEl.value.trim().toLowerCase();
+      items.forEach(li => {
+        const s = score(li, q);
+        li.style.display = q ? (s > 0 ? '' : 'none') : '';
+      });
+      const visible = items.filter(li => li.style.display !== 'none')
+        .sort((a,b) => {
+          const sa = score(a,q), sb = score(b,q);
+          return sa !== sb ? sb - sa :
+            (parseInt(a.dataset.idx||'0') - parseInt(b.dataset.idx||'0'));
+        });
+      visible.forEach(li => box.appendChild(li));
+      if (visible.length) visible[0].scrollIntoView({ block:'nearest' });
+    }
+    qEl.addEventListener('input', apply);
+    qEl.addEventListener('keydown', e => { if (e.key === 'Escape') { qEl.value=''; apply(); }});
+  }
+  makeCourseSearchable('courseList_Create','courseSearch_Create');
+  makeCourseSearchable('courseList_Update','courseSearch_Update');
+})();
+</script>
+
+<script>
+// When user confirms a module to edit from the picker, prefill update modal
+document.getElementById('confirmModuleUpd')?.addEventListener('click', ()=>{
+  const chosen = Array.from(document.querySelectorAll('.single-module')).find(x=>x.checked);
+  if (!chosen) return alert('Please select a module.');
+
+  document.getElementById('ModuleCode_Update').value = chosen.value || '';
+  document.getElementById('ModuleName_Update').value = chosen.dataset.name || '';
+  document.getElementById('ModuleID_Update').value   = chosen.dataset.moduleid || '';
+
+  const codes = (chosen.dataset.courses || '').split('|').filter(Boolean);
+  const box = document.getElementById('courseList_Update');
+  if (box) {
+    box.querySelectorAll('input[name="CourseCodes"]').forEach(cb => {
+      cb.checked = codes.includes(cb.value);
+    });
+  }
+
+  const shown = document.querySelector('.modal.show');
+  if (shown) bootstrap.Modal.getInstance(shown)?.hide();
+  new bootstrap.Modal(document.getElementById('mdlUpdateModule')).show();
+});
+</script>
+
+
+<script>
+//Main toolbar filters
+document.addEventListener('DOMContentLoaded', function () {
+  const pgSel = document.getElementById('fltProgram');
+  const crSel = document.getElementById('fltCourse');
+  const qInp  = document.getElementById('fltSearch');
+
+  const listP = document.getElementById('listPrograms');
+  const listC = document.getElementById('listCourses');
+  const listM = document.getElementById('listModules'); // may be null if not rendered
+
+  if (!(pgSel && crSel && qInp && listP && listC)) return;
+
+  // ——— Build Course - Program map once from the list
+  const courseProgram = {};
+  listC.querySelectorAll('.list-group-item').forEach(li => {
+    courseProgram[(li.dataset.code || '').trim()] = (li.dataset.program || '').trim();
+  });
+
+  // ——— Keep original Course <option>s so we can re-filter them when Program changes
+  const allCourseOptions = Array.from(crSel.options).map(o => o.cloneNode(true));
+
+  function normalize(s) { return (s || '').toLowerCase().trim(); }
+  function textMatch(el, needle) {
+    if (!needle) return true;
+    const hay = normalize(el.dataset.code) + ' ' + normalize(el.dataset.name);
+    return hay.includes(needle);
+  }
+
+  function repopulateCourses(programCode) {
+    const pg = programCode || '';
+    const allOpt = allCourseOptions.find(o => !o.value); // "Course: All"
+    crSel.innerHTML = '';
+    if (allOpt) crSel.appendChild(allOpt.cloneNode(true));
+    allCourseOptions.forEach(opt => {
+      if (!opt.value) return;
+      const belongsTo = (opt.getAttribute('data-program') || '').trim();
+      if (!pg || belongsTo === pg) crSel.appendChild(opt.cloneNode(true));
+    });
+    crSel.value = ''; 
+  }
+
+  function moduleMatchesProgram(modLi, programCode) {
+    if (!programCode) return true;
+    const cs = (modLi.dataset.courses || '').split('|').filter(Boolean);
+    return cs.some(c => courseProgram[c] === programCode);
+  }
+  function moduleMatchesCourse(modLi, courseCode) {
+    if (!courseCode) return true;
+    const cs = (modLi.dataset.courses || '').split('|').filter(Boolean);
+    return cs.includes(courseCode);
+  }
+
+  function applyFilters() {
+    const program = (pgSel.value || '').trim();
+    const course  = (crSel.value || '').trim();
+    const q       = normalize(qInp.value);
+
+    // Programs
+    listP.querySelectorAll('.list-group-item').forEach(li => {
+      const show = (!program || li.dataset.code === program) && textMatch(li, q);
+      li.classList.toggle('d-none', !show);
+    });
+
+    // Courses
+    listC.querySelectorAll('.list-group-item').forEach(li => {
+      const show =
+        (!program || li.dataset.program === program) &&
+        (!course  || li.dataset.code === course) &&
+        textMatch(li, q);
+      li.classList.toggle('d-none', !show);
+    });
+
+    // Modules (if present)
+    if (listM) {
+      listM.querySelectorAll('.list-group-item').forEach(li => {
+        const show =
+          moduleMatchesCourse(li, course) &&
+          (course ? true : moduleMatchesProgram(li, program)) &&
+          textMatch(li, q);
+        li.classList.toggle('d-none', !show);
+      });
+    }
+  }
+
+  // ——— Clicking rows syncs the toolbar
+  listP.addEventListener('click', (e) => {
+    const row = e.target.closest('.list-group-item'); if (!row) return;
+    pgSel.value = row.dataset.code || '';
+    repopulateCourses(pgSel.value);
+    crSel.value = '';
+    applyFilters();
+  });
+
+  listC.addEventListener('click', (e) => {
+    const row = e.target.closest('.list-group-item'); if (!row) return;
+    const prog = row.dataset.program || '';
+    if (pgSel.value !== prog) { pgSel.value = prog; repopulateCourses(prog); }
+    crSel.value = row.dataset.code || '';
+    applyFilters();
+  });
+
+  // ——— Toolbar events
+  pgSel.addEventListener('change', () => { repopulateCourses(pgSel.value); applyFilters(); });
+  crSel.addEventListener('change', applyFilters);
+  qInp .addEventListener('input',  applyFilters);
+
+  // ——— Initial state
+  repopulateCourses('');
+  applyFilters();
+});
+</script>
+
+
+
+<script>
+/* Search inside the Program pickers of CREATE COURSE and UPDATE COURSE */
+(function () {
+  function wireProgramPicker(modalId, inputId, listId) {
+    const modal = document.getElementById(modalId);
+    const list  = document.getElementById(listId);
+    if (!modal || !list) return;
+
+    modal.addEventListener('shown.bs.modal', function () {
+      const q = document.getElementById(inputId);
+      const items = Array.from(list.querySelectorAll('.program-item')); // labels in your list
+      if (!q || !items.length) return;
+
+      // reset + focus each time the modal opens
+      q.value = '';
+      q.focus();
+
+      const apply = () => {
+        const term = q.value.trim().toLowerCase();
+        let firstVisible = null;
+
+        items.forEach(li => {
+          const hay = ((li.dataset.code || '') + ' ' + (li.dataset.name || '')).toLowerCase();
+          const show = !term || hay.includes(term);
+          li.style.display = show ? '' : 'none';
+          if (show && !firstVisible) firstVisible = li;
+        });
+
+        if (firstVisible) firstVisible.scrollIntoView({ block: 'nearest' });
+      };
+
+      // use direct assignment so we don't stack listeners on repeated opens
+      q.oninput = apply;
+      q.onkeyup = apply;
+      apply();
+    });
+  }
+
+  // Wire both modals
+  wireProgramPicker('mdlCreateCourse', 'progSearch_Create', 'progList_Create');
+  wireProgramPicker('mdlUpdateCourse', 'progSearch_Update', 'progList_Update');
+})();
+</script>
+
+}
+

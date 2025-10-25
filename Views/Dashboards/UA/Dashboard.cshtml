@@ -1,0 +1,25 @@
+@{
+    Layout = "~/Views/Shared/_UALayout.cshtml";
+    ViewData["Title"] = "University Admin Dashboard";
+}
+<section class="container py-4">
+    <h2 class="mb-3">University Admin Dashboard</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <a class="card text-decoration-none" asp-controller="UADashboard" asp-action="Catalog">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">Manage Catalog</h5>
+                    <div class="text-muted">Programs • Courses • Modules</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="card text-decoration-none" asp-controller="UADashboard" asp-action="UserMaster">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">Manage Users</h5>
+                    <div class="text-muted">Students • Assessors</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>

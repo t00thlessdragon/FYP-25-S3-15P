@@ -1,0 +1,126 @@
+﻿@model FYP_25_S3_15P.ViewModels.UAProfileVm
+@{
+    Layout = "~/Views/Shared/_UALayout.cshtml";
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container-wide pt-3 pb-5">
+
+    <!-- Header -->
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <img src="@Url.Content(Model.AvatarUrl)" alt="avatar"
+             class="rounded-circle object-fit-cover" width="56" height="56" />
+        <div>
+            <div class="h4 mb-0">@Model.Name</div>
+            <div class="text-muted">@Model.Role</div>
+        </div>
+    </div>
+
+    @if (TempData["Msg"] is string msg)
+    {
+        <div class="alert alert-success">@msg</div>
+    }
+
+    <!-- University Admin Details -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+            <span class="fw-semibold">University Admin Details</span>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-12 col-md-3">
+                    <div class="text-muted small">Name</div>
+                    <div class="fs-6">@Model.Name</div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="text-muted small">Email</div>
+                    <div class="fs-6">@Model.Email</div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="text-muted small">Staff ID</div>
+                    <div class="fs-6">@Model.StaffID</div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="text-muted small">University</div>
+                    <div class="fs-6">@Model.UniName</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Statistics -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+            <span class="fw-semibold">User Statistics</span>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-6 col-sm-4 col-lg">
+                    <div class="text-muted small">No. of Students</div>
+                    <div class="fs-6">@Model.TotalStudents</div>
+                </div>
+
+                <div class="col-6 col-sm-4 col-lg">
+                    <div class="text-muted small">No. of Assessors</div>
+                    <div class="fs-6">@Model.TotalAssessors</div>
+                </div>
+
+                <div class="col-6 col-sm-4 col-lg">
+                    <div class="text-muted small">No. of Supervisors</div>
+                    <div class="fs-6">@Model.TotalSupervisors</div>
+                </div>
+
+                <div class="col-6 col-sm-4 col-lg">
+                    <div class="text-muted small">No. of Subject Coordinators</div>
+                    <div class="fs-6">@Model.TotalSubjectCoordinators</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Academic Statistics -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <span class="fw-semibold">Academic Statistics</span>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-6 col-sm-4">
+                    <div class="text-muted small">Total Programs</div>
+                    <div class="fs-6">@Model.TotalPrograms</div>
+                </div>
+
+                <div class="col-6 col-sm-4">
+                    <div class="text-muted small">Total Courses</div>
+                    <div class="fs-6">@Model.TotalCourses</div>
+                </div>
+
+                <div class="col-6 col-sm-4">
+                    <div class="text-muted small">Total Modules</div>
+                    <div class="fs-6">@Model.TotalModules</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+    .card {
+        border-radius: .75rem;
+    }
+
+    .container-wide {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+</style>

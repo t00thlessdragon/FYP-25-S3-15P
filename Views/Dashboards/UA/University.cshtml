@@ -1,0 +1,442 @@
+@model FYP_25_S3_15P.ViewModels.UniversityConstraintsVm
+@{
+    Layout = "~/Views/Shared/_UALayout.cshtml";
+    ViewData["Title"] = "University";
+}
+
+<div class="container-wide card-xl">
+  <!-- Page header -->
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+    <div>
+      <div class="h4 mb-0">@Model.UniversityName</div>
+      <div class="text-muted">@Model.Abbrev</div>
+    </div>
+
+    <br />
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">University Constraints</span>
+        <button type="button" class="btn btn-dark btn-sm px-3" id="btnEditSave" data-mode="view">
+          Edit
+        </button>
+      </div>
+
+      <div class="card-body">
+        <form id="constraintsForm" class="row g-3" novalidate>
+          @Html.AntiForgeryToken()
+
+          <!-- Hidden keys -->
+          <input type="hidden" name="UniCode" value="@Model.UniCode" />
+          <input type="hidden" name="UniversityName" value="@Model.UniversityName" />
+          <input type="hidden" name="Abbrev" value="@Model.Abbrev" />
+
+          <!-- Year (free input) -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Year <span class="text-danger">*</span></label>
+           <input name="Year" type="number" class="form-control" value="@Model.Year"
+              inputmode="numeric" min="2025" step="1" required disabled />
+          <div class="invalid-feedback">Year must be 2025 or later.</div>
+          </div>
+
+          <!-- Supervisor Load Cap -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Supervisor Load Cap <span class="text-danger">*</span></label>
+            <input name="SupervisorLoadCap" type="number" class="form-control"
+                   value="@Model.SupervisorLoadCap" inputmode="numeric" min="1" step="1" required disabled />
+            <div class="invalid-feedback">Supervisor Load Cap must be a positive number.</div>
+          </div>
+
+          <!-- Assessor Load Cap -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Assessor Load Cap <span class="text-danger">*</span></label>
+            <input name="AssessorLoadCap" type="number" class="form-control"
+                   value="@Model.AssessorLoadCap" inputmode="numeric" min="1" step="1" required disabled />
+            <div class="invalid-feedback">Assessor Load Cap must be a positive number.</div>
+          </div>
+
+          <!-- Preferences Rank Limit -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Preferences Rank Limit <span class="text-danger">*</span></label>
+            <input name="PreferencesRankLimit" type="number" class="form-control"
+                   value="@Model.PreferencesRankLimit" inputmode="numeric" min="1" step="1" required disabled />
+            <div class="invalid-feedback">Preferences Rank Limit must be a positive number.</div>
+          </div>
+
+          <!-- No. of Sessions -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">No. of Session (1–4) <span class="text-danger">*</span></label>
+            <input name="NumSessions" type="number" class="form-control"
+                   value="@Model.NumSessions" min="1" max="4" step="1" inputmode="numeric" required disabled />
+            <div class="invalid-feedback">Please enter a value from 1 to 4.</div>
+          </div>
+
+          <!-- Team Size -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Team Size Per Project <span class="text-danger">*</span></label>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="text-muted small">Min</span>
+              <input name="TeamSizeMin" type="number" class="form-control w-auto"
+                     value="@Model.TeamSizeMin" inputmode="numeric" min="1" step="1" required disabled />
+              <span class="text-muted small">Max</span>
+              <input name="TeamSizeMax" type="number" class="form-control w-auto"
+                     value="@Model.TeamSizeMax" inputmode="numeric" min="1" step="1" required disabled />
+            </div>
+            <div class="invalid-feedback d-block" id="teamSizeError" style="display:none;">
+              Team Size cannot be zero.
+            </div>
+          </div>
+
+          <!-- Date Ranges (From/To calendars) -->
+          <div class="col-12">
+            <div class="text-muted mb-1">Date Range</div>
+            <div class="row g-2">
+
+              <!-- S1 -->
+              <div class="col-12 col-md-6 d-flex gap-2 align-items-center" data-session="1">
+                <input type="hidden" name="S1Label" value="S1" />
+                <input type="hidden" name="S1Range" value="@Model.S1Range" />
+                <span class="form-control w-auto bg-light" style="width:4.5rem; pointer-events:none;">S1</span>
+                <input name="S1From" type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+                <span class="text-muted small">to</span>
+                <input name="S1To"   type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+              </div>
+
+              <!-- S2 -->
+              <div class="col-12 col-md-6 d-flex gap-2 align-items-center" data-session="2">
+                <input type="hidden" name="S2Label" value="S2" />
+                <input type="hidden" name="S2Range" value="@Model.S2Range" />
+                <span class="form-control w-auto bg-light" style="width:4.5rem; pointer-events:none;">S2</span>
+                <input name="S2From" type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+                <span class="text-muted small">to</span>
+                <input name="S2To"   type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+              </div>
+
+              <!-- S3 -->
+              <div class="col-12 col-md-6 d-flex gap-2 align-items-center" data-session="3">
+                <input type="hidden" name="S3Label" value="S3" />
+                <input type="hidden" name="S3Range" value="@Model.S3Range" />
+                <span class="form-control w-auto bg-light" style="width:4.5rem; pointer-events:none;">S3</span>
+                <input name="S3From" type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+                <span class="text-muted small">to</span>
+                <input name="S3To"   type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+              </div>
+
+              <!-- S4 -->
+              <div class="col-12 col-md-6 d-flex gap-2 align-items-center" data-session="4">
+                <input type="hidden" name="S4Label" value="S4" />
+                <input type="hidden" name="S4Range" value="@Model.S4Range" />
+                <span class="form-control w-auto bg-light" style="width:4.5rem; pointer-events:none;">S4</span>
+                <input name="S4From" type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+                <span class="text-muted small">to</span>
+                <input name="S4To"   type="date" class="form-control w-auto" style="min-width: 12rem" required disabled />
+              </div>
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Save Confirmation Modal -->
+<div class="modal fade" id="saveConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="mx-auto mb-3"
+           style="width:88px;height:88px;border-radius:50%;
+                  border:4px solid #cfe9d6;display:flex;align-items:center;justify-content:center;">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+             stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 class="mb-2">Changes saved!</h3>
+      <p class="text-muted mb-3">Your university constraints have been updated.</p>
+      <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">OK</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card { border-radius: .75rem; }
+</style>
+
+@section Scripts{
+<script>
+  // ====== references ======
+  const btn  = document.getElementById('btnEditSave');
+  const form = document.getElementById('constraintsForm');
+
+  function setDisabled(disabled) {
+    form.querySelectorAll('input').forEach(el => {
+      if (el.getAttribute('name')?.startsWith('Uni')) return; // keep keys readonly/hidden
+      el.disabled = disabled;
+    });
+  }
+
+  // ====== session visibility helpers ======
+  function rowFor(name) {
+    const el = form.querySelector(`[name="${name}"]`);
+    return el ? el.closest('.d-flex') : null;
+  }
+  function toggleRow(row, show) {
+    if (!row) return;
+    row.classList.toggle('d-none', !show);
+    row.querySelectorAll('input').forEach(el => el.disabled = !show || (btn.dataset.mode !== 'edit'));
+    // If hidden, drop required so HTML5 validation doesn't block
+    row.querySelectorAll('input[type="date"]').forEach(el => {
+      if (!show) {
+        el.removeAttribute('required');
+      } else {
+        el.setAttribute('required', 'required');
+      }
+    });
+  }
+  function updateSessionRows() {
+    const n = parseInt(form.querySelector('input[name="NumSessions"]').value || '0', 10);
+    const s1 = rowFor('S1From');
+    const s2 = rowFor('S2From');
+    const s3 = rowFor('S3From');
+    const s4 = rowFor('S4From');
+    toggleRow(s1, n >= 1);
+    toggleRow(s2, n >= 2);
+    toggleRow(s3, n >= 3);
+    toggleRow(s4, n >= 4);
+  }
+
+  // ====== SxRange <-> From/To sync ======
+  function fmtRangeString(d1, d2) {
+    if (!d1 || !d2) return '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const fmt = (d) => {
+        const day = d.getDate().toString().padStart(2, '0');
+        const month = months[d.getMonth()];
+        const year = d.getFullYear();
+        return `${day} ${month} ${year}`;
+    };
+    return `${fmt(d1)} - ${fmt(d2)}`;
+  }
+  function parseRangeString(txt) {
+    if (!txt || !txt.includes('-')) return { from: null, to: null };
+    const parts = txt.split('-');
+    const left  = parts.slice(0, parts.length - 1).join('-').trim();
+    const right = parts[parts.length - 1].trim();
+    const tryDate = (s) => {
+      const d = new Date(s);
+      if (!isNaN(d)) return d;
+      try {
+        const [day, mon, year] = s.split(' ');
+        const m = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11}[mon];
+        return (m !== undefined) ? new Date(+year, m, +day) : null;
+      } catch { return null; }
+    };
+    return { from: tryDate(left), to: tryDate(right) };
+  }
+  function toISO(d){ if(!d) return ''; const p=n=>n.toString().padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; }
+
+  function hydrateSession(prefix) {
+    const hidden = form.querySelector(`[name="${prefix}Range"]`);
+    const fromEl = form.querySelector(`[name="${prefix}From"]`);
+    const toEl   = form.querySelector(`[name="${prefix}To"]`);
+    if (!hidden || !fromEl || !toEl) return;
+    const { from, to } = parseRangeString(hidden.value);
+    fromEl.value = from ? toISO(from) : '';
+    toEl.value   = to   ? toISO(to)   : '';
+  }
+  function wireSync(prefix) {
+    const hidden = form.querySelector(`[name="${prefix}Range"]`);
+    const fromEl = form.querySelector(`[name="${prefix}From"]`);
+    const toEl   = form.querySelector(`[name="${prefix}To"]`);
+    if (!hidden || !fromEl || !toEl) return;
+    const sync = () => {
+      const f = fromEl.value ? new Date(fromEl.value) : null;
+      const t = toEl.value   ? new Date(toEl.value)   : null;
+      hidden.value = (f && t) ? fmtRangeString(f, t) : '';
+    };
+    fromEl.addEventListener('change', sync);
+    toEl.addEventListener('change', sync);
+    fromEl.addEventListener('input', sync);
+    toEl.addEventListener('input', sync);
+  }
+  ['S1','S2','S3','S4'].forEach(p => { hydrateSession(p); wireSync(p); });
+
+  // ====== initial state ======
+  setDisabled(true);
+  updateSessionRows();
+
+  // keep rows in sync when NumSessions changes
+  form.querySelector('input[name="NumSessions"]').addEventListener('input', () => {
+    const el = form.querySelector('input[name="NumSessions"]');
+    if (btn.dataset.mode === 'edit') {
+      let v = parseInt(el.value || '0', 10);
+      if (isNaN(v)) v = 1;
+      if (v < 1) v = 1;
+      if (v > 4) v = 4;
+      el.value = v;
+    }
+    updateSessionRows();
+  });
+
+
+  // keep Year ≥ 2025 while typing (unchanged as requested)
+  const yearEl = form.querySelector('input[name="Year"]');
+  if (yearEl) {
+    yearEl.addEventListener('input', () => {
+      if (btn.dataset.mode !== 'edit') return;
+      let v = parseInt(yearEl.value || '0', 10);
+      if (isNaN(v) || v < 2025) v = 2025;
+      yearEl.value = v;
+    });
+  }
+
+  // ====== validation helpers ======
+  function setInvalid(input, message) {
+    input.classList.add('is-invalid');
+    const fb = input.nextElementSibling;
+    if (fb && fb.classList.contains('invalid-feedback')) fb.textContent = message;
+  }
+  function clearInvalid(input) {
+    input.classList.remove('is-invalid');
+  }
+
+  function validateRequired() {
+  // visible, non-hidden inputs
+  const inputs = Array.from(form.querySelectorAll('input'))
+    .filter(i => !i.disabled && i.type !== 'hidden');
+
+  let ok = true;
+
+  // base required check
+  inputs.forEach(i => {
+    if (i.hasAttribute('required') && !i.value) {
+      setInvalid(i, 'This field is required.');
+      ok = false;
+    } else {
+      clearInvalid(i);
+    }
+  });
+
+  // ---- numeric > 0 checks (0 is NOT allowed) ----
+  function mustBePositive(name, label) {
+    const el = form.querySelector(`input[name="${name}"]`);
+    if (!el || el.disabled) return true;
+    const v = Number(el.value);
+    if (isNaN(v) || v <= 0) {
+      // show a clear error when value is 0 or negative
+      setInvalid(el, `${label} must be greater than 0.`);
+      return false;
+    }
+    clearInvalid(el);
+    return true;
+  }
+  ok = mustBePositive('SupervisorLoadCap',   'Supervisor Load Cap')   && ok;
+  ok = mustBePositive('AssessorLoadCap',     'Assessor Load Cap')     && ok;
+  ok = mustBePositive('PreferencesRankLimit','Preferences Rank Limit')&& ok;
+  ok = mustBePositive('NumSessions',         'No. of Session')        && ok;
+  ok = mustBePositive('TeamSizeMin',         'Team Size Min')         && ok;
+  ok = mustBePositive('TeamSizeMax',         'Team Size Max')         && ok;
+
+  // ---- NumSessions bounds (still 1..4) ----
+  const nsEl = form.querySelector('input[name="NumSessions"]');
+  const ns = parseInt(nsEl.value || '0', 10);
+  if (isNaN(ns) || ns < 1 || ns > 4) {
+    setInvalid(nsEl, 'Please enter a value from 1 to 4.');
+    ok = false;
+  } else {
+    clearInvalid(nsEl);
+  }
+
+  // ---- Team size relation (both >0 already checked; ensure Min ≤ Max) ----
+  const min = Number(form.TeamSizeMin.value || '0');
+  const max = Number(form.TeamSizeMax.value || '0');
+  const relOk = (!isNaN(min) && !isNaN(max) && min <= max);
+  document.getElementById('teamSizeError').style.display = relOk ? 'none' : 'block';
+  if (!relOk) ok = false;
+
+  // ---- For each visible session, both dates must be present and From ≤ To ----
+  function checkPair(p){
+    const from = form[`${p}From`], to = form[`${p}To`];
+    if (!from.disabled) {
+      if (!from.value) { setInvalid(from, 'Required.'); ok=false; } else clearInvalid(from);
+      if (!to.value)   { setInvalid(to,   'Required.'); ok=false; } else clearInvalid(to);
+      if (from.value && to.value && new Date(from.value) > new Date(to.value)) {
+        setInvalid(to, 'End date must be after start date.');
+        ok = false;
+      }
+    }
+  }
+  if (ns >= 1) checkPair('S1');
+  if (ns >= 2) checkPair('S2');
+  if (ns >= 3) checkPair('S3');
+  if (ns >= 4) checkPair('S4');
+
+  // ---- Year must be >= 2025 (kept as-is) ----
+  const yearInput = form.querySelector('input[name="Year"]');
+  const y = parseInt(yearInput.value || '0', 10);
+  if (isNaN(y) || y < 2025) {
+    setInvalid(yearInput, 'Year must be 2025 or later.');
+    ok = false;
+  } else {
+    clearInvalid(yearInput);
+  }
+
+  return !!ok;
+}
+
+
+  // ====== Edit/Save toggle ======
+  btn.addEventListener('click', async () => {
+    const mode = btn.dataset.mode || 'view';
+
+    if (mode === 'view') {
+      btn.dataset.mode = 'edit';
+      btn.textContent = 'Save';
+      setDisabled(false);
+      updateSessionRows();
+      return;
+    }
+
+    // SAVE
+    if (!validateRequired()) {
+      const firstInvalid = form.querySelector('.is-invalid');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    // Produce JSON body (includes hidden SxRange kept in sync)
+    const payload = Object.fromEntries(new FormData(form).entries());
+    const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+    try {
+      const res = await fetch('@Url.Action("SaveConstraints","UADashboard")', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'RequestVerificationToken': token
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error(await res.text());
+
+      // Back to view mode
+      setDisabled(true);
+      btn.dataset.mode = 'view';
+      btn.textContent = 'Edit';
+      updateSessionRows();
+
+      // Confirmation (Bootstrap modal)
+      const mEl = document.getElementById('saveConfirmModal');
+      const m = new bootstrap.Modal(mEl, { backdrop: 'static', keyboard: false });
+      m.show();
+
+    } catch (e) {
+      alert('Save failed: ' + (e?.message || e));
+    }
+  });
+</script>
+}
+
+

@@ -1,0 +1,157 @@
+@* Views/Shared/_UniAdminLayout.cshtml *@
+@{
+    Layout = null;
+
+    // Current route info
+    var currentAction     = (ViewContext.RouteData.Values["action"]?.ToString() ?? "");
+    var currentController = (ViewContext.RouteData.Values["controller"]?.ToString() ?? "");
+
+    // Helper: mark active when action name matches (case-insensitive)
+    Func<string, string> isActiveByAction = a =>
+        currentAction.Equals(a, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+
+    // Optional helper: mark active when controller + action both match
+    Func<string, string, string> isActive = (ctrl, act) =>
+        (currentController.Equals(ctrl, StringComparison.OrdinalIgnoreCase)
+        && currentAction.Equals(act, StringComparison.OrdinalIgnoreCase)) ? "active" : "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] SMART – Uni Admin</title>
+    <link rel="stylesheet" href="~/css/choices.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-nav fixed-top shadow-sm">
+      <div class="container-wide nav-grid">
+
+        <!-- Brand (link to Uni Admin Dashboard) -->
+        <a class="navbar-brand p-0 me-3"
+           asp-controller="UADashboard" asp-action="Index">
+          <img src="~/images/smartlogo.png" alt="SMART" class="brand-logo" />
+        </a>
+
+        <!-- Toggler (mobile) -->
+        <button class="navbar-toggler d-lg-none ms-auto" type="button"
+                data-bs-toggle="collapse" data-bs-target="#uaNav"
+                aria-controls="uaNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- CENTER (desktop): Uni Admin tabs -->
+        <ul class="navbar-nav nav-center d-none d-lg-flex">
+          <li class="nav-item">
+            <a class="nav-link @isActive("UADashboard","Index")"
+               asp-controller="UADashboard" asp-action="Index">
+               Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link @isActive("UADashboard","UserMaster")"
+               asp-controller="UADashboard" asp-action="UserMaster">
+               User
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link @isActive("UADashboard","Catalog")"
+               asp-controller="UADashboard" asp-action="Catalog">
+               Catalog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link @isActive("UADashboard","University")"
+               asp-controller="UADashboard" asp-action="University">
+               University
+            </a>
+          </li>
+        </ul>
+
+        <!-- RIGHT (desktop): user dropdown -->
+        <div class="d-none d-lg-flex align-items-center ms-3">
+          @if (User?.Identity?.IsAuthenticated ?? false)
+          {
+              var displayName = User.Identity?.Name ?? "Uni Admin";
+              <div class="dropdown">
+                <a class="nav-link dropdown-toggle fw-semibold" href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  Welcome, @displayName
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item"
+                       asp-controller="UADashboard" asp-action="Profile">Profile</a>
+                  </li>
+                  <li><a class="dropdown-item" href="mailto:support@smart.local">Contact Support</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="px-3">
+                      @Html.AntiForgeryToken()
+                      <button type="submit" class="btn btn-link text-danger p-0">
+                        <i class="bi bi-power"></i> Logout
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+          }
+        </div>
+
+        <!-- MOBILE collapse -->
+        <div class="collapse d-lg-none mt-2" id="uaNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link @isActiveByAction("Dashboard")"
+                 asp-controller="UniversityAdmin" asp-action="Dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link @isActiveByAction("Users")"
+                 asp-controller="UniversityAdmin" asp-action="Users">User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link @isActiveByAction("Catalog")"
+                 asp-controller="UniversityAdmin" asp-action="Catalog">Catalog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link @isActiveByAction("University")"
+                 asp-controller="UniversityAdmin" asp-action="University">University</a>
+            </li>
+
+            @if (User?.Identity?.IsAuthenticated ?? false)
+            {
+              <li><hr class="dropdown-divider" /></li>
+              <li class="nav-item px-2 text-muted">Welcome, @User.Identity!.Name</li>
+              <li class="nav-item">
+                <form asp-controller="Account" asp-action="Logout" method="post" class="px-2 my-2">
+                  @Html.AntiForgeryToken()
+                  <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-power"></i> Logout
+                  </button>
+                </form>
+              </li>
+            }
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- push content below fixed nav -->
+    <main class="pt-nav">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/choices.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/features-admin.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

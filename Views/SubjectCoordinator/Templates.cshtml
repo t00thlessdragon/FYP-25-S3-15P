@@ -1,0 +1,1205 @@
+@model IEnumerable<FYP_25_S3_15P.ViewModels.TemplateRowVm>
+@{
+    Layout = "~/Views/Shared/_SubjectCoordinatorLayout.cshtml";
+    var programs = (IEnumerable<SelectListItem>)ViewBag.ProgramList ?? [];
+    var modules  = (IEnumerable<SelectListItem>)ViewBag.ModuleList ?? [];
+}
+
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Project Templates</h2>
+      <div class="d-flex gap-2">
+        <a asp-action="TemplateCsv" class="btn btn-outline-secondary">
+          <i class="bi bi-file-earmark-text me-1"></i> Template CSV
+        </a>
+       <form id="csvUploadForm" asp-action="UploadTemplatesCsv" method="post" enctype="multipart/form-data" class="visually-hidden">
+  @Html.AntiForgeryToken()
+  <input type="file" id="csvFile" name="file" accept=".csv,text/csv" />
+</form>
+
+<a href="javascript:void(0)" class="btn btn-primary" id="btnUploadCsv"><i class="bi bi-upload me-1"></i> Upload CSV</a>
+<script>
+(() => {
+
+  const elOK   = document.getElementById('imp-ok');
+  const elWarn = document.getElementById('imp-warn');
+  const elErr  = document.getElementById('imp-err');
+
+  function showResult({ ok, summary, warnings = [], errors = [] }) {
+    elOK.classList.add('d-none'); elWarn.classList.add('d-none'); elErr.classList.add('d-none');
+    if (ok && summary) {
+      elOK.textContent = `Inserted ${summary.inserted ?? 0}, Updated ${summary.updated ?? 0}.`;
+      elOK.classList.remove('d-none');
+    }
+    if (warnings.length) {
+      elWarn.innerHTML = '<ul>' + warnings.map(w => `<li>${w}</li>`).join('') + '</ul>';
+      elWarn.classList.remove('d-none');
+    }
+    if (errors.length) {
+      elErr.innerHTML = '<ul>' + errors.map(e => `<li>${e}</li>`).join('') + '</ul>';
+      elErr.classList.remove('d-none');
+    }
+    modal.show();
+    if (ok && (!errors || errors.length === 0)) {
+      document.getElementById('tplImportResultModal')
+        .addEventListener('hidden.bs.modal', () => location.reload(), { once: true });
+    }
+  }
+
+  btn.addEventListener('click', () => fileInput.click());
+
+  fileInput.addEventListener('change', async () => {
+    if (!fileInput.files.length) return;
+
+    const fd = new FormData(form);               
+fd.append('allowUpdates', 'true');           
+
+    try {
+      const res  = await fetch(form.action, {
+        method: 'POST',
+        body: fd,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
+      });
+
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('application/json')) {
+        const text = await res.text();
+        throw new Error(text || 'Unexpected response.');
+      }
+      const data = await res.json();
+
+      if (!res.ok || data.ok === false)
+        showResult({ ok:false, warnings: data.warnings || [], errors: data.errors || ['Upload failed.'] });
+      else
+        showResult({ ok:true, summary: data.summary || { inserted:0, updated:0 }, warnings: data.warnings || [] });
+
+    } catch (err) {
+      showResult({ ok:false, errors: [String(err.message || err)] });
+    } finally {
+      form.reset();
+    }
+  });
+})();
+</script>
+
+
+  @* <a href="javascript:void(0)" class="btn btn-dark" id="btnOpenCreate">
+  <i class="bi bi-plus-lg me-1"></i> Templates
+  </a> *@
+
+  <button class="btn btn-outline-danger" id="btnDeleteSelected">
+      <i class="bi bi-trash me-1"></i> Delete
+    </button>
+      </div>
+    </div>
+
+    <!-- Filters + search -->
+<form id="filtersForm" class="row g-2 align-items-center mb-4">
+  <div class="col-12 col-lg-3">
+    <select id="fltProgramme" class="form-select">
+      <option value="">All programmes</option>
+      @foreach (var p in programs) { <option value="@p.Value">@p.Text</option> }
+    </select>
+  </div>
+
+  <div class="col-12 col-lg-3">
+    <select id="fltModule" class="form-select">
+      <option value="">All modules</option>
+      @foreach (var m in modules) { <option value="@m.Value">@m.Text</option> }
+    </select>
+  </div>
+
+  <div class="col-12 col-lg-3">
+    <select id="fltStatus" class="form-select">
+      <option value="">Any status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+      <option value="Draft">Draft</option>
+    </select>
+  </div>
+
+  <div class="col-12 col-lg-3">
+    <div class="input-group">
+      <input id="fltSearch" class="form-control" placeholder="Search by ID or Title…" />
+      <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+      <button class="btn btn-outline-secondary" type="button" id="btnResetFilters">Clear</button>
+    </div>
+  </div>
+</form>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle w-100">
+        <thead class="table-dark">
+          <tr>
+           <th style="width:4%; text-align:center;">
+        <input type="checkbox" id="selectAllCheckbox" />
+      </th>
+            <th style="width:12%;">Template ID</th>
+            <th style="width:28%;">Project Title</th>
+            <th style="width:20%;">Programme</th>
+            <th style="width:26%;">Expertise (Module)</th>
+            <th style="width:10%;">Status</th>
+            <th class="actions-col text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+@foreach (var r in Model)
+{
+    <tr class="tpl-row"
+    data-id="@r.TemplateId"
+    data-title="@r.Title"
+    data-programme="@r.Programme"
+    data-status="@((r.Status ?? "").ToLower())"
+    data-modules='@string.Join("|", r.Modules ?? new List<string>())'>
+     <td>
+          <input type="checkbox" class="rowCheckbox" value="@r.TemplateId" />
+        </td>
+        <td class="text-muted">@r.TemplateId</td>
+        <td class="fw-semibold">@r.Title</td>
+        <td>
+  @{
+      var progLabel = programs.FirstOrDefault(x => x.Value == r.Programme)?.Text ?? r.Programme;
+    var statusClass = (r.Status ?? "").ToLower() switch {
+        "active"   => "text-bg-success",
+        "inactive" => "text-bg-danger",
+        "draft"    => "text-bg-primary",
+        _          => "text-bg-secondary"
+    };
+  }
+  @progLabel
+</td>
+
+        <td>
+  <div class="tags d-flex flex-wrap gap-2">
+  @if (r.Modules != null && r.Modules.Count > 0)
+  {
+      foreach (var code in r.Modules)
+      {
+          var label = modules.FirstOrDefault(x => x.Value == code)?.Text ?? code;
+          <span class="badge rounded-pill bg-secondary-subtle text-dark border px-3 py-2">
+              @label
+          </span>
+      }
+  }
+  </div>
+</td>
+
+        <td>
+            <span class="badge rounded-pill @statusClass">@r.Status</span>
+        </td>
+        <td class="text-end actions-cell">
+            <span class="actions-wrap">
+                <!-- VIEW -->
+                <button type="button"
+                        class="btn btn-dark btn-sm px-3 js-view-template"
+                        data-id="@r.TemplateId"
+                        data-title="@r.Title"
+                        data-programme="@r.Programme"
+                        data-modules="@string.Join(", ", r.Modules ?? new List<string>())"
+                        data-status="@r.Status"
+                        data-desc="@r.Description">
+                    View
+                </button>
+
+                <!-- EDIT -->
+                <button type="button"
+                        class="btn btn-dark btn-sm px-3 js-edit-template"
+                        data-id="@r.TemplateId"
+                        data-title="@r.Title"
+                        data-programme="@r.Programme"
+                        data-modules='@System.Text.Json.JsonSerializer.Serialize(r.Modules ?? new List<string>())'
+                        data-status="@r.Status"
+                        data-desc='@r.Description'>
+                    Edit
+                </button>
+            </span>
+        </td>
+    </tr>
+}
+</tbody>
+
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Details Modal (View) ===== -->
+<div class="modal fade" id="tplViewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold">Project Templates</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body pt-3 sc-view">
+
+  <div class="sc-row">
+    <div class="sc-label">Template ID:</div>
+    <div id="v-id"></div>
+  </div>
+
+  <div class="sc-row">
+    <div class="sc-label">Project Title:</div>
+    <div id="v-title" class="fw-semibold"></div>
+  </div>
+
+  <div class="sc-row sm">
+    <div class="sc-label">Programme:</div>
+    <div id="v-programme"></div>
+  </div>
+
+  <div class="sc-row">
+    <div class="sc-label">Expertise (Module):</div>
+    <div id="v-modules"></div>
+  </div>
+
+  <div class="sc-row sm">
+    <div class="sc-label">Status:</div>
+    <div id="v-status"></div>
+  </div>
+
+  <div class="sc-row desc">
+    <div class="sc-label">Project Description:</div>
+    <div id="v-desc"></div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== EDIT TEMPLATE ===== -->
+<div class="modal fade" id="tplEditModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold">Edit Project Templates</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form id="tplEditForm" class="modal-body pt-3 sc-form" novalidate>
+  @Html.AntiForgeryToken()
+
+  <div class="sc-row">
+    <div class="sc-label">Template ID:</div>
+    <div>
+      <span id="e-id-txt"></span>
+      <input type="hidden" id="e-id" name="TemplateId" />
+    </div>
+  </div>
+
+  <div class="sc-row">
+    <label class="sc-label">Project Title:<span class="req-star">*</span></label>
+    <div>
+      <input id="e-title" name="Title" class="form-control" required />
+      <div class="invalid-feedback">Title is required.</div>
+    </div>
+  </div>
+
+  <div class="sc-row sm">
+    <label class="sc-label">Programme:<span class="req-star">*</span></label>
+    <div>
+      <select id="e-programme" name="Programme" class="form-select w-auto d-inline-block">
+  @foreach (var p in programs) { <option value="@p.Value">@p.Text</option> }
+</select>
+
+    </div>
+  </div>
+
+  <div class="sc-row">
+    <label class="sc-label">Expertise (Module):<span class="req-star">*</span></label>
+    <div>
+    <select id="e-module-picker" class="form-select w-auto d-inline-block align-text-bottom">
+      <option value="" selected disabled>Choose a module…</option>
+      @foreach (var m in modules) { <option value="@m.Value">@m.Text</option> }
+    </select>
+    <div id="e-module-error" class="invalid-feedback d-none">
+      Please select at least one module.
+    </div>
+
+    <div id="e-module-chips" class="chips mt-2"></div>
+    <input type="hidden" id="e-modules" name="ModulesCsv" />
+    <div class="form-text">Pick a module then it appears as a chip. Click ✕ to remove.</div>
+  </div>
+  </div>
+
+  <div class="sc-row sm">
+    <label class="sc-label">Status:<span class="req-star">*</span></label>
+    <div>
+      <select id="e-status" name="Status" class="form-select w-auto d-inline-block">
+        <option>Active</option><option>Inactive</option><option>Draft</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sc-row desc">
+    <label class="sc-label">Project Description:<span class="req-star">*</span></label>
+    <div>
+      <textarea id="e-desc" name="Description" rows="6" class="form-control" required></textarea>
+      <div class="invalid-feedback">Description is required.</div>
+    </div>
+  </div>
+
+  <div class="modal-footer border-0 px-0">
+    <button type="submit" class="btn btn-dark px-4">Save</button>
+  </div>
+</form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== CREATE TEMPLATE ===== -->
+<div class="modal fade" id="tplCreateModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold">Create Project Templates</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form id="tplCreateForm" class="modal-body pt-3 sc-form" novalidate>
+  @Html.AntiForgeryToken()
+
+  <div class="sc-row">
+  <label class="sc-label">Template ID:<span class="req-star">*</span></label>
+  <div>
+    <input id="c-id" name="TemplateId" class="form-control" placeholder="e.g. TP003" required />
+    <div class="invalid-feedback">Template ID is required.</div>
+  </div>
+</div>
+
+
+  <div class="sc-row">
+    <label class="sc-label">Project Title:<span class="req-star">*</span></label>
+    <div>
+      <input id="c-title" name="Title" class="form-control" required />
+      <div class="invalid-feedback">Title is required.</div>
+    </div>
+  </div>
+
+  <div class="sc-row sm">
+    <label class="sc-label">Programme:<span class="req-star">*</span></label>
+    <div>
+      <select id="c-programme" class="form-select w-auto d-inline-block">
+  @foreach (var p in programs) { <option value="@p.Value">@p.Text</option> }
+</select>
+
+    </div>
+  </div>
+
+  <div class="sc-row">
+    <label class="sc-label">Expertise (Module):<span class="req-star">*</span></label>
+     <div>
+    <select id="c-module-picker" class="form-select w-auto d-inline-block">
+      <option value="" selected disabled>Choose a module…</option>
+      @foreach (var m in modules) { <option value="@m.Value">@m.Text</option> }
+    </select>
+    <div id="c-module-error" class="invalid-feedback d-none">
+      Please select at least one module.
+    </div>
+
+    <div id="c-module-chips" class="chips mt-2"></div>
+    <input type="hidden" id="c-modules" name="ModulesCsv" />
+  </div>
+  </div>
+
+  <div class="sc-row sm">
+    <label class="sc-label">Status:<span class="req-star">*</span></label>
+    <div>
+      <select id="c-status" name="Status" class="form-select w-auto d-inline-block">
+        <option selected>Active</option><option>Inactive</option><option>Draft</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sc-row desc">
+    <label class="sc-label">Project Description:<span class="req-star">*</span></label>
+    <div>
+      <textarea id="c-desc" name="Description" rows="6" class="form-control" required></textarea>
+      <div class="invalid-feedback">Description is required.</div>
+    </div>
+  </div>
+
+  <div class="modal-footer border-0 px-0">
+    <button type="button" class="btn btn-dark px-4" data-bs-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-dark px-4">Save</button>
+  </div>
+</form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== success confirmation ===== -->
+<div class="modal fade" id="tplSavedModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="mx-auto mb-3"
+           style="width:88px;height:88px;border-radius:50%;
+                  border:4px solid #cfe9d6;display:flex;align-items:center;justify-content:center;">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+             stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <!-- make these dynamic -->
+      <h3 class="mb-2" id="confirmTitle">Changes saved!</h3>
+      <p class="text-muted mb-3" id="confirmText">Project template has been updated.</p>
+      <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload result (success) -->
+<div class="modal fade" id="mdlUploadResult" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Upload complete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="uploadSummaryBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload errors -->
+<div class="modal fade" id="mdlUploadErrors" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-semibold">Upload failed</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger mb-2">Please fix the following issues and re-upload:</p>
+        <ul class="mb-0" id="uploadErrorsList"></ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 🗑 Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="deleteConfirmLabel">
+          <i class="bi bi-trash-fill text-danger me-2"></i> Confirm Deletion
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body text-center">
+        <p class="fs-5 mb-0">
+          Are you sure you want to delete
+          <span id="deleteCount" class="fw-bold text-danger">0</span>
+          selected template(s)?
+        </p>
+      </div>
+
+      <div class="modal-footer border-0 justify-content-center">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger px-4" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  /* General grid structure */
+  .sc-form .sc-row,
+  .sc-view .sc-row {
+    display: grid;
+    grid-template-columns: 180px 1fr; /* label | value */
+    gap: 12px;
+    align-items: start;   /* top-align for multi-line text */
+    margin-bottom: 10px;
+  }
+
+  .sc-form .sc-label,
+  .sc-view .sc-label {
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .sc-form .desc,
+  .sc-view .desc {
+    grid-column: 1 / -1; /* make description full width */
+  }
+
+  .sc-view {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .sc-view .fw-semibold {
+    font-weight: 600;
+  }
+
+  .modal-header { border: 0; padding-bottom: 0; }
+  .modal-content { border: 0; border-radius: .75rem; }
+
+  @@media (max-width: 768px) {
+    .sc-form .sc-row,
+    .sc-view .sc-row {
+      grid-template-columns: 1fr;
+    }
+    .sc-form .desc,
+    .sc-view .desc {
+      grid-column: auto;
+    }
+  }
+
+   .actions-col { width: 12%; }                  /* a touch wider than 10% */
+  .actions-cell { white-space: nowrap; }        /* never wrap buttons */
+  .actions-wrap { display: inline-flex; gap:.5rem; }  /* keep on same row with spacing */
+  @@media (max-width: 992px){
+    .actions-col { width: 16%; }                /* give a bit more room on md screens */
+  }
+
+  
+  .tags .badge{ font-weight:500; }
+
+
+  .req-star{ color:#dc3545; margin-left:.25rem; }
+
+
+
+
+</style>
+
+
+
+
+@section Scripts{
+  <!-- VIEW modal: show modules as "CODE Name" tags -->
+  <script>
+  (function () {
+    const modalEl = document.getElementById('tplViewModal');
+    const modal   = new bootstrap.Modal(modalEl);
+
+    function parseCodes(str){
+      if (!str) return [];
+      return str.split(/[,\|]/).map(s => s.trim()).filter(Boolean);
+    }
+    function codeToLabel(code){
+      const opt = document.querySelector(`#c-module-picker option[value="${code}"]`)
+               || document.querySelector(`#e-module-picker option[value="${code}"]`);
+      return opt ? opt.textContent : code; // fallback to code
+    }
+    function progCodeToLabel(code){
+    const opt = document.querySelector(`#c-programme option[value="${code}"]`)
+             || document.querySelector(`#e-programme option[value="${code}"]`);
+    return opt ? opt.textContent : code;
+  }
+    function renderViewTags(container, codes){
+      container.innerHTML = '';
+      codes.forEach(c => {
+        const tag = document.createElement('span');
+        tag.className = 'badge rounded-pill bg-secondary-subtle text-dark border px-3 py-2 me-2 mb-2';
+        tag.textContent = codeToLabel(c);
+        container.appendChild(tag);
+      });
+    }
+
+    function badgeClassFor(status){
+  const s = (status || '').toLowerCase();
+  if (s === 'active')   return 'text-bg-success';
+  if (s === 'inactive') return 'text-bg-danger';
+  if (s === 'draft')    return 'text-bg-primary';
+  return 'text-bg-secondary';
+}
+
+function fillAndShow(btn) {
+  document.getElementById('v-id').textContent    = btn.dataset.id ?? '';
+  document.getElementById('v-title').textContent = btn.dataset.title ?? '';
+
+  // Programme: convert code -> "CODE - Name"
+  const progLabel = progCodeToLabel(btn.dataset.programme || '');
+  document.getElementById('v-programme').textContent = progLabel;
+
+  // Status: colored badge
+  const st = btn.dataset.status || '';
+  document.getElementById('v-status').innerHTML =
+    `<span class="badge rounded-pill ${badgeClassFor(st)}">${st}</span>`;
+
+  document.getElementById('v-desc').textContent  = btn.dataset.desc ?? '';
+
+  const mods = parseCodes(btn.dataset.modules);
+  renderViewTags(document.getElementById('v-modules'), mods);
+  modal.show();
+}
+
+
+    function fillAndShow(btn) {
+      document.getElementById('v-id').textContent        = btn.dataset.id ?? '';
+      document.getElementById('v-title').textContent     = btn.dataset.title ?? '';
+      document.getElementById('v-programme').textContent = btn.dataset.programme ?? '';
+      document.getElementById('v-status').textContent    = btn.dataset.status ?? '';
+      document.getElementById('v-desc').textContent      = btn.dataset.desc ?? '';
+
+      const mods = parseCodes(btn.dataset.modules);
+      renderViewTags(document.getElementById('v-modules'), mods);
+      modal.show();
+    }
+
+    document.addEventListener('click', function (e) {
+      const target = e.target.closest('.js-view-template');
+      if (target) {
+        e.preventDefault();
+        fillAndShow(target);
+      }
+    });
+  })();
+  </script>
+
+
+<script>
+// ===== Live duplicate checks in CREATE modal =====
+(function(){
+  const idInput    = document.getElementById('c-id');
+  const titleInput = document.getElementById('c-title');
+  const saveBtn    = document.querySelector('#tplCreateForm button[type="submit"]');
+
+  // inline error placeholders
+  const idErr    = document.createElement('div');
+  idErr.className = 'text-danger small mt-1';
+  idInput.insertAdjacentElement('afterend', idErr);
+
+  const titleErr = document.createElement('div');
+  titleErr.className = 'text-danger small mt-1';
+  titleInput.insertAdjacentElement('afterend', titleErr);
+
+  let timer;
+  async function runCheck(){
+    const idVal = (idInput.value || '').trim().toUpperCase();
+    const titleVal = (titleInput.value || '').trim();
+    if (!idVal && !titleVal) { idErr.textContent=''; titleErr.textContent=''; saveBtn.disabled=false; return; }
+
+    try{
+      const res = await fetch(`/SubjectCoordinator/CheckTemplateExists?id=${encodeURIComponent(idVal)}&title=${encodeURIComponent(titleVal)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      idErr.textContent    = data.idExists ? '⚠️ This Template ID already exists.' : '';
+      titleErr.textContent = data.titleExists ? '⚠️ This Title already exists.' : '';
+      saveBtn.disabled = !!(data.idExists || data.titleExists);
+    }catch{ /* ignore */ }
+  }
+  function debounced(){ clearTimeout(timer); timer = setTimeout(runCheck, 350); }
+
+  idInput.addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); debounced(); });
+  titleInput.addEventListener('input', debounced);
+
+  // Extra: enforce all fields before submit (modules included)
+  document.getElementById('tplCreateForm').addEventListener('submit', (ev) => {
+    const id = idInput.value.trim();
+    const title = titleInput.value.trim();
+    const desc = document.getElementById('c-desc').value.trim();
+    const modulesCsv = document.getElementById('c-modules').value.trim(); // chips write codes here
+    const ok = id && title && desc && modulesCsv; // programme & status are selects, always have value
+    if (!ok || saveBtn.disabled){
+      ev.preventDefault();
+      // highlight basics
+      idInput.classList.toggle('is-invalid', !id);
+      titleInput.classList.toggle('is-invalid', !title);
+      document.getElementById('c-desc').classList.toggle('is-invalid', !desc);
+      
+    }
+  });
+})();
+</script>
+
+<script>
+/* ===== Edit / Create modal wiring (chips + open + submit) ===== */
+(() => {
+  // ---------- helpers ----------
+  function parseModulesFromData(attr) {
+    try { const a = JSON.parse(attr || '[]'); return Array.isArray(a) ? a : []; }
+    catch { return (attr || '').split(/[|,]/).map(s => s.trim()).filter(Boolean); }
+  }
+  function labelForCode(code) {
+    const opt = document.querySelector(`#c-module-picker option[value="${code}"]`)
+             || document.querySelector(`#e-module-picker option[value="${code}"]`);
+    return opt ? opt.textContent : code;
+  }
+  function renderChips(chipsBox, hiddenInput, codes) {
+    chipsBox.innerHTML = '';
+    codes.forEach(code => {
+      const badge = document.createElement('span');
+      badge.className = 'badge rounded-pill bg-secondary-subtle text-dark border px-3 py-2 me-2 mb-2';
+      badge.innerHTML = `${labelForCode(code)} <button type="button" class="btn-close ms-1" data-value="${code}" aria-label="Remove" style="opacity:.6;"></button>`;
+      chipsBox.appendChild(badge);
+    });
+    hiddenInput.value = codes.join('|');
+  }
+
+  function setModuleValidity(prefix, isValid){
+  const picker = document.getElementById(`${prefix}-module-picker`);
+  const chips  = document.getElementById(`${prefix}-module-chips`);
+  const err    = document.getElementById(`${prefix}-module-error`);
+  if (isValid){
+    picker.classList.remove('is-invalid');
+    err?.classList.add('d-none');
+    chips?.classList.remove('invalid');
+  }else{
+    picker.classList.add('is-invalid');
+    err?.classList.remove('d-none');
+    chips?.classList.add('invalid');
+  }
+}
+
+function currentModules(prefix){
+  return (document.getElementById(`${prefix}-modules`).value || '')
+         .split('|').filter(Boolean);
+}
+
+  function attachChipPicker(picker, chipsBox, hiddenInput, onChanged) {
+  picker?.addEventListener('change', () => {
+    const v = picker.value;
+    if (!v) return; // first disabled option
+    const cur = (hiddenInput.value || '').split('|').filter(Boolean);
+    if (!cur.includes(v)) cur.push(v);
+    renderChips(chipsBox, hiddenInput, cur);
+    picker.value = ''; // back to placeholder
+    onChanged?.(cur);
+  });
+
+  chipsBox?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-close');
+    if (!btn) return;
+    const v = btn.getAttribute('data-value');
+    const cur = (hiddenInput.value || '').split('|').filter(Boolean).filter(x => x !== v);
+    renderChips(chipsBox, hiddenInput, cur);
+    onChanged?.(cur);
+  });
+}
+
+  function getToken(formEl) {
+    const el = formEl.querySelector('input[name="__RequestVerificationToken"]')
+           || document.querySelector('input[name="__RequestVerificationToken"]');
+    return el ? el.value : '';
+  }
+  async function postForm(url, token, fields, moduleCodes) {
+    const body = new URLSearchParams();
+    Object.entries(fields).forEach(([k,v]) => body.append(k, v ?? ''));
+    (moduleCodes || []).forEach(c => body.append('Modules', c)); // sends repeated Modules=... values
+    if (token) body.append('__RequestVerificationToken', token);
+    const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+    if (!res.ok) throw new Error(await res.text());
+    return res;
+  }
+
+  // ---------- chip pickers (both modals) ----------
+  attachChipPicker(
+    document.getElementById('e-module-picker'),
+    document.getElementById('e-module-chips'),
+    document.getElementById('e-modules'),
+    (cur) => setModuleValidity('e', cur.length > 0)
+  );
+  attachChipPicker(
+    document.getElementById('c-module-picker'),
+    document.getElementById('c-module-chips'),
+    document.getElementById('c-modules'),
+    (cur) => setModuleValidity('c', cur.length > 0)
+
+  );
+
+  // ---------- open EDIT modal + populate ----------
+  const editModalEl = document.getElementById('tplEditModal');
+  const editModal   = new bootstrap.Modal(editModalEl);
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.js-edit-template');
+    if (!btn) return;
+
+    const upId = (btn.dataset.id || '').toUpperCase();
+    document.getElementById('e-id').value           = upId;
+    document.getElementById('e-id-txt').textContent = upId;
+    document.getElementById('e-title').value        = btn.dataset.title || '';
+    document.getElementById('e-programme').value    = btn.dataset.programme || '';
+    document.getElementById('e-status').value       = btn.dataset.status || 'Active';
+    document.getElementById('e-desc').value         = btn.dataset.desc || '';
+
+    const codes = parseModulesFromData(btn.dataset.modules);
+    renderChips(
+      document.getElementById('e-module-chips'),
+      document.getElementById('e-modules'),
+      codes
+    );
+    setModuleValidity('e', codes.length > 0);
+
+    editModal.show();
+  });
+
+  // ---------- EDIT submit ----------
+  document.getElementById('tplEditForm')?.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    const title = document.getElementById('e-title').value.trim();
+    const desc  = document.getElementById('e-desc').value.trim();
+    const mods  = (document.getElementById('e-modules').value || '').split('|').filter(Boolean);
+
+    document.getElementById('e-title').classList.toggle('is-invalid', !title);
+    document.getElementById('e-desc').classList.toggle('is-invalid', !desc);
+    
+
+    try {
+      await postForm('/SubjectCoordinator/EditTemplate', getToken(this), {
+        TemplateId: document.getElementById('e-id').value,
+        Title:      title,
+        Programme:  document.getElementById('e-programme').value,
+        Status:     document.getElementById('e-status').value,
+        Description:desc
+      }, mods);
+
+      editModal.hide();
+      openConfirm?.('Changes saved!','Project template has been updated.');
+    } catch(err) {
+      alert('Save failed: ' + (err.message || err));
+    }
+  });
+
+  // ---------- CREATE: open + submit ----------
+  const createModalEl = document.getElementById('tplCreateModal');
+  const createModal   = new bootstrap.Modal(createModalEl);
+  const createForm    = document.getElementById('tplCreateForm');
+
+  function resetCreateForm() {
+    createForm.reset();
+    document.getElementById('c-module-chips').innerHTML = '';
+    document.getElementById('c-modules').value = '';
+    document.querySelectorAll('#tplCreateForm .is-invalid').forEach(x => x.classList.remove('is-invalid'));
+    document.getElementById('c-module-picker').value = '';
+setModuleValidity('c', true); // hide error on fresh open
+
+  }
+
+  document.getElementById('btnOpenCreate')?.addEventListener('click', () => {
+    resetCreateForm();
+    createModal.show();
+  });
+
+  createForm?.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const id    = document.getElementById('c-id').value.trim().toUpperCase();
+    const title = document.getElementById('c-title').value.trim();
+    const desc  = document.getElementById('c-desc').value.trim();
+    const programme = document.getElementById('c-programme').value;
+    const status    = document.getElementById('c-status').value;
+    const mods = (document.getElementById('c-modules').value || '').split('|').filter(Boolean);
+
+    document.getElementById('c-id').classList.toggle('is-invalid', !id);
+    document.getElementById('c-title').classList.toggle('is-invalid', !title);
+    document.getElementById('c-desc').classList.toggle('is-invalid', !desc);
+    setModuleValidity('c', mods.length > 0);
+    if (!id || !title || !desc || mods.length === 0) return;
+
+    try {
+      await postForm('/SubjectCoordinator/CreateTemplate', getToken(createForm), {
+        TemplateId: id,
+        Title:      title,
+        Programme:  programme,
+        Status:     status,
+        Description:desc
+      }, mods);
+
+      createModal.hide();
+      openConfirm?.('Template created!', 'The new template has been added.');
+    } catch (err) {
+      alert('Create failed: ' + (err.message || err));
+    }
+  });
+
+  // Uppercase Template ID as user types
+  document.getElementById('c-id')?.addEventListener('input', e => {
+    e.target.value = (e.target.value || '').toUpperCase();
+  });
+})();
+</script>
+
+
+<script>
+// ===== Live title clash in EDIT modal =====
+(function(){
+  const titleInput = document.getElementById('e-title');
+  const idHidden   = document.getElementById('e-id');
+  const saveBtn    = document.querySelector('#tplEditForm button[type="submit"]');
+
+  const titleErr = document.createElement('div');
+  titleErr.className = 'text-danger small mt-1';
+  titleInput.insertAdjacentElement('afterend', titleErr);
+
+  let timer;
+  async function runCheck(){
+    const idVal    = (idHidden.value || '').trim().toUpperCase();
+    const titleVal = (titleInput.value || '').trim();
+    if (!titleVal) { titleErr.textContent=''; saveBtn.disabled=false; return; }
+
+    try{
+      const res = await fetch(`/SubjectCoordinator/CheckTemplateUpdateAllowed?id=${encodeURIComponent(idVal)}&title=${encodeURIComponent(titleVal)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      titleErr.textContent = data.titleClash ? '⚠️ Another template already uses this Title.' : '';
+      saveBtn.disabled = !!data.titleClash;
+    }catch{ /* ignore */ }
+  }
+  function debounced(){ clearTimeout(timer); timer = setTimeout(runCheck, 350); }
+
+  titleInput.addEventListener('input', debounced);
+
+  // Also enforce required fields on submit (incl. modules)
+  document.getElementById('tplEditForm').addEventListener('submit', (ev) => {
+    const title = titleInput.value.trim();
+    const desc = document.getElementById('e-desc').value.trim();
+    const modulesCsv = document.getElementById('e-modules').value.trim();
+    const ok = title && desc && modulesCsv;
+    if (!ok || saveBtn.disabled){
+      ev.preventDefault();
+      titleInput.classList.toggle('is-invalid', !title);
+      document.getElementById('e-desc').classList.toggle('is-invalid', !desc);
+      
+    }
+  });
+})();
+</script>
+
+  <script>
+// CSV upload (same pattern as UniAdmin)
+(() => {
+  const btn   = document.getElementById('btnUploadCsv');
+
+  let input = document.getElementById('csvFile');
+  if (!input) {
+    input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.multiple = false; // one file for templates
+    input.className = 'visually-hidden';
+    input.id = 'csvFile';
+    document.body.appendChild(input);
+  }
+
+  function getAntiForgery() {
+    const el = document.querySelector("input[name='__RequestVerificationToken']");
+    return el ? el.value : '';
+  }
+
+  btn?.addEventListener('click', () => input?.click());
+
+  input?.addEventListener('change', async () => {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+
+   const fd = new FormData();
+fd.append('file', files[0], files[0].name);
+fd.append('allowUpdates', 'true');                    
+
+const token = getAntiForgery();
+if (token) fd.append('__RequestVerificationToken', token);
+
+
+
+    let resp, data;
+    try {
+      resp = await fetch('@Url.Action("UploadTemplatesCsv","SubjectCoordinator")', {
+        method: 'POST',
+        body: fd,
+        credentials: 'same-origin',
+        headers: { 'RequestVerificationToken': token || '' }
+      });
+
+      const ct = resp.headers.get('content-type') || '';
+      if (ct.includes('application/json')) {
+        data = await resp.json();
+      } else {
+        const text = await resp.text();
+        throw new Error((resp.status === 401 || resp.status === 403)
+          ? 'Not authorized. Please sign in again.'
+          : (text || 'Unexpected response.'));
+      }
+    } catch (err) {
+      const list = document.getElementById('uploadErrorsList');
+      list.innerHTML = `<li>${String(err.message || err).replace(/</g,'&lt;')}</li>`;
+      new bootstrap.Modal(document.getElementById('mdlUploadErrors')).show();
+      input.value = '';
+      return;
+    }
+
+    if (!resp.ok || !data || data.ok === false) {
+      const errors = (data && data.errors) ? data.errors : ['Upload failed.'];
+      const list = document.getElementById('uploadErrorsList');
+      list.innerHTML = errors.map(e => `<li>${e.replace(/</g,'&lt;')}</li>`).join('');
+      new bootstrap.Modal(document.getElementById('mdlUploadErrors')).show();
+      input.value = '';
+      return;
+    }
+
+    // Success modal 
+    const s = data.summary || {};
+    const html = `
+      <ul class="list-unstyled mb-0">
+        <li><strong>Templates</strong> — inserted ${s.inserted||0}, updated ${s.updated||0}</li>
+      </ul>`;
+    document.getElementById('uploadSummaryBody').innerHTML = html;
+    new bootstrap.Modal(document.getElementById('mdlUploadResult')).show();
+
+    input.value = '';
+    document.getElementById('mdlUploadResult')
+      .addEventListener('hidden.bs.modal', () => location.reload(), { once:true });
+  });
+})();
+</script>
+
+<script>
+  const savedModal      = new bootstrap.Modal(document.getElementById('tplSavedModal'));
+  const savedTitleEl    = document.getElementById('confirmTitle');
+  const savedTextEl     = document.getElementById('confirmText');
+
+  function openConfirm(title, text, onCloseReload = true) {
+    if (savedTitleEl) savedTitleEl.textContent = title || 'Done';
+    if (savedTextEl)  savedTextEl.textContent  = text  || '';
+    savedModal.show();
+    if (onCloseReload) {
+      document.getElementById('tplSavedModal')
+        .addEventListener('hidden.bs.modal', () => location.reload(), { once: true });
+    }
+  }
+</script>
+
+<script>
+  let templatesToDelete = [];
+
+  // Select All functionality
+  document.getElementById('selectAllCheckbox')?.addEventListener('change', e => {
+    document.querySelectorAll('.rowCheckbox').forEach(cb => cb.checked = e.target.checked);
+  });
+
+  
+  document.getElementById('btnDeleteSelected')?.addEventListener('click', () => {
+    templatesToDelete = [...document.querySelectorAll('.rowCheckbox:checked')].map(cb => cb.value);
+    if (templatesToDelete.length === 0) {
+      showAlert('Please select at least one template to delete.', 'warning');
+      return;
+    }
+
+    // update count text
+    document.getElementById('deleteCount').innerText = templatesToDelete.length;
+
+    // show modal
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+  });
+
+  // Confirm deletion inside modal
+  document.getElementById('confirmDeleteBtn')?.addEventListener('click', async () => {
+    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+    try {
+      const res = await fetch('/SubjectCoordinator/DeleteMultipleTemplates', {
+        method: 'POST',
+        headers: {
+          'RequestVerificationToken': token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(templatesToDelete)
+      });
+
+      if (res.ok) {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+        modal.hide();
+        showAlert(`${templatesToDelete.length} template(s) deleted successfully.`, 'success');
+        setTimeout(() => location.reload(), 1500);
+      } else {
+        const msg = await res.text();
+        showAlert('Delete failed: ' + msg, 'danger');
+      }
+    } catch (err) {
+      showAlert('Error: ' + err.message, 'danger');
+    }
+  });
+
+  // Helper: show alert toast at top
+  function showAlert(message, type = 'info') {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3 shadow`;
+    alert.style.zIndex = 2000;
+    alert.textContent = message;
+    document.body.appendChild(alert);
+    setTimeout(() => alert.remove(), 3000);
+  }
+</script>
+<script>
+(() => {
+  const form   = document.getElementById('filtersForm');
+  const selProg = document.getElementById('fltProgramme');
+  const selMod  = document.getElementById('fltModule');
+  const selStat = document.getElementById('fltStatus');
+  const txtQ    = document.getElementById('fltSearch');
+  const btnReset= document.getElementById('btnResetFilters');
+  const rows    = Array.from(document.querySelectorAll('tr.tpl-row'));
+
+  function normalize(s){ return (s || '').toString().toLowerCase().trim(); }
+
+  function applyFilters(){
+    const prog = selProg.value;          
+    const mod  = selMod.value;           
+    const stat = normalize(selStat.value);
+    const q    = normalize(txtQ.value);
+
+    rows.forEach(tr => {
+      const rProg = tr.dataset.programme || '';
+      const rStat = normalize(tr.dataset.status || '');
+      const rMods = (tr.dataset.modules || '').split('|').filter(Boolean);
+      const hay   = normalize(tr.dataset.id + ' ' + tr.dataset.title);
+
+      let show = true;
+      if (prog && rProg !== prog) show = false;
+      if (mod  && !rMods.includes(mod)) show = false;
+      if (stat && rStat !== stat) show = false;
+      if (q    && !hay.includes(q)) show = false;
+
+      tr.style.display = show ? '' : 'none';
+    });
+  }
+
+  form?.addEventListener('submit', (e) => { e.preventDefault(); applyFilters(); });
+  selProg?.addEventListener('change', applyFilters);
+  selMod?.addEventListener('change', applyFilters);
+  selStat?.addEventListener('change', applyFilters);
+  txtQ?.addEventListener('input',  () => { /* debounce if you like */ });
+
+  btnReset?.addEventListener('click', () => {
+    selProg.value = '';
+    selMod.value  = '';
+    selStat.value = '';
+    txtQ.value    = '';
+    applyFilters();
+  });
+
+  // initial pass (shows all)
+  applyFilters();
+})();
+</script>
+
+
+
+}
+

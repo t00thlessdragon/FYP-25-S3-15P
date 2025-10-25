@@ -1,0 +1,81 @@
+@model FYP_25_S3_15P.ViewModels.AssessorTaskInfoVm
+@{
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+    ViewData["Title"] = "Task Information";
+
+    var from   = (string?)Context.Request.Query["from"];
+    var q      = (string?)Context.Request.Query["q"];
+    var status = (string?)Context.Request.Query["status"];
+
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <!-- header row with close at top-right -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <h2 class="mb-0">Task Information</h2>
+       @if (string.Equals(from, "list", StringComparison.OrdinalIgnoreCase))
+  {
+      <!-- Came from Task Deliverables list -->
+      <a asp-action="TaskDeliverables"
+         asp-route-q="@q"
+         asp-route-status="@status"
+         class="btn-close" aria-label="Close"></a>
+  }
+  else
+  {
+      <!-- Default: came from a project's Tasks page -->
+      <a asp-action="Tasks"
+         asp-route-projectId="@Model.ProjectId"
+         class="btn-close" aria-label="Close"></a>
+  }
+    </div>
+
+    <div class="fs-5">
+      <p class="mb-2"><strong>Task ID:</strong> @Model.TaskId</p>
+      <p class="mb-2"><strong>Task Title:</strong> @Model.Title</p>
+      <p class="mb-2"><strong>Submitted Group:</strong> @Model.GroupId</p>
+      <p class="mb-2"><strong>Submission Date:</strong> @Model.SubmissionDate.ToString("dd MMMM yyyy")</p>
+      <p class="mb-2"><strong>Due Date:</strong> @Model.DueDate.ToString("dd MMMM yyyy")</p>
+      <p class="mb-2"><strong>File Name:</strong> @Model.FileName</p>
+
+      <div class="mt-4">
+        <p class="mb-2"><strong>Preview:</strong></p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.FileUrl) && Model.FileUrl.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+        {
+            <div class="ratio ratio-16x9 border rounded">
+              <iframe src="@($"{Model.FileUrl}#view=FitH")" title="Preview"></iframe>
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.FileUrl))
+        {
+            <div class="alert alert-secondary">
+              Preview not available. <a href="@Model.FileUrl" class="alert-link">Download the file</a>.
+            </div>
+        }
+        else
+        {
+            <div class="text-muted">No preview available.</div>
+        }
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      @if (!string.IsNullOrWhiteSpace(Model.FileUrl))
+      {
+        <a href="@Model.FileUrl" class="btn btn-dark btn-sm px-4" download>Download</a>
+      }
+
+      <a asp-action="Evaluate"
+         asp-route-projectId="@Model.ProjectId"
+         asp-route-taskId="@Model.TaskId"
+         asp-route-from="list"
+         class="btn btn-dark btn-sm px-4">
+        Evaluate
+      </a>
+    </div>
+
+  </div>
+</section>

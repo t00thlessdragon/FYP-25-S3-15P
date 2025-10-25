@@ -1,0 +1,96 @@
+@model IEnumerable<FYP_25_S3_15P.ViewModels.AssessorTaskDeliverableRowVm>
+@{
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+    var q      = (string?)ViewBag.Search ?? "";
+    var filter = (string?)ViewBag.Filter ?? "";
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <!-- Title -->
+    <div class="mb-2">
+      <h2 class="mb-0">Task Deliverables Listing</h2>
+    </div>
+
+    <!-- Search BELOW the title -->
+    <form method="get" class="row g-2 align-items-center mb-4">
+      <div class="col-12 col-md-9">
+        <input class="form-control" name="q" value="@q"
+               placeholder="Search by code, title, group, supervisor, or status..." />
+      </div>
+      <div class="col-12 col-md-3 text-md-end">
+        <button class="btn btn-dark w-100 w-md-auto" type="submit">
+          <i class="bi bi-search me-1"></i> Search
+        </button>
+      </div>
+    </form>
+
+    <!-- Table is INSIDE the card -->
+    <div class="table-responsive">
+      @if (Model == null || !Model.Any())
+      {
+        <div class="text-center text-muted py-5">No deliverables found.</div>
+      }
+      else
+      {
+        <table class="table table-striped table-hover align-middle w-100">
+          <thead class="table-dark">
+            <tr>
+              <th style="width:5%;">No</th>
+              <th style="width:15%;">Group ID</th>
+              <th style="width:25%;">Project Title</th>
+              <th style="width:25%;">Task Title</th>
+              <th style="width:15%;">Submission Date</th>
+              <th style="width:15%;">Due Date</th>
+              <th style="width:15%;">Status</th>
+              <th class="text-end" style="width:15%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach (var r in Model)
+          {
+            <tr>
+              <td class="text-muted">@r.No</td>
+              <td><code>@r.GroupId</code></td>
+              <td class="fw-semibold">@r.ProjectTitle</td>
+              <td>@r.TaskTitle</td>
+              <td>@r.SubmittedOn.ToString("dd MMM yyyy")</td>
+              <td>@r.DueDate.ToString("dd MMM yyyy")</td>
+              <td>
+                @if (string.Equals(r.Status, "Evaluation Saved", StringComparison.OrdinalIgnoreCase))
+                {
+                  <span class="badge rounded-pill text-bg-success">Evaluation Saved</span>
+                }
+                else if (string.Equals(r.Status, "Pending Evaluation", StringComparison.OrdinalIgnoreCase))
+                {
+                  <span class="badge rounded-pill text-bg-secondary">Pending Evaluation</span>
+                }
+                else
+                {
+                  <span class="badge rounded-pill text-bg-light text-dark">@r.Status</span>
+                }
+              </td>
+              <td class="text-end">
+                <a asp-action="TaskInfo"
+                   asp-route-projectId="@r.ProjectId"
+                   asp-route-taskId="@r.TaskId"
+                   asp-route-from="list"
+                   asp-route-q="@q"
+                   asp-route-status="@filter"
+                   class="btn btn-dark btn-sm px-3">View</a>
+
+                @if (!string.IsNullOrWhiteSpace(r.FileUrl))
+                {
+                  <a href="@r.FileUrl" download class="btn btn-dark btn-sm px-3 ms-1">Download</a>
+                }
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      }
+    </div>
+
+  </div>
+</section>

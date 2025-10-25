@@ -1,0 +1,175 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\views\\dashboards\\ua\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:views\\dashboards\\ua\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\viewmodels\\uaprofilevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:viewmodels\\uaprofilevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\controllers\\uadashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:controllers\\uadashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\views\\dashboards\\ua\\catalog.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:views\\dashboards\\ua\\catalog.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\viewmodels\\catalogvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:viewmodels\\catalogvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\views\\shared\\_ualayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:views\\shared\\_ualayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\models\\university.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:models\\university.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|c:\\users\\user\\downloads\\fyp-24102025\\fyp-24102025\\fyp-25-s3-15p\\data\\smartdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DD4D71E-27A7-6145-62D6-0EF1E5E86220}|FYP-25-S3-15P.csproj|solutionrelative:data\\smartdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Users.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Models\\Users.cs",
+              "RelativeDocumentMoniker": "Models\\Users.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Models\\Users.cs",
+              "RelativeToolTip": "Models\\Users.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-25T00:51:33.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CatalogVm.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\ViewModels\\CatalogVm.cs",
+              "RelativeDocumentMoniker": "ViewModels\\CatalogVm.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\ViewModels\\CatalogVm.cs",
+              "RelativeToolTip": "ViewModels\\CatalogVm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-25T00:34:42.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Catalog.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Dashboards\\UA\\Catalog.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dashboards\\UA\\Catalog.cshtml",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Dashboards\\UA\\Catalog.cshtml",
+              "RelativeToolTip": "Views\\Dashboards\\UA\\Catalog.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANsGAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-25T00:34:04.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Dashboards\\UA\\Profile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dashboards\\UA\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Dashboards\\UA\\Profile.cshtml",
+              "RelativeToolTip": "Views\\Dashboards\\UA\\Profile.cshtml",
+              "ViewState": "AgIAACwAAAAAAAAAAAAuwEEAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-25T00:32:02.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UAProfileVm.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\ViewModels\\UAProfileVm.cs",
+              "RelativeDocumentMoniker": "ViewModels\\UAProfileVm.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\ViewModels\\UAProfileVm.cs",
+              "RelativeToolTip": "ViewModels\\UAProfileVm.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA/wBIAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-25T00:18:11.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "University.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Models\\University.cs",
+              "RelativeDocumentMoniker": "Models\\University.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Models\\University.cs",
+              "RelativeToolTip": "Models\\University.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADgvxkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T12:51:23.265Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SmartDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Data\\SmartDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\SmartDbContext.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Data\\SmartDbContext.cs",
+              "RelativeToolTip": "Data\\SmartDbContext.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T12:51:08.238Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_UALayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Shared\\_UALayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_UALayout.cshtml",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Views\\Shared\\_UALayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_UALayout.cshtml",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFgAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-24T12:26:00.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UADashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Controllers\\UADashboardController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UADashboardController.cs",
+              "ToolTip": "C:\\Users\\User\\Downloads\\FYP-24102025\\FYP-24102025\\FYP-25-S3-15P\\Controllers\\UADashboardController.cs",
+              "RelativeToolTip": "Controllers\\UADashboardController.cs",
+              "ViewState": "AgIAAEcBAAAAAAAAAAAwwFoBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-24T12:24:33.684Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

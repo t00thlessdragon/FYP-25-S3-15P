@@ -1,0 +1,75 @@
+@model IEnumerable<FYP_25_S3_15P.ViewModels.AssessorProjectsVM>
+@{
+    ViewData["Title"] = "Project Listing";
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+    var q = Context.Request.Query["q"].ToString();
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+    <h2 class="mb-3">Project Listing</h2>
+
+    <form method="get" class="row g-2 align-items-center mb-3">
+      <div class="col-12 col-md-9">
+        <input class="form-control" name="q" value="@q"
+               placeholder="Search by code, title, group, supervisor, or status..." />
+      </div>
+      <div class="col-12 col-md-3 text-md-end">
+        <button class="btn btn-dark w-100 w-md-auto" type="submit">
+          <i class="bi bi-search me-1"></i> Search
+        </button>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      @if (Model == null || !Model.Any())
+      {
+        <div class="text-center text-muted py-5">No projects found.</div>
+      }
+      else
+      {
+        <table class="table align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th style="width:80px;">No</th>
+              <th style="min-width:160px;">Project ID</th>
+              <th style="min-width:260px;">Project Title</th>
+              <th style="min-width:160px;">Group ID</th>
+              <th style="min-width:200px;">Supervisor Assigned</th>
+              <th style="min-width:140px;">Status</th>
+              <th class="text-end" style="width:160px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach (var item in Model)
+          {
+            <tr>
+              <td class="text-muted">@item.No</td>
+              <td><code>@item.ProjectId</code></td>
+              <td class="fw-semibold">@item.ProjectTitle</td>
+              <td>@item.GroupId</td>
+              <td>@item.Supervisor</td>
+              <td>
+                @if (item.Status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                { <span class="badge rounded-pill text-bg-success">Active</span> }
+                else if (item.Status.Equals("Completed", StringComparison.OrdinalIgnoreCase))
+                { <span class="badge rounded-pill text-bg-secondary">Completed</span> }
+                else
+                { <span class="badge rounded-pill text-bg-light text-dark">@item.Status</span> }
+              </td>
+              <td class="text-end">
+                <a asp-controller="Assessor"
+                   asp-action="ProjectDetails"
+                   asp-route-id="@item.ProjectKey"
+                   class="btn btn-dark btn-sm px-4">
+                  View Details
+                </a>
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</section>

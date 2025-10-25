@@ -1,0 +1,72 @@
+@model IEnumerable<FYP_25_S3_15P.ViewModels.AssessorAssessmentRowVm>
+@{
+    Layout = "~/Views/Shared/_AssessorLayout.cshtml";
+    var q = (string?)ViewBag.Search ?? "";
+}
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <h2 class="mb-3">Assessment Listing</h2>
+
+    <form method="get" class="row g-2 align-items-center mb-4">
+      <div class="col-12 col-md-9">
+        <input class="form-control" name="q" value="@q"
+               placeholder="Search by group, project title, or status..." />
+      </div>
+      <div class="col-12 col-md-3 text-md-end">
+        <button class="btn btn-dark w-100 w-md-auto" type="submit">
+          <i class="bi bi-search me-1"></i> Search
+        </button>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      @if (Model == null || !Model.Any())
+      {
+        <div class="text-center text-muted py-5">No assessments found.</div>
+      }
+      else
+      {
+        <table class="table align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th style="width:70px;">No</th>
+              <th style="min-width:160px;">Group ID</th>
+              <th>Project Title</th>
+              <th style="min-width:220px;">Assessment Status</th>
+              <th style="min-width:160px;">Submission Date</th>
+              <th style="min-width:160px;">Marks Awarded</th>
+              <th class="text-end" style="width:140px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach (var r in Model)
+          {
+            <tr>
+              <td class="text-muted">@r.No</td>
+              <td><code>@r.GroupId</code></td>
+              <td class="fw-semibold">@r.ProjectTitle</td>
+              <td>
+                @if (r.Status.Equals("Submitted", StringComparison.OrdinalIgnoreCase))
+                { <span class="badge rounded-pill text-bg-success">Submitted</span> }
+                else
+                { <span class="badge rounded-pill text-bg-secondary">Pending</span> }
+              </td>
+              <td>@r.SubmissionDate.ToString("dd MMM yyyy")</td>
+              <td>@r.MarksAwarded</td>
+              <td class="text-end">
+                <a asp-action="SubmitAssessment"
+                   asp-route-projectId="@r.ProjectId"
+                   asp-route-from="assessment"
+                   class="btn btn-dark btn-sm px-4">View</a>
+              </td>
+            </tr>
+          }
+          </tbody>
+        </table>
+      }
+    </div>
+
+  </div>
+</section>

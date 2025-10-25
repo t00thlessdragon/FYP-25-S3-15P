@@ -1,0 +1,45 @@
+@{
+    Layout = "~/Views/Shared/_SubjectCoordinatorLayout.cshtml";
+    ViewData["Title"] = "Manage Project Allocation";
+
+    var tab = (Context.Request.Query["tab"].ToString() ?? ViewBag.ActiveTab ?? "").ToLowerInvariant();
+    if (string.IsNullOrWhiteSpace(tab)) tab = "summary";
+}
+
+<section class="container-wide card-xl">
+    <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+        <h2 class="mb-1">Manage Project Allocation</h2>
+        <div class="text-muted mb-4">Monitor and adjust student–project allocations.</div>
+
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mb-4" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link @(tab == "summary" ? "active" : "")"
+                   asp-action="Allocation"
+                   asp-route-tab="summary">
+                    Allocation Summary
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(tab == "history" ? "active" : "")"
+                   asp-action="Allocation"
+                   asp-route-tab="history">
+                    Historical Project Allocation
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            @if (tab == "summary")
+            {
+                @await Html.PartialAsync("_AllocationSummaryPartial")
+            }
+            else if (tab == "history")
+            {
+                @await Html.PartialAsync("_AllocationHistoryPartial")
+            }
+        </div>
+    </div>
+</section>

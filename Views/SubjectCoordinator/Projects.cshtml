@@ -1,0 +1,2046 @@
+@model FYP_25_S3_15P.ViewModels.ScProjectsPageVm
+
+@{
+    Layout = "~/Views/Shared/_SubjectCoordinatorLayout.cshtml";
+    ViewData["Title"] = "Manage";
+    var tab = (Context.Request.Query["tab"].ToString() ?? ViewBag.ActiveTab ?? "").ToLowerInvariant();
+    if (string.IsNullOrWhiteSpace(tab)) tab = "constraints";
+}
+
+
+<section class="container-wide card-xl">
+  <div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+    <h2 class="mb-1">Manage Projects</h2>
+    <div class="text-muted mb-4">Manage Constraints, Projects, and Groups</div>
+
+    <!-- Tabs (same pattern as Student Dashboard) -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link @(tab=="constraints" ? "active" : "")"
+           asp-action="Projects" asp-route-tab="constraints">
+          Manage Constraints
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @(tab=="projects" ? "active" : "")"
+           asp-action="Projects" asp-route-tab="projects">
+          Manage Projects
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @(tab=="groups" ? "active" : "")"
+           asp-action="Projects" asp-route-tab="groups">
+          Manage Groups
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+
+     <!-- ===== TAB: CONSTRAINTS ===== -->
+<div class="tab-pane fade @(tab=="constraints" ? "show active" : "")" id="tab-constraints">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Project Constraints</h4>
+    <div class="d-flex gap-2">
+      <a href="javascript:void(0)" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#constraintAddModal">
+  <i class="bi bi-plus-lg me-1"></i> Add & Update
+</a>
+
+      <button class="btn btn-outline-danger" id="btn-delete-constraints">
+  <i class="bi bi-trash me-1"></i> Delete
+</button>
+
+    </div>
+  </div>
+
+  <!-- Filters (kept consistent with Projects) -->
+<form class="row g-2 align-items-center mb-3" id="fc-form">
+  <div class="col-12 col-lg-3">
+    <select class="form-select" id="fc-year">
+      <option value="__all__">Year: All</option>
+      <option value="@Model.Year" selected>Year: @Model.Year</option>
+    </select>
+  </div>
+  <div class="col-12 col-lg-3">
+    <select class="form-select" id="fc-program">
+      <option value="__all__" selected>Program: All</option>
+      <!-- JS will add distinct course codes found in the table -->
+    </select>
+  </div>
+  <div class="col-12 col-lg-3">
+    <select class="form-select" id="fc-session">
+      <option value="__all__" selected>Session: All</option>
+      <option value="S1">Session: S1</option>
+      <option value="S2">Session: S2</option>
+      <option value="S3">Session: S3</option>
+      <option value="S4">Session: S4</option>
+    </select>
+  </div>
+  <div class="col-12 col-lg-3">
+    <div class="input-group">
+      <input class="form-control" id="fc-search" placeholder="Search…" />
+      <button class="btn btn-dark" type="button" id="fc-search-btn">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+  <!-- TABLE (same look as Manage Projects) -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle w-100">
+      <thead class="table-dark">
+        <tr>
+          <th style="width:4%; text-align:center;">
+            <input type="checkbox" id="selectAllConstraints" />
+          </th>
+          <th style="width:12%;">Program Code</th>
+          <th>Program Name</th>
+          <th style="width:10%;">Session</th>
+          <th style="width:12%;">Status</th>
+          <th style="width:14%;">Last Updated</th>
+          <th class="actions-col text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+@foreach (var r in Model.Constraints)
+{
+    var statusClass = (r.Status ?? "").ToLower() == "override" ? "text-bg-primary" : "text-bg-secondary";
+    <tr data-code="@r.Code" data-name="@r.Name">
+        <td class="text-center"><input type="checkbox" class="rowCheckbox-constraints" /></td>
+        <td class="fw-semibold">@r.Code</td>
+        <td class="text-muted">@r.Name</td>
+        <td>@r.Session</td>
+        <td><span class="badge rounded-pill @statusClass">@r.Status</span></td>
+        <td>@(r.Updated == DateTime.MinValue ? "-" : r.Updated.ToString("dd MMM yyyy"))</td>
+        <td class="text-end actions-cell">
+            <span class="actions-wrap">
+                <button class="btn btn-dark btn-sm px-3 js-view-constraint"
+                        data-program="@r.Code" data-name="@r.Name" data-year="@Model.Year">
+                  View
+                </button>
+            </span>
+        </td>
+    </tr>
+}
+</tbody>
+
+    </table>
+  </div>
+</div>
+
+<!-- Constraint Details Modal -->
+<div class="modal fade" id="constraintViewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold">Project Constraints</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body pt-2">
+        <!-- Top details -->
+        <div class="row g-2 mb-3">
+          <div class="col-12"><div><strong>Program Code:</strong> <span id="vc-code">—</span></div></div>
+          <div class="col-12"><div><strong>Program Name:</strong> <span id="vc-name">—</span></div></div>
+          <div class="col-12 col-md-6"><div><strong>Session:</strong> <span id="vc-session">—</span></div></div>
+          <div class="col-12 col-md-6"><div><strong>Year:</strong> <span id="vc-year">—</span></div></div>
+        </div>
+
+        <!-- Status + Edit -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="fw-semibold">Status:</div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="vc-default" disabled>
+            <label class="form-check-label" for="vc-default">Default</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="vc-override" disabled>
+            <label class="form-check-label" for="vc-override">Override</label>
+          </div>
+        </div>
+
+        <!-- Constraints table -->
+        <div class="table-responsive">
+          <table class="table table-bordered vc-constraints-table">
+            <thead>
+              <tr>
+                <th class="w-50">Constraints</th>
+                <th class="w-50 text-center">Setting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Supervisor Load Cap</td>
+                <td class="text-center" id="vc-sup">—</td>
+              </tr>
+              <tr>
+                <td>Assessor Load Cap</td>
+                <td class="text-center" id="vc-ass">—</td>
+              </tr>
+              <tr>
+                <td>Preferences Rank Limit</td>
+                <td class="text-center" id="vc-rank">—</td>
+              </tr>
+              <tr>
+                <td>Team Size Per Project</td>
+                <td class="text-center">
+                  Min: <span id="vc-team-min">—</span>
+                  &nbsp;&nbsp; Max: <span id="vc-team-max">—</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Constraint Modal -->
+<div class="modal fade" id="constraintAddModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h3 class="modal-title fw-bold">Project Constraints</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body pt-2">
+        <!-- Top form -->
+        <!-- Top form -->
+<div class="row g-3 mb-3">
+  <div class="col-12">
+    <label class="form-label fw-semibold">Program Code:</label>
+    <select id="ap-code" class="form-select">
+      <!-- JS will repopulate; placeholder keeps it empty initially -->
+      <option value="" selected disabled>— Select course —</option>
+    </select>
+    <div class="invalid-feedback" id="ap-code-error">Course Code is required.</div>
+  </div>
+
+  <div class="col-12">
+    <label class="form-label fw-semibold">Program Name:</label>
+    <input id="ac-name" class="form-control" placeholder="Auto show name after choose code" disabled />
+  </div>
+
+  <div class="col-12 col-md-6">
+    <label class="form-label fw-semibold">Session:</label>
+    <select id="ac-session" class="form-select">
+      <option value="" selected disabled>— Select session —</option>
+    </select>
+    <div class="invalid-feedback" id="ac-session-error">Session is required.</div>
+  </div>
+
+  <div class="col-12 col-md-6">
+    <label class="form-label fw-semibold">Year:</label>
+    <select id="ac-year" class="form-select">
+      <option value="" selected disabled>— Select year —</option>
+    </select>
+    <div class="invalid-feedback" id="ac-year-error">Year is required.</div>
+  </div>
+</div>
+
+<!-- Status -->
+<div class="d-flex align-items-center gap-3 mb-4">
+  <div class="fw-semibold">Status:</div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id="ac-default" checked>
+    <label class="form-check-label" for="ac-default">Default</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id="ac-override">
+    <label class="form-check-label" for="ac-override">Override</label>
+  </div>
+</div>
+
+
+        <!-- Constraints table -->
+        <div class="table-responsive">
+          <table class="table table-bordered vc-constraints-table">
+            <thead>
+              <tr>
+                <th class="w-50">Constraints</th>
+                <th class="w-50 text-center">Setting</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Supervisor Load Cap</td>
+                <td class="text-center">
+                  <input id="ac-sup" class="form-control text-center mx-auto" style="max-width:120px" value="1" disabled>
+                </td>
+              </tr>
+              <tr>
+                <td>Assessor Load Cap</td>
+                <td class="text-center">
+                  <input id="ac-ass" class="form-control text-center mx-auto" style="max-width:120px" value="2" disabled>
+                </td>
+              </tr>
+              <tr>
+                <td>Preferences Rank Limit</td>
+                <td class="text-center">
+                  <input id="ac-rank" class="form-control text-center mx-auto" style="max-width:120px" value="3" disabled>
+                </td>
+              </tr>
+              <tr>
+                <td>Team Size Per Project</td>
+                <td class="text-center">
+                  <div class="d-flex justify-content-center gap-3">
+                    <div>Min: <input id="ac-team-min" class="form-control d-inline-block text-center" style="width:90px" value="4" disabled></div>
+                    <div>Max: <input id="ac-team-max" class="form-control d-inline-block text-center" style="width:90px" value="6" disabled></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bottom-right corner single button -->
+<div class="text-end mt-3">
+  <button type="button" class="btn btn-dark px-4" id="ac-edit-toggle">Save</button>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+ <!-- ===== TAB: PROJECTS (final wireframe style) ===== -->
+<div class="tab-pane fade @(tab=="projects" ? "show active" : "")" id="tab-projects">
+
+  <!-- Title + buttons same row -->
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h4 class="mb-0 fw-bold">Project Listings</h4>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-dark" id="btn-publish-projects">Publish</button>
+      <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createProjectModal">
+  <i class="bi bi-plus-lg me-1"></i> Project
+</button>
+
+      <button type="button" class="btn btn-outline-danger" id="btn-delete-projects">
+  <i class="bi bi-trash me-1"></i> Delete
+</button>
+
+    </div>
+  </div>
+
+  <!-- Filters row -->
+<form class="row g-2 align-items-center mb-3" id="pj-filter-form">
+  <div class="col-12 col-md-3">
+    <select class="form-select" id="pj-program">
+      <option value="__all__" selected>Program: All</option>
+      <!-- JS will populate from Project ID prefix (e.g., IT-FND) -->
+    </select>
+  </div>
+
+  @* <div class="col-12 col-md-3">
+    <select class="form-select" id="pj-module">
+      <option value="__all__" selected>Module: All</option>
+      <!-- JS will populate from the Module column -->
+    </select>
+  </div> *@
+
+  <div class="col-12 col-md-3">
+    <select class="form-select" id="pj-session">
+      <option value="__all__" selected>Session: All</option>
+      <option value="S1">Session: S1</option>
+      <option value="S2">Session: S2</option>
+      <option value="S3">Session: S3</option>
+      <option value="S4">Session: S4</option>
+    </select>
+  </div>
+
+  <div class="col-12 col-md-3">
+    <div class="input-group">
+      <input class="form-control" id="pj-search" placeholder="Search by ID / Title / Programme" />
+      <button class="btn btn-dark" type="button" id="pj-search-btn">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table table-hover align-middle w-100">
+      <thead class="table-dark">
+        <tr>
+          <th style="width:50px" class="text-center"><input type="checkbox"  id="pj-select-all"/></th>
+          <th style="width:160px">Project ID</th>
+          <th>Project Title</th>
+          <th>Description</th>
+          <th style="width:120px">Programme</th>
+          <th style="width:120px">Publish Status</th>
+          @* <th style="width:320px">Module</th> *@
+          <th style="width:160px" class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var p in Model.Projects)
+{
+    <tr data-id="@p.Id">
+        <td class="text-center"><input type="checkbox"/></td>
+        <td class="text-muted"><span class="small">@p.Id</span></td>
+        <td class="fw-semibold">@p.Title</td>
+        <td>@p.Description</td>
+        <td>@p.Programme</td>
+        <td>@p.IsPublish</td>
+        @* <td>
+            @foreach (var m in p.Modules)
+            {
+                <div class="text-muted">@m</div>
+            }
+        </td> *@
+        <td class="text-end">
+            <div class="d-inline-flex gap-2">
+                <button type="button"
+                        class="btn btn-dark btn-sm px-4 js-view-project"
+                        data-id="@p.Id"
+                        data-title="@p.Title"
+                        data-programme="@p.Programme"
+                        @* data-modules='@string.Join(", ", p.Modules)' *@
+                        data-desc="@p.Description">
+                    View
+                </button>
+                <button type="button"
+                        class="btn btn-dark btn-sm px-4 js-edit-project"
+                        data-id="@p.Id"
+                        data-title="@p.Title"
+                        data-programme="@p.Programme"
+                        @* data-modcodes='@string.Join("|", p.ModuleCodes)' *@
+                        data-desc='@p.Description'>
+                    Edit
+                </button>
+            </div>
+        </td>
+    </tr>
+}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create Project Modal -->
+<div class="modal fade" id="createProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0">
+        <h3 class="modal-title fw-bold">Create Project</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row g-3 mb-3">
+  <div class="col-12 col-md-3">
+    <label class="form-label small text-muted">Programme:</label>
+    <select id="cp-programme" class="form-select"></select>
+    <div class="invalid-feedback" id="cp-programme-error">Please choose a programme.</div>
+  </div>
+
+  @* <div class="col-12 col-md-3">
+    <label class="form-label small text-muted">Course:</label>
+    <select id="cp-course" class="form-select"></select>
+    <div class="invalid-feedback" id="cp-course-error">Please choose a course.</div>
+  </div> *@
+
+  <div class="col-6 col-md-3">
+    <label class="form-label small text-muted">Year:</label>
+    <select id="cp-year" class="form-select"></select>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <label class="form-label small text-muted">Session:</label>
+    <select id="cp-session" class="form-select"></select>
+  </div>
+</div>
+
+
+<!-- Preferences close at -->
+<div class="row g-3 mb-3">
+  <div class="col-12">
+    <div class="fw-semibold small text-muted">
+      Student &amp; Supervisor Preferences (Closed At)
+    </div>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <label class="form-label small text-muted">Date:</label>
+    <input type="date" id="cp-pref-date" class="form-control" />
+    <div class="invalid-feedback" id="cp-pref-date-err">Please choose a date.</div>
+  </div>
+
+  <div class="col-6 col-md-3">
+    <label class="form-label small text-muted">Time:</label>
+    <input type="time" id="cp-pref-time" class="form-control" step="60" />
+    <div class="invalid-feedback" id="cp-pref-time-err">Please choose a time.</div>
+  </div>
+</div>
+
+
+        <!-- Module filter + search -->
+        <div class="row g-3 mb-2 align-items-center">
+          @* <div class="col-12 col-md-4">
+            <div class="input-group">
+              <select id="cp-module" class="form-select border-start-0">
+                <option value="">All modules</option>
+                <option>AI301 Machine Learning</option>
+                <option>DATA201 Data Mining</option>
+                <option>CS321 Web Engineering</option>
+                <option>SEC210 Network Security</option>
+              </select>
+            </div>
+          </div> *@
+          <div class="col-12 col-md-8">
+            <div class="input-group">
+              <input id="cp-search" class="form-control" placeholder="Search" />
+              <button type="button" class="btn btn-dark" id="cp-search-btn"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Templates table -->
+        <div class="table-responsive mt-2">
+          <table class="table align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th style="width:4%; text-align:center;"><input type="checkbox" id="cp-select-all" /></th>
+                <th style="width:12%;">Template ID</th>
+                <th>Project Title</th>
+                <th style="width:10%;">Programme</th>
+                @* <th style="width:28%;">Module</th> *@
+                <th style="width:10%;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="cp-tbody">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination hint (mock) -->
+        <div class="small text-muted mb-3">Pagination: <a href="javascript:void(0)">[1]</a> <a href="javascript:void(0)">[2]</a> <a href="javascript:void(0)">[3]</a> <a href="javascript:void(0)">[4]</a></div>
+
+        <!-- Preview -->
+        <div class="mb-2 fw-semibold">Preview of Projects to Create:</div>
+        <div id="cp-preview" class="border rounded-3 p-3 small bg-light">
+          <div class="text-muted">No templates selected.</div>
+        </div>
+
+
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-dark btn-lg" id="cp-create">Create Project</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Project Details Modal -->
+<div class="modal fade" id="projectDetailsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0">
+        <h3 class="modal-title fw-bold">Project Details</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3 fs-5"><strong>Project ID:</strong> <span id="pd-id">—</span></div>
+        <div class="mb-3 fs-5"><strong>Project Title:</strong> <span id="pd-title">—</span></div>
+        <div class="mb-3 fs-5"><strong>Programme:</strong> <span id="pd-programme">—</span></div>
+        @* <div class="mb-3 fs-5"><strong>Module :</strong> <span id="pd-modules">—</span></div> *@
+
+        <div class="mt-4">
+          <div class="fs-5 fw-semibold mb-2">Project Description:</div>
+          <div id="pd-desc" class="lead"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Project Modal -->
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4">
+      <div class="modal-header border-0">
+        <h3 class="modal-title fw-bold">Edit Project</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="mb-3 fs-5">
+          <strong>Project ID:</strong> <span id="ep-id">—</span>
+        </div>
+
+        <div class="mb-3">
+          <label for="ep-title" class="form-label fs-5">Project Title:</label>
+          <input id="ep-title" class="form-control form-control-lg" />
+        </div>
+
+        <div class="row g-3 mb-1">
+  <div class="col-12">
+    <label for="ep-programme" class="form-label fs-5">Programme:</label>
+    <select id="ep-programme" class="form-select form-select-lg">
+      <option value="IT">IT</option>
+      <option value="CSIT">CSIT</option>
+      <option value="DA">DA</option>
+    </select>
+  </div>
+</div>
+
+          <div class="row g-3 mb-4">
+  @* <div class="col-12">
+    <label for="ep-module" class="form-label fs-5">Module :</label>
+    <select id="ep-module" class="form-select form-select-lg">
+      <option>Module</option>
+      <option value="AI301 Machine Learning">AI301 Machine Learning</option>
+      <option value="DATA201 Data Mining">DATA201 Data Mining</option>
+      <option value="CS321 Web Engineering">CS321 Web Engineering</option>
+      <option value="SEC210 Network Security">SEC210 Network Security</option>
+    </select>
+  </div> *@
+  <div class="col-12">
+    <div id="ep-chipbar" class="d-flex flex-wrap gap-2">
+      <!-- chips injected here by JS -->
+    </div>
+  </div>
+</div>
+
+        <div class="mb-2">
+          <label for="ep-desc" class="form-label fs-5">Project Description:</label>
+          <textarea id="ep-desc" class="form-control" rows="7"></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-dark btn-lg px-5" id="ep-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== TAB: GROUPS (wireframe style) ===== -->
+<div class="tab-pane fade @(tab=="groups" ? "show active" : "")" id="tab-groups">
+
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h4 class="mb-0 fw-bold">Manage Groups</h4>
+  </div>
+
+  <!-- Filters row ... (keep yours) -->
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle w-100">
+      <thead class="table-dark">
+        <tr>
+          <th style="width:50px"></th>
+          <th style="width:200px;">Project ID</th>
+          <th>Project Title</th>
+          <th style="width:120px;">Groups</th>
+          <th style="width:180px;" class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var p in Model.Projects)
+{
+    var count = Model.Groups.Count(g => g.ProjectId == p.Id);
+
+    <tr>
+        <td></td>
+        <td class="text-muted"><span class="small">@p.Id</span></td>
+        <td class="fw-semibold">@p.Title</td>
+        <td>@count</td>
+        <td class="text-end">
+            <a class="btn btn-dark btn-sm px-4"
+               asp-action="GroupList"
+               asp-controller="SubjectCoordinator"
+               asp-route-projectId="@p.Id">
+                View Group
+            </a>
+        </td>
+    </tr>
+}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ===== Confirm ===== -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="mx-auto mb-3"
+           style="width:88px;height:88px;border-radius:50%;
+                  border:4px solid #e6d6ef;display:flex;align-items:center;justify-content:center;">
+        <!-- question icon in purple tone -->
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+             stroke="#6f2c91" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4"></path>
+          <line x1="12" y1="17" x2="12" y2="17"></line>
+        </svg>
+      </div>
+
+      <h3 class="mb-2" id="confirmModalTitle">Are you sure?</h3>
+      <p class="text-muted mb-3" id="confirmModalText">Please confirm this action.</p>
+
+      <div class="d-flex justify-content-center gap-2">
+        <button type="button" class="btn btn-primary px-4" id="confirmOkBtn">OK</button>
+        <button type="button" class="btn btn-outline-primary px-4" data-bs-dismiss="modal" id="confirmCancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Success / info ===== -->
+<div class="modal fade" id="notifyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="mx-auto mb-3"
+           style="width:88px;height:88px;border-radius:50%;
+                  border:4px solid #cfe9d6;display:flex;align-items:center;justify-content:center;">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"
+             stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 class="mb-2" id="notifyTitle">Changes saved!</h3>
+      <p class="text-muted mb-3" id="notifyText">Your update has been applied.</p>
+      <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">OK</button>
+    </div>
+  </div>
+</div>
+
+  </div>
+</section>
+
+<style>
+  .actions-col { width: 12%; }
+  .actions-cell { white-space: nowrap; }
+  .actions-wrap { display: inline-flex; gap: .5rem; }
+  .table td, .table th { vertical-align: middle; } 
+</style>
+
+@section Scripts{
+<script>
+  document.getElementById('selectAllConstraints')?.addEventListener('change', e=>{
+    document.querySelectorAll('.rowCheckbox-constraints').forEach(cb => cb.checked = e.target.checked);
+  });
+</script>
+
+<script>
+(() => {
+  const modal = new bootstrap.Modal(document.getElementById('constraintViewModal'));
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.js-view-constraint');
+    if (!btn) return;
+
+    const program = btn.dataset.program || '';
+    const year   = btn.dataset.year || '';
+
+    try {
+      const url = '@Url.Action("GetConstraintDetails","SubjectCoordinator")' + `?programCode=${encodeURIComponent(program)}&year=${encodeURIComponent(year)}`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' }});
+      if (!res.ok) throw new Error(await res.text());
+      const d = await res.json();
+
+      document.getElementById('vc-code').textContent     = program;
+      document.getElementById('vc-name').textContent     = btn.dataset.name || '-';
+      document.getElementById('vc-session').textContent  = d.sessionNo ? `S1–S${d.sessionNo}` : '-';
+      document.getElementById('vc-year').textContent     = year;
+
+      document.getElementById('vc-default').checked  = (d.status?.toLowerCase() !== 'override');
+      document.getElementById('vc-override').checked = (d.status?.toLowerCase() === 'override');
+
+      document.getElementById('vc-sup').textContent      = d.sup ?? '—';
+      document.getElementById('vc-ass').textContent      = d.ass ?? '—';
+      document.getElementById('vc-rank').textContent     = d.rank ?? '—';
+      document.getElementById('vc-team-min').textContent = d.teamMin ?? '—';
+      document.getElementById('vc-team-max').textContent = d.teamMax ?? '—';
+
+      modal.show();
+    } catch (err) {
+      alert('Failed to load constraints: ' + (err?.message || err));
+    }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const modalEl = document.getElementById('projectDetailsModal');
+  const modal = new bootstrap.Modal(modalEl);
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.js-view-project');
+    if (!btn) return;
+
+    // Fill fields
+    document.getElementById('pd-id').textContent        = btn.dataset.id || '';
+    document.getElementById('pd-title').textContent     = btn.dataset.title || '';
+    document.getElementById('pd-programme').textContent = btn.dataset.programme || '';
+    @* document.getElementById('pd-modules').textContent   = btn.dataset.modules || ''; *@
+    document.getElementById('pd-desc').textContent      = btn.dataset.desc || '';
+
+    modal.show();
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const modalEl = document.getElementById('editProjectModal');
+  const modal   = new bootstrap.Modal(modalEl);
+
+  const idEl      = document.getElementById('ep-id');
+  const titleEl   = document.getElementById('ep-title');
+  const progEl    = document.getElementById('ep-programme');
+  @* const moduleSel = document.getElementById('ep-module'); *@
+  const chipbar   = document.getElementById('ep-chipbar');
+  const descEl    = document.getElementById('ep-desc');
+  const saveBtn   = document.getElementById('ep-save');
+
+
+  async function fillProgramDropdown() {
+  @* const sel = document.getElementById('ep-module');
+  const res = await fetch('@Url.Action("GetAllModules","SubjectCoordinator")', { headers: { 'Accept':'application/json' }});
+  if (!res.ok) return;
+  const rows = await res.json();
+  sel.innerHTML = `<option>Module</option>` +
+                  rows.map(r => `<option value="${r.code} ${r.name}">${r.code} ${r.name}</option>`).join(''); *@
+    const sel = document.getElementById('ep-programme');
+    const currentValue = sel.innerHTML?.trim();
+    const res = await fetch('@Url.Action("GetProgram","SubjectCoordinator")', { headers: { 'Accept':'application/json' }});
+    if (!res.ok) return;
+    const rows = await res.json();
+    sel.innerHTML =
+    rows.map(r => `<option value="${r.code}">${r.code} ${r.name}</option>`).join('');
+    if (currentValue) {
+      const optionToSelect = Array.from(sel.options)
+      .find(opt => opt.value.trim() === currentValue);
+    if (optionToSelect) optionToSelect.selected = true;
+    }
+  }
+  document.getElementById('editProjectModal').addEventListener('shown.bs.modal', fillProgramDropdown);
+
+  // Keep selected MODULE CODES here
+  let selected = new Set();
+
+  // Render a chip (label can be code or "CODE Name"; value = CODE)
+  function addChip(label, code) {
+    if (!code || selected.has(code)) return;
+    selected.add(code);
+
+    const chip = document.createElement('span');
+    chip.className = 'badge rounded-pill bg-secondary-subtle text-dark border px-3 py-2 d-inline-flex align-items-center';
+    chip.dataset.code = code;
+    chip.innerHTML = `<span class="me-2">${label}</span><button type="button" class="btn btn-sm btn-link p-0 text-muted ms-1 ep-chip-x">X</button>`;
+    chipbar.appendChild(chip);
+  }
+
+  function clearChips() {
+    selected.clear();
+    chipbar.innerHTML = '';
+  }
+@* 
+
+  moduleSel.addEventListener('change', () => {
+    const val = moduleSel.value;
+    if (!val || val === 'Module') { moduleSel.selectedIndex = 0; return; }
+
+    const code  = val.split(' ')[0].trim();        // CODE
+    const label = val.trim();                      // display
+    addChip(label, code);
+    moduleSel.selectedIndex = 0;
+  }); *@
+
+  // Remove chip
+  chipbar.addEventListener('click', (e) => {
+    const x = e.target.closest('.ep-chip-x');
+    if (!x) return;
+    const chip = x.closest('[data-code]');
+    const code = chip?.dataset.code;
+    if (code) selected.delete(code);
+    chip?.remove();
+  });
+
+  // Open modal on Edit
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.js-edit-project');
+    if (!btn) return;
+    idEl.textContent = btn.dataset.id || '';
+    titleEl.value    = btn.dataset.title || '';
+    progEl.innerHTML = btn.dataset.programme || 'IT';
+    descEl.value     = btn.dataset.desc || '';
+    clearChips();
+    const codes = (btn.dataset.modcodes || '')
+                    .split('|')
+                    .map(s => s.trim())
+                    .filter(Boolean);
+
+    // Show chips as CODE labels
+    codes.forEach(code => addChip(code, code));
+
+    modal.show();
+  });
+
+  saveBtn.addEventListener('click', async () => {
+    const payload = {
+      id:        idEl.textContent.trim(),
+      title:     titleEl.value.trim(),
+      programme: progEl.value,
+      modules:   Array.from(selected), // list of CODES
+      desc:      descEl.value.trim()
+    };
+
+    try {
+      const res = await fetch('@Url.Action("EditProject","SubjectCoordinator")', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        await showNotify({ title: 'Save failed', text: t || 'Server error' });
+        return;
+      }
+
+      modal.hide();
+      await showNotify({
+        title: 'Project saved',
+        text:  'Your changes have been saved.',
+        onHidden: () => window.location.reload()
+      });
+    } catch (err) {
+      await showNotify({ title: 'Save failed', text: err?.message || 'Network error' });
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(() => {
+  const tbody   = document.querySelector('#tab-projects tbody');
+  const pubBtn  = document.querySelector('button.btn.btn-dark'); 
+  if (!tbody || !pubBtn) return;
+
+  function selectedIds(){
+    return Array.from(tbody.querySelectorAll('tr'))
+      .filter(r => r.querySelector('input[type="checkbox"]')?.checked)
+      .map(r => r.dataset.id)
+      .filter(Boolean);
+  }
+
+  pubBtn.addEventListener('click', async () => {
+    const ids = selectedIds();
+    if (!ids.length) { await showNotify({title:'No selection', text:'Select at least one project.'}); return; }
+
+    const ok = await showConfirm({
+      title: `Publish ${ids.length} project${ids.length>1?'s':''}?`,
+      text:  'They will appear for students and supervisors to submit preferences.',
+      okText:'Publish', cancelText:'Cancel'
+    });
+    if (!ok) return;
+
+    try {
+      const res = await fetch('@Url.Action("PublishProjects","SubjectCoordinator")', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ ids })
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        await showNotify({ title:'Publish failed', text: t || 'Server error.' });
+        return;
+      }
+      const d = await res.json();
+      await showNotify({
+        title:'Published',
+        text: `Published ${d.published} project(s).`,
+        onHidden: () => window.location.reload()
+      });
+    } catch (err) {
+      await showNotify({ title:'Publish failed', text: err?.message || 'Network error.' });
+    }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const dlg        = document.getElementById('createProjectModal');
+  if (!dlg) return;
+
+  const tbody      = document.getElementById('cp-tbody');
+  const selectAll  = document.getElementById('cp-select-all');
+  const preview    = document.getElementById('cp-preview');
+
+  const programme  = document.getElementById('cp-programme');
+  @* const course     = document.getElementById('cp-course'); *@
+  const yearSel    = document.getElementById('cp-year');
+  const sessionSel = document.getElementById('cp-session');
+  @* const moduleSel  = document.getElementById('cp-module'); *@
+  const qBox       = document.getElementById('cp-search');
+  const qBtn       = document.getElementById('cp-search-btn');
+  const createBtn  = document.getElementById('cp-create');
+  const prefDate    = document.getElementById('cp-pref-date');
+  const prefTime    = document.getElementById('cp-pref-time');
+  const prefDateErr = document.getElementById('cp-pref-date-err');
+  const prefTimeErr = document.getElementById('cp-pref-time-err');
+
+
+let programmesLoaded = false;
+
+async function loadProgrammes() {
+  if (programmesLoaded) return;
+  const sel = document.getElementById('cp-programme');
+
+  const res = await fetch('@Url.Action("GetPrograms","SubjectCoordinator")',
+                          { headers: { 'Accept': 'application/json' } });
+
+  if (!res.ok) {
+    sel.innerHTML = '<option value="" disabled selected>(failed to load)</option>';
+    return;
+  }
+
+  const rows = await res.json(); 
+  const opts = rows.map(r => `<option value="${r.code}">${r.code} — ${r.name}</option>`).join('');
+  sel.innerHTML = `
+    <option value="" disabled selected>— Choose programme —</option>
+    ${opts}
+  `;
+  programmesLoaded = true;
+}
+
+
+async function checkCourseConstraintExists(programCode, year, session) {
+  try {
+    const url = '@Url.Action("GetConstraintDetails","SubjectCoordinator")'
+              + `?programCode=${encodeURIComponent(programCode)}&year=${encodeURIComponent(year)}`;
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' }});
+
+    if (!res.ok) {
+      return { ok:false, reason:'missing' };
+    }
+
+    const d = await res.json();               
+    const maxSession = Number(d.sessionNo) || 0;
+
+    if (maxSession && session > maxSession) { 
+      return { ok:false, reason:'session', maxSession };
+    }
+
+    return { ok:true, maxSession };
+  } catch {
+    return { ok:false, reason:'network' };
+  }
+}
+
+@* 
+async function loadCourses(programCode) {
+  const sel = document.getElementById('cp-course');
+
+  // always start with a placeholder
+  sel.innerHTML = `<option value="" disabled selected>— Choose course —</option>`;
+
+  if (!programCode) return; // nothing selected yet
+
+  const url = `@Url.Action("GetCoursesByProgram","SubjectCoordinator")?programCode=${encodeURIComponent(programCode)}`;
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+
+  if (!res.ok) {
+    sel.innerHTML = `<option value="" disabled selected>(failed to load)</option>`;
+    return;
+  }
+
+  const rows = await res.json(); // [{code,name}]
+  if (!rows.length) {
+    sel.innerHTML = `<option value="" disabled selected>(no courses found)</option>`;
+    return;
+  }
+
+  const opts = rows.map(r => `<option value="${r.code}">${r.code} — ${r.name}</option>`).join('');
+  sel.innerHTML = `<option value="" disabled selected>— Choose course —</option>${opts}`;
+} *@
+
+// when Programme changes, (re)load Course list
+document.getElementById('cp-programme').addEventListener('change', e => {
+  const programCode = e.target.value;     // value is already the pure code
+  @* loadCourses(programCode); *@
+});
+
+dlg.addEventListener('shown.bs.modal', async () => {
+  await Promise.all([ loadProgrammes(), loadSessions(), loadYears() ]);
+
+  // reset selects/placeholders
+  document.getElementById('cp-programme').value = "";
+  @* document.getElementById('cp-course').innerHTML = '<option value="" disabled selected>— Choose course —</option>'; *@
+
+  // clear validation state
+  setInvalid(programme, programmeErr, false);
+  @* setInvalid(course, courseErr, false); *@
+
+  selectAll.checked = false;
+  qBox.value = '';
+  @* moduleSel.value = ''; *@
+  page = 1;
+  load();
+});
+
+programme.addEventListener('change', e => {
+  setInvalid(programme, programmeErr, !programme.value);
+  @* const programCode = e.target.value;
+  loadCourses(programCode); *@
+});
+
+@* course.addEventListener('change', () => {
+  setInvalid(course, courseErr, !course.value);
+}); *@
+
+setInvalid(prefDate, prefDateErr, false);
+setInvalid(prefTime, prefTimeErr, false);
+
+prefDate.addEventListener('change', () => {
+  setInvalid(prefDate, prefDateErr, !prefDate.value);
+});
+prefTime.addEventListener('change', () => {
+  setInvalid(prefTime, prefTimeErr, !prefTime.value);
+});
+
+
+async function loadSessions() {
+  const sel = document.getElementById('cp-session');
+  const res = await fetch('@Url.Action("GetSessions","SubjectCoordinator")', {
+    headers: { 'Accept': 'application/json' }
+  });
+  if (!res.ok) {
+    sel.innerHTML = '<option value="">(failed to load)</option>';
+    return;
+  }
+  const rows = await res.json(); // [{value:"S1",text:"S1"},...]
+  sel.innerHTML = rows.map(r => `<option value="${r.value}">${r.text}</option>`).join('');
+}
+
+
+async function loadYears() {
+  const sel = document.getElementById('cp-year');
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const endYear = currentYear + 20; 
+
+  const options = [];
+  for (let y = startYear; y <= endYear; y++) {
+    options.push(`<option value="${y}">${y}</option>`);
+  }
+
+  sel.innerHTML = options.join('');
+  sel.value = startYear; // default to 2025
+}
+dlg.addEventListener('shown.bs.modal', async () => {
+  await Promise.all([
+    loadProgrammes(),
+    loadSessions(),
+    loadYears()
+  ]);
+  selectAll.checked = false;
+  qBox.value = '';
+  @* moduleSel.value = ''; *@
+  page = 1;
+  load(); 
+});
+
+
+
+  function two(n){ return n.toString().padStart(2,'0'); }
+  function makeId(idx){
+    @* const courseVal = (course.value || 'CSIT').toUpperCase(); *@
+    const prog = programSel.value || 'FYP';
+    const yy = (yearSel.value || '2025').slice(-2);
+    const sess = (sessionSel.value || 'S1').toUpperCase();
+    return `${prog}-${yy}-${sess}-${two(idx)}`;
+  }
+
+  function rowCheckedRows(){
+    return Array.from(tbody.querySelectorAll('tr'))
+      .filter(r => r.querySelector('.cp-row')?.checked && r.style.display !== 'none');
+  }
+
+  function renderRows(items){
+    tbody.innerHTML = items.map(t => {
+      const mods = (t.modules || []).map(m => `<div class="text-muted">${m}</div>`).join('');
+      const badgeCls = t.status === 'Active' ? 'text-bg-success' : 'text-bg-secondary';
+      return `
+        <tr data-template-id="${t.templateId}"
+            data-title="${t.title}"
+            data-programme="${t.programme}"
+            @* data-modules="${(t.modules||[]).join('|')}" *@
+            data-status="${t.status}">
+          <td class="text-center"><input type="checkbox" class="cp-row" /></td>
+          <td class="text-muted">${t.templateId}</td>
+          <td class="fw-semibold">${t.title}</td>
+          <td>${t.programme}</td>
+          @* <td>${mods}</td> *@
+          <td><span class="badge rounded-pill ${badgeCls}">${t.status}</span></td>
+        </tr>`;
+    }).join('');
+  }
+
+  function renderPagination(){
+  const pages = Math.max(1, Math.ceil(total / pageSize));
+  const links = Array.from({length: pages}, (_,i) => {
+    const p = i+1;
+    const active = p === page ? 'style="font-weight:600;"' : '';
+    return `<a href="javascript:void(0)" data-page="${p}" ${active}>[${p}]</a>`;
+  }).join(' ');
+  const container = dlg.querySelector('.small.text-muted.mb-3');
+  container.innerHTML = `Pagination: ${links}`;
+}
+
+
+let page = 1, pageSize = 10, total = 0;
+
+async function load(){
+  const url = '@Url.Action("GetProjectTemplates","SubjectCoordinator")'
+    + `?programme=${encodeURIComponent(programme.value)}`
+    @* + `&course=${encodeURIComponent(course.value)}` *@
+    + `&year=${encodeURIComponent(yearSel.value)}`
+    + `&session=${encodeURIComponent(sessionSel.value)}`
+    @* + `&module=${encodeURIComponent(moduleSel.value)}` *@
+    + `&q=${encodeURIComponent(qBox.value)}`
+    + `&page=${page}&pageSize=${pageSize}`;
+
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' }});
+  if (!res.ok){
+    tbody.innerHTML = `<tr><td colspan="6" class="text-danger">Failed to load templates</td></tr>`;
+    return;
+  }
+
+  const data = await res.json();
+  total = data.total || 0;
+
+  if (!data.items?.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="text-muted">No templates found.</td></tr>`;
+  } else {
+    renderRows(data.items);
+  }
+
+  renderPagination();
+  selectAll.checked = false;
+  refreshPreview();
+}
+
+const programmeErr = document.getElementById('cp-programme-error');
+const courseErr    = document.getElementById('cp-course-error');
+
+function setInvalid(el, msgEl, invalid) {
+  if (invalid) {
+    el.classList.add('is-invalid');
+    if (msgEl) msgEl.classList.add('d-block');   
+  } else {
+    el.classList.remove('is-invalid');
+    if (msgEl) msgEl.classList.remove('d-block'); 
+  }
+}
+
+
+
+  async function refreshPreview(){
+  const rows = rowCheckedRows();
+  if (!rows.length){
+    preview.innerHTML = '<div class="text-muted">No templates selected.</div>';
+    return;
+  }
+
+  // need course/year/session to preview actual IDs
+  @* const courseVal  = (course.value || '').trim(); *@
+  const prog = programme.value || 'FYP';
+  const yearVal    = parseInt(yearSel.value || '0', 10);
+  const sessionVal = parseInt((sessionSel.value || '').replace(/[^0-9]/g,''), 10);
+
+  let ids = [];
+  if (yearVal > 0 && sessionVal > 0) {
+    try {
+      const url = '@Url.Action("PreviewProjectIds","SubjectCoordinator")'
+                + `?program=${encodeURIComponent(prog)}`
+                + `&year=${encodeURIComponent(yearVal)}`
+                + `&session=${encodeURIComponent(sessionVal)}`
+                + `&count=${rows.length}`;
+      const res = await fetch(url, { headers: { 'Accept':'application/json' }});
+      if (res.ok) {
+        const d = await res.json();
+        ids = Array.isArray(d.ids) ? d.ids : [];
+      }
+    } catch {}
+  }
+
+  // fallback if preview endpoint not available / invalid selections
+  if (!ids.length){
+    const two = n => n.toString().padStart(2,'0');
+    const yy  = (yearSel.value || '2025').slice(-2);
+    const sess= (sessionSel.value || 'S1').toUpperCase();
+    const cc  = (courseVal || 'CSIT').toUpperCase();
+    ids = rows.map((_,i) => `${cc}-${yy}-${sess}-${two(i+1)}`);
+  }
+
+  const items = rows.map((r,i) =>
+    `<div class="d-flex gap-3 py-1 border-bottom">
+       <div class="text-muted" style="min-width:140px;">${ids[i] || ''}</div>
+       <div>${r.dataset.title || ''}</div>
+     </div>`).join('');
+  preview.innerHTML = items;
+}
+
+
+  // events
+  selectAll.addEventListener('change', e => {
+    tbody.querySelectorAll('.cp-row').forEach(cb => cb.checked = e.target.checked);
+    refreshPreview();
+  });
+
+  tbody.addEventListener('change', e => {
+    if (!e.target.classList.contains('cp-row')) return;
+    const all = Array.from(tbody.querySelectorAll('.cp-row'));
+    selectAll.checked = all.length && all.every(cb => cb.checked);
+    refreshPreview();
+  });
+
+  dlg.addEventListener('click', e => {
+    const a = e.target.closest('a[data-page]');
+    if (!a) return;
+    page = parseInt(a.getAttribute('data-page'), 10) || 1;
+    load();
+  });
+
+  [programme, yearSel, sessionSel].forEach(el => {
+    el.addEventListener('change', () => { page = 1; load(); });
+  });
+
+  qBtn.addEventListener('click', () => { page = 1; load(); });
+  qBox.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){ e.preventDefault(); page = 1; load(); }
+  });
+
+  // create (with programme/course required)
+// create (with inline validation)
+createBtn.addEventListener('click', async () => {
+  let hasError = false;
+
+  if (!programme.value) {
+    setInvalid(programme, programmeErr, true);
+    hasError = true;
+  }
+  @* if (!course.value) {
+    setInvalid(course, courseErr, true);
+    hasError = true;
+  } *@
+
+
+// Date + Time are required
+if (!prefDate.value) { setInvalid(prefDate, prefDateErr, true); hasError = true; }
+if (!prefTime.value) { setInvalid(prefTime, prefTimeErr, true); hasError = true; }
+
+  if (hasError) return;
+
+  const rows = rowCheckedRows();
+  if (!rows.length){
+    await showNotify({ title: 'No templates selected', text: 'Please tick at least one template.' });
+    return;
+  }
+
+  const payload = {
+    programme: programme.value,
+    @* course: course.value, *@
+    year: parseInt(yearSel.value, 10),
+    session: parseInt((sessionSel.value || 'S1').replace(/[^0-9]/g,''), 10) || 1,
+    templateIds: rows.map(r => r.dataset.templateId)
+  };
+
+ payload.prefCloseAt = `${prefDate.value}T${prefTime.value}:00`;
+
+
+ const chk = await checkCourseConstraintExists(payload.programme, payload.year, payload.session);
+  if (!chk.ok) {
+    let msg = 'Please set the course constraint first in the "Manage Constraints" tab.';
+    if (chk.reason === 'session') {
+      msg = `Constraints are defined only up to S${chk.maxSession}. `
+          + `Please add constraints for session S${payload.session}.`;
+    } else if (chk.reason === 'network') {
+      msg = 'Could not verify constraints due to a network error. Please try again.';
+    }
+    await showNotify({
+      title: 'Constraints required',
+      text:  msg,
+      onHidden: () => window.location = '@Url.Action("Projects","SubjectCoordinator")?tab=constraints'
+    });
+    return; 
+  }
+
+
+  const res = await fetch('@Url.Action("CreateProjectsFromTemplates","SubjectCoordinator")', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok){
+    const t = await res.text();
+    await showNotify({ title: 'Create failed', text: t || 'Server error' });
+    return;
+  }
+
+  const d = await res.json();
+  bootstrap.Modal.getInstance(dlg)?.hide();
+  await showNotify({
+    title: 'Created',
+    text:  `Created ${d.created} project(s): ${ (d.projectIds||[]).join(', ') }`,
+    onHidden: () => window.location.reload()
+  });
+});
+
+
+  // reset + initial load each time it opens
+  dlg.addEventListener('shown.bs.modal', () => {
+    selectAll.checked = false;
+    qBox.value = '';
+    @* moduleSel.value = ''; *@
+    page = 1;
+    load();
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const dlg = document.getElementById('constraintAddModal');
+  if (!dlg) return;
+
+  const codeSel = dlg.querySelector('#ap-code');
+  const nameBox = dlg.querySelector('#ac-name');
+  const sessSel = dlg.querySelector('#ac-session');
+  const yearSel = dlg.querySelector('#ac-year');
+  const defCb   = dlg.querySelector('#ac-default');
+  const ovCb    = dlg.querySelector('#ac-override');
+
+  const supBox  = dlg.querySelector('#ac-sup');
+  const assBox  = dlg.querySelector('#ac-ass');
+  const rankBox = dlg.querySelector('#ac-rank');
+  const teamMin = dlg.querySelector('#ac-team-min');
+  const teamMax = dlg.querySelector('#ac-team-max');
+
+  const saveBtn = dlg.querySelector('#ac-edit-toggle');
+
+  // Inline error helpers
+  const errors = {
+    code: dlg.querySelector('#ap-code-error'),
+    sess: dlg.querySelector('#ac-session-error'),
+    year: dlg.querySelector('#ac-year-error')
+  };
+
+  function setInvalid(el, msgEl, invalid) {
+    if (invalid) {
+      el.classList.add('is-invalid');
+      msgEl.style.display = '';
+    } else {
+      el.classList.remove('is-invalid');
+      msgEl.style.display = 'none';
+    }
+  }
+
+  function validateRequired() {
+    const a = !codeSel.value;
+    const b = !sessSel.value;
+    const c = !yearSel.value;
+
+    setInvalid(codeSel, errors.code, a);
+    setInvalid(sessSel, errors.sess, b);
+    setInvalid(yearSel, errors.year, c);
+
+    return !(a || b || c);
+  }
+
+  // Enable constraints only when Override is checked
+  function refreshConstraintsEnabled() {
+    const allow = ovCb.checked;
+    [supBox, assBox, rankBox, teamMin, teamMax].forEach(el => el.disabled = !allow);
+  }
+
+  // Build year select with placeholder (so it's "empty" initially)
+  function buildYears(years = [2024, 2025, 2026]) {
+    yearSel.innerHTML =
+      `<option value="" selected disabled>— Select year —</option>` +
+      years.map(y => `<option value="${y}">${y}</option>`).join('');
+  }
+
+  // Data loads
+  @* async function loadCourses() {
+    const res  = await fetch('@Url.Action("GetCourses","SubjectCoordinator")');
+    const rows = await res.json();
+    codeSel.innerHTML =
+      `<option value="" selected disabled>— Select course —</option>` +
+      rows.map(r => `<option value="${r.code}" data-name="${r.name}">${r.code}</option>`).join('');
+    nameBox.value = '';
+  } *@
+
+  async function loadProgram() {
+    const res  = await fetch('@Url.Action("GetProgram","SubjectCoordinator")');
+    const rows = await res.json();
+    codeSel.innerHTML =
+      `<option value="" selected disabled>— Select course —</option>` +
+      rows.map(r => `<option value="${r.code}" data-name="${r.name}">${r.code}</option>`).join('');
+    nameBox.value = '';
+  }
+
+async function loadScaffold() {
+  if (!yearSel.value) return;
+
+  const y = parseInt(yearSel.value, 10);
+  const res = await fetch('@Url.Action("GetConstraintScaffold","SubjectCoordinator")' + `?year=${y}`);
+  if (!res.ok) {
+    console.error('Scaffold HTTP error', res.status, await res.text());
+    return;
+  }
+
+  const d = await res.json();
+
+  const toNum = (v, fb) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fb;
+  };
+
+  // sessions
+  const sessionNo = toNum(d.sessionNo, 3);
+  sessSel.innerHTML =
+    `<option value="" selected disabled>— Select session —</option>` +
+    Array.from({ length: sessionNo }, (_, i) => `<option value="${i+1}">S${i+1}</option>`).join('');
+
+  // values from DB
+  supBox.value  = toNum(d.sLoadCap, 1);
+  assBox.value  = toNum(d.aLoadCap, 2);
+  rankBox.value = toNum(d.prefRankLimit, 3);
+  teamMin.value = toNum(d.sMin, 4);
+  teamMax.value = toNum(d.sMax, 6);
+
+  // status toggles
+  defCb.checked = true;
+  ovCb.checked  = false;
+
+  refreshConstraintsEnabled();
+
+  // clear validation styling
+  [codeSel, sessSel, yearSel].forEach(el =>
+    setInvalid(el, errors[el.id.split('-')[1]] ?? { style: {} }, false)
+  );
+}
+
+
+
+
+  async function resetForNext() {
+  buildYears();
+  await loadProgram();
+
+  // Preselect current year from server and pull defaults immediately
+  const defaultYear = '@Model.Year';        // e.g., 2025
+  if (defaultYear) {
+    yearSel.value = String(defaultYear);
+    await loadScaffold();                   
+  } else {
+    // if no server year, keep session blank
+    sessSel.innerHTML = `<option value="" selected disabled>— Select session —</option>`;
+  }
+
+  // Clear any validation styles and set enable/disable state
+  [codeSel, sessSel, yearSel].forEach(el => setInvalid(el, errors[el.id.split('-')[1]] ?? {style:{}}, false));
+  refreshConstraintsEnabled();
+}
+
+  // Events
+  codeSel.addEventListener('change', () => {
+    const opt = codeSel.options[codeSel.selectedIndex];
+    nameBox.value = opt?.dataset?.name || '';
+    setInvalid(codeSel, errors.code, !codeSel.value);
+  });
+
+  yearSel.addEventListener('change', async () => {
+    setInvalid(yearSel, errors.year, !yearSel.value);
+    await loadScaffold();
+  });
+
+  sessSel.addEventListener('change', () => setInvalid(sessSel, errors.sess, !sessSel.value));
+
+  defCb.addEventListener('change', () => { if (defCb.checked) ovCb.checked = false; refreshConstraintsEnabled(); });
+  ovCb.addEventListener('change',  () => { if (ovCb.checked) defCb.checked = false; refreshConstraintsEnabled(); });
+
+  // SAVE
+  // SAVE
+saveBtn.addEventListener('click', async () => {
+  if (!validateRequired()) return;
+
+  const ok = await showConfirm({
+    title: 'Save these constraints?',
+    text:  'This will create/update the course constraint for the selected year and session.',
+    okText: 'OK',
+    cancelText: 'Cancel'
+  });
+  if (!ok) return;
+
+  const payload = {
+    programCode:    codeSel.value,
+    year:          parseInt(yearSel.value, 10),
+    sessionNo:     parseInt(sessSel.value, 10),
+    isOverride:    ovCb.checked,
+    sLoadCap:      parseInt(supBox.value, 10),
+    aLoadCap:      parseInt(assBox.value, 10),
+    prefRankLimit: parseInt(rankBox.value, 10),
+    sMin:          parseInt(teamMin.value, 10),
+    sMax:          parseInt(teamMax.value, 10)
+  };
+
+  const res = await fetch('@Url.Action("SaveProgramConstraint","SubjectCoordinator")', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    const t = await res.text();
+    await showNotify({ title: 'Save failed', text: t });
+    return;
+  }
+
+  // Auto-close the Add Constraint form, then show success popup
+  const addDlg = document.getElementById('constraintAddModal');
+  bootstrap.Modal.getInstance(addDlg)?.hide();
+
+  // optional: refresh the grid in the background
+  await resetForNext();
+
+  await showNotify({
+    title: 'Constraint saved',
+    text:  'Your course constraint has been saved successfully.',
+    onHidden: () => window.location.reload()
+  });
+
+  // Optionally force a reload of the grid behind:
+  // window.location = '@Url.Action("Projects","SubjectCoordinator")?tab=constraints';
+});
+
+
+  // Fresh form every time modal opens
+  dlg.addEventListener('shown.bs.modal', resetForNext);
+})();
+</script>
+
+<script>
+  function showConfirm({ title, text, okText = 'OK', cancelText = 'Cancel' } = {}) {
+    return new Promise(resolve => {
+      const el    = document.getElementById('confirmModal');
+      const m     = new bootstrap.Modal(el);
+      const ttl   = document.getElementById('confirmModalTitle');
+      const body  = document.getElementById('confirmModalText');
+      const okBtn = document.getElementById('confirmOkBtn');
+      const cancelBtn = document.getElementById('confirmCancelBtn');
+
+      ttl.textContent  = title || 'Are you sure?';
+      body.textContent = text  || 'Please confirm this action.';
+      okBtn.textContent = okText;
+      cancelBtn.textContent = cancelText;
+
+      let settled = false;
+
+      okBtn.onclick = () => { settled = true; m.hide(); resolve(true); };
+      el.addEventListener('hidden.bs.modal', () => { if (!settled) resolve(false); }, { once: true });
+
+      m.show();
+    });
+  }
+
+  async function showNotify({ title, text, onHidden } = {}) {
+    const el   = document.getElementById('notifyModal');
+    const m    = new bootstrap.Modal(el);
+    document.getElementById('notifyTitle').textContent = title || 'Done';
+    document.getElementById('notifyText').textContent  = text  || '';
+    if (onHidden) el.addEventListener('hidden.bs.modal', onHidden, { once: true });
+    m.show();
+  }
+</script>
+<script>
+(() => {
+  const delBtn = document.getElementById('btn-delete-constraints');
+  if (!delBtn) return;
+
+  const deleteUrl = '@Url.Action("DeleteProgramConstraints","SubjectCoordinator")';
+  const currentYear = '@Model.Year';
+
+  function selectedRows() {
+    return Array.from(document.querySelectorAll('#tab-constraints tbody tr'))
+      .filter(r => r.querySelector('.rowCheckbox-constraints')?.checked);
+  }
+
+  delBtn.addEventListener('click', async () => {
+    const rows = selectedRows();
+    if (!rows.length) {
+      await showNotify({ title: 'No selection', text: 'Select at least one row to delete.' });
+      return;
+    }
+
+    const programCodes = rows.map(r => r.dataset.code).filter(Boolean);
+    const ok = await showConfirm({
+      title: `Delete ${programCodes.length} constraint${programCodes.length>1?'s':''}?`,
+      text:  'This action cannot be undone.',
+      okText: 'Delete',
+      cancelText: 'Cancel'
+    });
+    if (!ok) return;
+
+    try {
+      const res = await fetch(deleteUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          year: Number(currentYear),
+          programCodes: programCodes
+        })
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        await showNotify({ title: 'Delete failed', text: t || 'Server returned an error.' });
+        return;
+      }
+
+      // success: show popup then auto-refresh
+      await showNotify({
+        title: 'Deleted',
+        text:  `Removed ${programCodes.length} item(s).`,
+        onHidden: () => window.location.reload()
+      });
+
+    } catch (err) {
+      await showNotify({ title: 'Delete failed', text: (err && err.message) || 'Network error.' });
+    }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  // ------- elements
+  const tbody     = document.querySelector('#tab-constraints tbody');
+  if (!tbody) return;
+
+  const yearSel   = document.getElementById('fc-year');
+  const programSel = document.getElementById('fc-program');
+  const sessSel   = document.getElementById('fc-session');
+  const qBox      = document.getElementById('fc-search');
+  const qBtn      = document.getElementById('fc-search-btn');
+
+  // ------- helpers
+  const rows = () => Array.from(tbody.querySelectorAll('tr'));
+  const norm = s => (s || '').toString().trim().toLowerCase();
+
+  // Build the course list from table
+  (function populateCoursesFromTable(){
+    const seen = new Set();
+    rows().forEach(r => {
+      const code = (r.dataset.code || '').trim();
+      if (code && !seen.has(code)) {
+        seen.add(code);
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = `Program: ${code}`;
+        programSel.appendChild(opt);
+      }
+    });
+  })();
+
+  function getSessionText(r){
+    const cell = r.children[3];
+    return cell ? cell.textContent.trim() : '';
+  }
+
+  // Main filter
+  function applyFilter(){
+    const yVal  = yearSel?.value || '__all__';         
+    const cVal  = programSel?.value || '__all__';
+    const sVal  = sessSel?.value || '__all__';
+    const query = norm(qBox?.value);
+
+    rows().forEach(r => {
+      const code = (r.dataset.code || '');
+      const name = (r.dataset.name || '');
+      const sessionText = getSessionText(r); // e.g. "S1–S3"
+
+      // matchers
+      const okCourse  = (cVal === '__all__') || code.toUpperCase() === cVal.toUpperCase();
+      const okSession = (sVal === '__all__') || sessionText.includes(sVal); 
+      const okSearch  = !query || (norm(code).includes(query) || norm(name).includes(query));
+
+      const show = okCourse && okSession && okSearch; 
+      r.style.display = show ? '' : 'none';
+    });
+  }
+
+  // Wire events
+  programSel.addEventListener('change', applyFilter);
+  sessSel.addEventListener('change', applyFilter);
+  yearSel.addEventListener('change', applyFilter); 
+  qBtn.addEventListener('click', applyFilter);
+  qBox.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); applyFilter(); }
+  });
+
+  applyFilter();
+})();
+</script>
+
+<script>
+(() => {
+  // Select-all (optional)
+  const selectAll = document.getElementById('pj-select-all');
+  const tbody = document.querySelector('#tab-projects tbody');
+
+  if (selectAll && tbody) {
+    selectAll.addEventListener('change', e => {
+      tbody.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+    });
+  }
+
+  // Delete button handler
+  const delBtn = document.getElementById('btn-delete-projects');
+  if (!delBtn || !tbody) return;
+
+  // Adjust to your real controller action name if different
+  const deleteUrl = '@Url.Action("DeleteProjects","SubjectCoordinator")';
+
+  function selectedRows() {
+    return Array.from(tbody.querySelectorAll('tr'))
+      .filter(r => r.querySelector('input[type="checkbox"]')?.checked);
+  }
+
+  delBtn.addEventListener('click', async () => {
+    const rows = selectedRows();
+    if (!rows.length) {
+      await showNotify({ title: 'No selection', text: 'Select at least one project to delete.' });
+      return;
+    }
+
+    const ids = rows.map(r => r.dataset.id).filter(Boolean);
+
+    const ok = await showConfirm({
+      title: `Delete ${ids.length} project${ids.length>1?'s':''}?`,
+      text: 'This action cannot be undone.',
+      okText: 'Delete',
+      cancelText: 'Cancel'
+    });
+    if (!ok) return;
+
+    try {
+      const res = await fetch(deleteUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        await showNotify({ title: 'Delete failed', text: t || 'Server error.' });
+        return;
+      }
+
+      // Success – remove rows immediately or reload
+      rows.forEach(r => r.remove());
+      if (selectAll) selectAll.checked = false;
+
+      await showNotify({
+        title: 'Deleted',
+        text: `Removed ${ids.length} project(s).`,
+        onHidden: () => window.location.reload()
+      });
+    } catch (err) {
+      await showNotify({ title: 'Delete failed', text: (err && err.message) || 'Network error.' });
+    }
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const tbody      = document.querySelector('#tab-projects tbody');
+  if (!tbody) return;
+
+  const programSel  = document.getElementById('pj-program');
+  //const moduleSel  = document.getElementById('pj-module');
+  const sessionSel = document.getElementById('pj-session');
+  const qBox       = document.getElementById('pj-search');
+  const qBtn       = document.getElementById('pj-search-btn');
+
+  const rows = () => Array.from(tbody.querySelectorAll('tr'));
+  const norm = s => (s || '').toString().trim().toLowerCase();
+
+  // Helpers to read row fields
+  function getId(r)       { return (r.querySelector('td:nth-child(2) span')?.textContent || '').trim(); }
+  function getTitle(r)    { return (r.querySelector('td:nth-child(3)')?.textContent || '').trim(); }
+  function getProgramme(r){ return (r.querySelector('td:nth-child(4)')?.textContent || '').trim(); }
+  function getModules(r)  {
+    return Array.from(r.querySelectorAll('td:nth-child(5) .text-muted')).map(d => d.textContent.trim());
+  }
+
+  function getCourseFromId(id) {
+    // match first two hyphen-delimited segments
+    const m = id.match(/^([A-Za-z0-9]+-[A-Za-z0-9]+)/);
+    return m ? m[1] : '';
+  }
+  // Session (S1/S2/S3) extracted from ProjectId
+  function getSessionFromId(id) {
+    const m = id.match(/-(S\d)-/i);
+    return m ? m[1].toUpperCase() : '';
+  }
+
+  // Populate filter dropdowns from table
+  (function populateFilters(){
+    const courseSet = new Set();
+    const moduleSet = new Set();
+
+    rows().forEach(r => {
+      const id  = getId(r);
+      const crs = getCourseFromId(id);
+      if (crs) courseSet.add(crs);
+
+      getModules(r).forEach(m => { if (m) moduleSet.add(m); });
+    });
+
+    // Courses
+    courseSet.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = `Program: ${c}`;
+      programSel.appendChild(opt);
+    });
+
+    // Modules
+    @* moduleSet.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      moduleSel.appendChild(opt);
+    }); *@
+  })();
+
+  function applyFilter() {
+    const cVal = programSel?.value || '__all__';
+    @* const mVal = moduleSel?.value || '__all__'; *@
+    const sVal = sessionSel?.value || '__all__';
+    const q    = norm(qBox?.value);
+
+    rows().forEach(r => {
+      const id        = getId(r);
+      const title     = getTitle(r);
+      const programme = getProgramme(r);
+      const modules   = getModules(r);
+
+      const rowCourse  = getCourseFromId(id).toUpperCase();
+      const rowSession = getSessionFromId(id).toUpperCase();
+
+      const okCourse  = (cVal === '__all__') || rowCourse === cVal.toUpperCase();
+      @* const okModule  = (mVal === '__all__') || modules.some(x => x.toLowerCase() === mVal.toLowerCase()); *@
+      const okSession = (sVal === '__all__') || rowSession === sVal.toUpperCase();
+
+      const hay = `${id} ${title} ${programme} ${modules.join(' ')}`;
+      const okSearch = !q || norm(hay).includes(q);
+
+      r.style.display = (okCourse && okSession && okSearch) ? '' : 'none';
+    });
+  }
+
+  // Wire events
+  programSel.addEventListener('change', applyFilter);
+  @* moduleSel.addEventListener('change', applyFilter); *@
+  sessionSel.addEventListener('change', applyFilter);
+  qBtn.addEventListener('click', applyFilter);
+  qBox.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyFilter(); } });
+
+  // Initial pass
+  applyFilter();
+})();
+</script>
+<script>
+(() => {
+  const publishBtn = document.getElementById('btn-publish-projects');
+  const tbody      = document.querySelector('#tab-projects tbody');
+  if (!publishBtn || !tbody) return;
+
+  // controller endpoint (adjust if you name it differently)
+  const publishUrl = '@Url.Action("PublishProjects","SubjectCoordinator")';
+
+  function selectedRows() {
+    return Array.from(tbody.querySelectorAll('tr'))
+      .filter(r => r.querySelector('input[type="checkbox"]')?.checked);
+  }
+
+  publishBtn.addEventListener('click', async () => {
+    const rows = selectedRows();
+    if (!rows.length) {
+      await showNotify({ title: 'No selection', text: 'Select at least one project to publish.' });
+      return;
+    }
+
+    const ids = rows.map(r => r.dataset.id).filter(Boolean);
+
+    const ok = await showConfirm({
+      title: `Publish ${ids.length} project${ids.length>1?'s':''}?`,
+      text:  'Students and supervisors will be able to view them and submit preferences.',
+      okText: 'Publish',
+      cancelText: 'Cancel'
+    });
+    if (!ok) return;
+
+    try {
+      publishBtn.disabled = true;
+
+      const res = await fetch(publishUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+      });
+
+      if (!res.ok) {
+        const t = await res.text();
+        await showNotify({ title: 'Publish failed', text: t || 'Server error.' });
+        return;
+      }
+
+      const d = await res.json(); // { published: n }
+      await showNotify({
+        title: 'Published',
+        text:  `Published ${d.published ?? ids.length} project(s).`,
+        onHidden: () => window.location.reload()
+      });
+    } catch (err) {
+      await showNotify({ title: 'Publish failed', text: (err && err.message) || 'Network error.' });
+    } finally {
+      publishBtn.disabled = false;
+    }
+  });
+})();
+</script>
+
+}

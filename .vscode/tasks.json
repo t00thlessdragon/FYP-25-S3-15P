@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/FYP-25-S3-15P.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

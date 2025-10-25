@@ -1,0 +1,1254 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model FYP_25_S3_15P.Models.StaffAndStudentVm
+
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+
+@{
+
+ViewData["Title"] = "University User Management Dashboard";
+
+
+
+// Model updated to use StaffAndStudentVm
+
+var staffList = Model.Staff ?? new List<FYP_25_S3_15P.Models.StaffAndStudentVm.StaffRow>();
+
+var studentList = Model.Students ?? new List<FYP_25_S3_15P.Models.StaffAndStudentVm.StudentRow>();
+
+}
+
+
+
+
+
+<style>
+
+.overflow-visible { overflow: visible !important; }
+
+.table .dropdown-menu { z-index: 1060; }
+
+.modal-staff-details {
+
+display: none;
+
+}
+
+/* Ensure modals are on top of other content */
+
+.modal { z-index: 2000; }
+
+.modal-backdrop { z-index: 1999; }
+
+#uploadSuccessModal { z-index: 2010; }
+
+</style>
+
+
+
+
+
+<section class="card-xl container-wide">
+
+<div class="card rounded-4 p-4 p-lg-5 shadow-lg">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+<h2 class="mb-0">University User Management</h2>
+
+<div class="dropdown">
+
+<button class="btn btn-primary dropdown-toggle shadow-sm" type="button" id="uploadUsersDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+
++ Upload Users
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="uploadUsersDropdown">
+
+<li><button class="dropdown-item text-decoration-underline fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadStaffModal">+ Upload Staff</button></li>
+
+<li><button class="dropdown-item text-decoration-underline fw-semibold" data-bs-toggle="modal" data-bs-target="#uploadStudentsModal">+ Upload Students</button></li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+
+@* Flash Messages *@
+
+@if (TempData["Flash"] is string ok && !string.IsNullOrWhiteSpace(ok))
+
+{
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">@ok
+
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+</div>
+
+}
+
+@if (TempData["Error"] is string err && !string.IsNullOrWhiteSpace(err))
+
+{
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">@err
+
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+</div>
+
+}
+
+
+
+<ul class="nav nav-tabs mb-4" id="userTabs" role="tablist">
+
+<li class="nav-item" role="presentation">
+
+<button class="nav-link active" id="staff-tab" data-bs-toggle="tab" data-bs-target="#staff-management" type="button" role="tab" aria-controls="staff-management" aria-selected="true">
+
+Staff Management (@staffList.Count)
+
+</button>
+
+</li>
+
+<li class="nav-item" role="presentation">
+
+<button class="nav-link" id="student-tab" data-bs-toggle="tab" data-bs-target="#student-management" type="button" role="tab" aria-controls="student-management" aria-selected="false">
+
+Student Management (@studentList.Count)
+
+</button>
+
+</li>
+
+</ul>
+
+
+
+<div class="tab-content" id="userTabsContent">
+
+
+
+<div class="tab-pane fade show active" id="staff-management" role="tabpanel" aria-labelledby="staff-tab">
+
+<div class="table-responsive overflow-visible">
+
+<table class="table align-middle">
+
+<thead class="table-dark">
+
+<tr>
+
+<th style="width:64px;">No.</th>
+
+<th>Staff ID</th>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Modules</th>
+
+<th>Session</th>
+
+<th>Status</th>
+
+<th>Last Login</th>
+
+<th class="text-end" style="width:80px;">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@for (var i = 0; i < staffList.Count; i++)
+
+{
+
+var s = staffList[i];
+
+var badge = s.IsLocked ? "danger" :
+
+(s.Status ?? "").ToLowerInvariant() == "active" ? "success" :
+
+(s.Status ?? "").ToLowerInvariant() == "pending" ? "warning" : "secondary";
+
+
+
+<tr>
+
+<td class="text-muted">@(@i + 1)</td>
+
+<td>@s.StaffID</td>
+
+<td>@s.Name</td>
+
+<td>@s.Email</td>
+
+<td>
+
+@foreach(var m in s.AssignedModules)
+
+{
+
+<span class="badge bg-secondary me-1">@m.ModuleCode</span>
+
+}
+
+</td>
+
+<td>
+
+<span>@s.SessionNo</span>
+
+</td>
+
+<td><span class="badge bg-@badge">@((s.IsLocked ? "Locked" : s.Status) ?? "-")</span></td>
+
+<td>@(s.LastLogin?.ToString("g") ?? "-")</td>
+
+<td class="text-end">
+
+<div class="dropdown">
+
+<button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-label="Row actions">
+
+<i class="bi bi-three-dots-vertical fs-5"></i>
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+
+<button class="dropdown-item view-user-btn" data-bs-toggle="modal" data-bs-target="#viewUserModal"
+        data-id="@s.Id"
+        data-type="Staff"
+        data-identifier="@(s.StaffID ?? "")"
+        data-name="@(s.Name?.Trim() ?? "")"
+        data-email="@(s.Email?.Trim() ?? "")"
+        data-university="@(s.UniAbbrv ?? "")"
+        data-status="@(s.Status ?? "")"
+        data-lastlogin="@(s.LastLogin?.ToString("g") ?? "-")"
+        data-active="@(!s.IsLocked)"
+        data-program=""
+        data-course=""
+        data-session="@(s.SessionNo ?? "")"
+        data-modules="@(string.Join(", ", s.AssignedModules.Select(m => m.ModuleCode)))">
+        View / Edit
+    </button>
+
+</li>
+
+</ul>
+
+</div>
+
+</td>
+
+</tr>
+
+}
+
+@if (!staffList.Any())
+
+{
+
+<tr>
+
+<td colspan="9" class="text-center text-muted fst-italic py-4">No staff records found for your university.</td>
+
+</tr>
+
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="tab-pane fade" id="student-management" role="tabpanel" aria-labelledby="student-tab">
+
+<div class="table-responsive overflow-visible">
+
+<table class="table align-middle">
+
+<thead class="table-dark">
+
+<tr>
+
+<th style="width:64px;">No.</th>
+
+<th>Student ID</th>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Program / Course</th>
+
+<th>Modules</th>
+
+<th>Session</th>
+
+<th>Status</th>
+
+<th>Last Login</th>
+
+<th class="text-end" style="width:80px;">Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@for (var i = 0; i < studentList.Count; i++)
+
+{
+
+var s = studentList[i];
+
+var badge = s.IsLocked ? "danger" :
+
+(s.Status ?? "").ToLowerInvariant() == "active" ? "success" :
+
+(s.Status ?? "").ToLowerInvariant() == "pending" ? "warning" : "secondary";
+
+
+
+
+
+<tr>
+
+<td class="text-muted">@(@i + 1)</td>
+
+<td>@s.StudentID</td>
+
+<td>@s.Name</td>
+
+<td>@s.Email</td>
+
+<td>@s.ProgramName / @s.CourseName</td>
+
+<td>
+
+@foreach(var m in s.EnrolledModules)
+
+{
+
+<span class="badge bg-info text-dark me-1">@m.ModuleCode</span>
+
+}
+
+</td>
+
+<td>
+
+<span>@s.SessionNo</span>
+
+</td>
+
+<td><span class="badge bg-@badge">@((s.IsLocked ? "Locked" : s.Status) ?? "-")</span></td>
+
+<td>@(s.LastLogin?.ToString("g") ?? "-")</td>
+
+<td class="text-end">
+
+<div class="dropdown">
+
+<button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown" aria-label="Row actions">
+
+<i class="bi bi-three-dots-vertical fs-5"></i>
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+
+<button class="dropdown-item view-user-btn" data-bs-toggle="modal" data-bs-target="#viewUserModal"
+
+data-id="@s.Id"
+
+data-type="Student"
+
+data-identifier="@s.StudentID"
+
+data-name="@s.Name"
+
+data-email="@s.Email"
+
+data-university="@s.UniAbbrv"
+
+data-status="@s.Status"
+
+data-lastlogin="@(s.LastLogin?.ToString("g") ?? "-")"
+
+data-active="@(!s.IsLocked)"
+
+data-program="@s.ProgramName"
+
+data-course="@s.CourseName"
+
+data-session="@s.SessionNo"
+
+data-modules="@string.Join(", ", s.EnrolledModules.Select(m => m.ModuleCode))">
+
+View / Edit
+
+</button>
+
+</li>
+
+</ul>
+
+</div>
+
+</td>
+
+</tr>
+
+}
+
+@if (!studentList.Any())
+
+{
+
+<tr>
+
+<td colspan="10" class="text-center text-muted fst-italic py-4">No student records found for your university.</td>
+
+</tr>
+
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+
+</div> @* end of tab-content *@
+
+
+
+</div>
+
+</section>
+
+
+
+@* ==================================================================== *@
+
+@* MODALS (View, Deactivate/Activate, Reset Password, Upload Status) *@
+
+@* ==================================================================== *@
+
+
+
+<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+
+<div class="modal-dialog modal-lg">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title" id="viewUserModalLabel">User Details (<span id="modal-user-type"></span>)</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+<div class="modal-body">
+
+<div class="row g-3">
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">Profile ID / Type ID</p>
+
+<p class="fw-bold fs-5" id="modal-identifier"></p>
+
+</div>
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">Status</p>
+
+<p class="fw-bold" id="modal-status"></p>
+
+</div>
+
+<div class="col-12">
+
+<p class="mb-1 text-muted small fw-semibold">Name</p>
+
+<p class="fs-4 fw-normal" id="modal-name"></p>
+
+</div>
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">Email</p>
+
+<p id="modal-email"></p>
+
+</div>
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">University</p>
+
+<p id="modal-university"></p>
+
+</div>
+
+
+
+<div class="col-md-6 modal-student-details">
+
+<p class="mb-1 text-muted small fw-semibold">Program</p>
+
+<p id="modal-program"></p>
+
+</div>
+
+<div class="col-md-6 modal-student-details">
+
+<p class="mb-1 text-muted small fw-semibold">Course</p>
+
+<p id="modal-course"></p>
+
+</div>
+
+
+
+
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">Current Session</p>
+
+<p id="modal-session"></p>
+
+</div>
+
+<div class="col-md-6">
+
+<p class="mb-1 text-muted small fw-semibold">Last Login</p>
+
+<p id="modal-last-login"></p>
+
+</div>
+
+
+
+
+
+<div class="col-12">
+
+<p class="mb-1 text-muted small fw-semibold"><span id="modal-modules-label">Assigned Modules</span></p>
+
+<p id="modal-modules"></p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="modal-footer d-flex justify-content-between">
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+<div>
+
+<button id="modal-toggle-active-btn" class="btn btn-sm me-2" data-bs-toggle="modal" data-bs-target="#confirmDeactivateModal"
+
+data-user-id="" data-user-name="" data-is-active="" data-profile-type="">
+
+Deactivate / Activate
+
+</button>
+
+<button id="modal-reset-password-btn" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#confirmResetPasswordModal"
+
+data-user-id="" data-user-name="" data-profile-type="">
+
+Reset Password
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="confirmDeactivateModal" tabindex="-1" aria-labelledby="confirmDeactivateModalLabel" aria-hidden="true">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header text-white" id="deactivate-modal-header">
+
+<h5 class="modal-title" id="confirmDeactivateModalLabel">Confirm Action</h5>
+
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+<form id="deactivateForm" method="post" action="/UADashboard/ToggleActive">
+
+@Html.AntiForgeryToken()
+
+<input type="hidden" name="profileId" id="deactivate-profileId-input" />
+
+<input type="hidden" name="value" id="deactivate-value-input" /> @* true for activate, false for deactivate *@
+
+<div class="modal-body">
+
+<p class="mb-0">Are you sure you want to <strong id="deactivate-action-text">DEACTIVATE</strong> <span id="deactivate-user-name" class="fw-bold"></span>?</p>
+
+<p class="text-danger small" id="deactivate-warning-text">The user will be locked out of the system until reactivated.</p>
+
+</div>
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+<button type="submit" class="btn" id="deactivate-submit-btn">Confirm Deactivate</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="confirmResetPasswordModal" tabindex="-1" aria-labelledby="confirmResetPasswordModalLabel" aria-hidden="true">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header bg-warning text-dark">
+
+<h5 class="modal-title" id="confirmResetPasswordModalLabel">Confirm Password Reset</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+<form id="resetPasswordForm" method="post" action="/UADashboard/ResetPassword">
+
+@Html.AntiForgeryToken()
+
+<input type="hidden" name="profileId" id="reset-profileId-input" />
+
+<div class="modal-body">
+
+<p class="mb-0">Are you sure you want to reset the password for <span id="reset-user-name" class="fw-bold"></span>?</p>
+
+<p class="text-muted small">A temporary password will be generated and emailed to the user.</p>
+
+</div>
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+<button type="submit" class="btn btn-warning">Confirm Reset</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="uploadSuccessModal" tabindex="-1" aria-labelledby="uploadSuccessModalLabel" aria-hidden="true">
+
+<div class="modal-dialog">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title" id="uploadSuccessModalLabel">Upload Status</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+<div class="modal-body" id="uploadSuccessMessage">
+
+Processing...
+
+</div>
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+@* Existing Upload Staff Modal remains here *@
+
+
+
+
+
+<div class="modal fade" id="uploadStaffModal" tabindex="-1" aria-labelledby="uploadStaffModalLabel" aria-hidden="true">
+
+<div class="modal-dialog modal-xl">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title" id="uploadStaffModalLabel">Upload Staff</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+
+
+<form id="uploadStaffForm" enctype="multipart/form-data" action="/FileUpload/UploadStaff" method="post" onsubmit="return handleFormSubmit(event)">
+
+@Html.AntiForgeryToken()
+
+<div class="modal-body">
+
+<div class="mb-3">
+
+<label for="staffFile" class="form-label">Select CSV file to upload staff</label>
+
+<input type="file" class="form-control" id="staffFile" name="staffFile" accept=".csv" required>
+
+</div>
+
+<div class="alert alert-info">
+
+<h6 class="fw-bold mb-2">CSV Format Guide (Staff Upload)</h6>
+
+<p class="small text-muted mb-2">
+
+*The Staff Upload logic expects **8 columns** in the exact order below.*
+
+</p>
+
+<ul class="mb-2">
+
+<li>**StaffID** — e.g., ST001</li>
+
+<li>**Name** — e.g., John Tan</li>
+
+<li>**Email** — e.g., john.tan@university.edu</li>
+
+<li>**Role** — e.g., Subject Coordinator</li>
+
+<li>**University** — e.g., Singapore University (for admin verification)</li>
+
+<li>**Program** — e.g., Information Technology (usually blank for staff)</li>
+
+<li>**Modules** — e.g., CS101,CS102 (Comma or semicolon separated)</li>
+
+<li>**Session** — e.g., Session 1 (Must match `dbo.Sessions`)</li>
+
+</ul>
+
+<p class="mb-0 fw-bold">
+
+Example header: <code class="text-danger">StaffID,Name,Email,Role,University,Program,Modules,Session</code>
+
+</p>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button type="submit" class="btn btn-primary" data-original-text="Upload Staff">Upload Staff</button>
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+@* Existing Upload Student Modal remains here *@
+
+
+
+
+
+<div class="modal fade" id="uploadStudentsModal" tabindex="-1" aria-labelledby="uploadStudentsModalLabel" aria-hidden="true">
+
+<div class="modal-dialog modal-xl">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title" id="uploadStudentsModalLabel">Upload Students</h5>
+
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+</div>
+
+
+
+<form id="uploadStudentForm" enctype="multipart/form-data" action="/FileUpload/UploadStudent" method="post" onsubmit="return handleFormSubmit(event)">
+
+@Html.AntiForgeryToken()
+
+<div class="modal-body">
+
+<div class="mb-3">
+
+<label for="studentFile" class="form-label">Select CSV file to upload students</label>
+
+<input type="file" class="form-control" id="studentFile" name="studentFile" accept=".csv" required>
+
+</div>
+
+<div class="alert alert-warning">
+
+<h6 class="fw-bold mb-2">CSV Format Guide (Student Upload)</h6>
+
+<p class="small text-muted mb-2">
+
+*The Student Upload logic expects **9 columns** in the exact order below.*
+
+</p>
+
+<ul class="mb-2">
+
+<li>**StudentID** — e.g., S1001001A</li>
+
+<li>**Name** — e.g., Jane Doe</li>
+
+<li>**Email** — e.g., jane.doe@university.edu</li>
+
+<li>**University** — e.g., Singapore University (for admin verification)</li>
+
+<li>**Program** — e.g., Information Technology (Must match `dbo.Program`)</li>
+
+<li>**Course** — e.g., IT Foundations (Must match `dbo.Course`)</li>
+
+<li>**Year of Study** — e.g., 2 (Integer, can be blank)</li>
+
+<li>**Session** — e.g., Session 4 (Must match `dbo.Sessions`, can be blank)</li>
+
+<li>**Modules** — e.g., MTH101,PRG201,DS401 (Comma or semicolon separated, can be blank)</li>
+
+</ul>
+
+<p class="mb-0 fw-bold">
+
+Example header: <code class="text-danger">StudentID,Name,Email,University,Program,Course,Year of Study,Session,Modules</code>
+
+</p>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button type="submit" class="btn btn-primary" data-original-text="Upload Students">Upload Students</button>
+
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+@section Scripts{
+<script>
+
+// Global function to handle form submission via fetch (for file uploads)
+
+// The previous implementation was incomplete, this completes it for robustness.
+function handleFormSubmit(event) {
+    event.preventDefault();
+
+    var form = event.target;
+    var formData = new FormData(form);
+    var submitButton = $(form).find('button[type="submit"]');
+    var originalText = submitButton.data('original-text') || 'Upload';
+    
+    // Get a reference to the specific upload modal that is currently open
+    var currentUploadModal = $(form).closest('.modal'); 
+
+    // Show processing state
+    submitButton.attr('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
+    // Clear and show the generic success modal immediately
+    $('#uploadSuccessModalLabel').text('Processing Upload...');
+    $('#uploadSuccessMessage').text('Your file is being processed. Please wait...');
+    // IMPORTANT: Use the Bootstrap 5 method to show the modal
+    var uploadSuccessModalInstance = new bootstrap.Modal(document.getElementById('uploadSuccessModal'));
+    uploadSuccessModalInstance.show();
+
+
+    // Perform the actual upload via fetch
+    fetch(form.action, {
+        method: form.method,
+        body: formData,
+    })
+    .then(response => {
+        // Check for success status codes (2xx) and handle response type
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text || response.statusText); });
+        }
+        // Assuming successful uploads return JSON
+        return response.json();
+    })
+    .then(data => {
+        // Update modal with results
+        $('#uploadSuccessModalLabel').text(data.success ? 'Upload Complete' : 'Upload Failed');
+        $('#uploadSuccessMessage').html(data.message || 'Check server logs for details.');
+
+        // 🌟 FIX: Explicitly hide the upload modal after the result is received
+        // This ensures the success modal is the only one visible.
+        var uploadModalInstance = bootstrap.Modal.getInstance(currentUploadModal[0]);
+        if (uploadModalInstance) {
+            uploadModalInstance.hide();
+        }
+
+        if (data.success) {
+            // Reload page after a short delay to display new users
+            setTimeout(() => window.location.reload(), 3000);
+        }
+    })
+    .catch(error => {
+        // Handle network errors or non-200 responses
+        $('#uploadSuccessModalLabel').text('Upload Error');
+        $('#uploadSuccessMessage').html('An unexpected error occurred: ' + error.message);
+        console.error('Upload Error:', error);
+    })
+    .finally(() => {
+        // Reset button state if the page didn't reload (e.g., in case of error)
+        submitButton.attr('disabled', false).html(originalText);
+    });
+
+    return false;
+}
+
+
+$(document).ready(function () {
+
+// Cache jQuery selectors for performance
+
+const $viewUserModal = $('#viewUserModal');
+
+const $confirmDeactivateModal = $('#confirmDeactivateModal');
+
+const $toggleActiveBtn = $('#modal-toggle-active-btn');
+
+const $resetPasswordBtn = $('#modal-reset-password-btn');
+
+const $deactivateProfileIdInput = $('#deactivate-profileId-input');
+
+const $deactivateValueInput = $('#deactivate-value-input');
+
+const $deactivateUserName = $('#deactivate-user-name');
+
+const $deactivateActionText = $('#deactivate-action-text');
+
+const $deactivateWarningText = $('#deactivate-warning-text');
+
+const $deactivateSubmitBtn = $('#deactivate-submit-btn');
+
+const $deactivateModalHeader = $('#deactivate-modal-header');
+
+
+
+const $resetProfileIdInput = $('#reset-profileId-input');
+
+const $resetUserName = $('#reset-user-name');
+
+
+// 1. Logic for populating the View/Edit Modal
+
+$viewUserModal.on('show.bs.modal', function (event) {
+
+    const button = $(event.relatedTarget); // Button that triggered the modal
+
+    // Collect data attributes from the button
+    const userId = button.data('id');
+    const userType = button.data('type');
+    const identifier = button.data('identifier');
+    const name = button.data('name');
+    const email = button.data('email');
+    const university = button.data('university');
+    const status = button.data('status');
+    const lastlogin = button.data('lastlogin');
+    const isActive = String(button.data('active')).toLowerCase() === 'true';
+    const program = button.data('program');
+    const course = button.data('course');
+    const session = button.data('session');
+    const modules = button.data('modules');
+
+
+    // Populate View Modal fields (WITH CRITICAL FALLBACKS)
+    $('#modal-user-type').text(userType || 'N/A'); // Added Fallback
+    $('#modal-identifier').text(identifier || 'N/A'); // Added Fallback
+    $('#modal-status').text(status || '-');
+
+    $('#modal-name').text(name || 'N/A'); // <--- FIX APPLIED
+    $('#modal-email').text(email || '-'); // <--- FIX APPLIED
+    $('#modal-university').text(university || '-'); // <--- FIX APPLIED
+    $('#modal-session').text(session || '-'); // <--- FIX APPLIED
+    $('#modal-last-login').text(lastlogin || '-'); // <--- FIX APPLIED
+
+
+    // Modules Logic with Fallback for an empty module list
+    const moduleContent = modules && modules.trim() !== "" 
+        ? modules.split(', ').map(m => `<span class="badge bg-secondary me-1">${m}</span>`).join(' ')
+        : '-';
+        
+    $('#modal-modules').html(moduleContent);
+    $('#modal-modules-label').text(userType === 'Staff' ? 'Assigned Modules' : 'Enrolled Modules');
+
+
+    // Toggle student-specific fields (also requires fallbacks for clarity)
+    if (userType === 'Student') {
+        $('.modal-student-details').show();
+        $('#modal-program').text(program || '-');
+        $('#modal-course').text(course || '-');
+    } else {
+        $('.modal-student-details').hide();
+    }
+
+
+
+// ==========================================================
+
+// 2. CRITICAL: Set up the Deactivate/Activate Button in View Modal
+
+// ==========================================================
+
+const actionText = isActive ? 'Deactivate' : 'Activate';
+
+const actionClass = isActive ? 'btn-danger' : 'btn-success';
+
+
+
+// Set the button text and class dynamically
+
+$toggleActiveBtn
+
+.text(actionText)
+
+.removeClass('btn-danger btn-success')
+
+.addClass(actionClass)
+
+// Set data attributes on the toggle button for use by the confirmation modal
+
+.data('user-id', userId)
+
+.data('user-name', name)
+
+.data('is-active', isActive)
+
+.data('profile-type', userType);
+
+
+// Set data attributes on the reset password button
+
+$resetPasswordBtn
+
+.data('user-id', userId)
+
+.data('user-name', name)
+
+.data('profile-type', userType);
+
+});
+
+
+
+// 3. Logic for populating the Deactivate/Activate Confirmation Modal
+
+$confirmDeactivateModal.on('show.bs.modal', function (event) {
+
+const button = $(event.relatedTarget); // The toggle button from the main view modal
+
+
+const userId = button.data('user-id');
+
+const name = button.data('user-name');
+
+const currentlyActive = button.data('is-active');
+
+const profileType = button.data('profile-type');
+
+
+// Determine the *target* state we are submitting:
+
+const targetValue = !currentlyActive; // true to Activate, false to Deactivate
+
+const action = targetValue ? 'ACTIVATE' : 'DEACTIVATE';
+
+const buttonText = targetValue ? 'Confirm Activate' : 'Confirm Deactivate';
+
+const headerClass = targetValue ? 'bg-success' : 'bg-danger';
+
+const submitClass = targetValue ? 'btn-success' : 'btn-danger';
+
+const warningText = targetValue
+
+? 'The user will be able to log in again.'
+
+: 'The user will be locked out of the system until reactivated.';
+
+const warningTextColor = targetValue ? 'text-success small' : 'text-danger small';
+
+
+// *** CRITICAL FIX: Populate hidden form fields ***
+
+// This ensures profileId is NOT null when posting to the controller.
+
+$deactivateProfileIdInput.val(userId);
+
+$deactivateValueInput.val(targetValue);
+
+// The controller parameter is 'value', which is a bool, so we pass 'true' or 'false' string.
+
+
+
+// Populate confirmation modal text/styling
+
+$deactivateUserName.text(name);
+
+$deactivateActionText.text(action);
+
+$deactivateSubmitBtn.text(buttonText).removeClass('btn-danger btn-success').addClass(submitClass);
+
+$deactivateModalHeader.removeClass('bg-danger bg-success').addClass(headerClass);
+
+$deactivateWarningText.text(warningText).removeClass('text-danger text-success').addClass(warningTextColor);
+
+});
+
+
+// 4. Logic for populating the Reset Password Confirmation Modal
+
+$('#confirmResetPasswordModal').on('show.bs.modal', function (event) {
+
+const button = $(event.relatedTarget);
+
+const userId = button.data('user-id');
+
+const name = button.data('user-name');
+
+
+// Populate hidden form field
+
+$resetProfileIdInput.val(userId);
+
+
+// Populate modal display text
+
+$resetUserName.text(name);
+
+});
+
+});
+
+
+
+</script>
+}
