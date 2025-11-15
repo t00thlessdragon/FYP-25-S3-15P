@@ -12,8 +12,10 @@ namespace FYP_25_S3_15P.Models
         public bool IsFullTime { get; set; }
 
         // Foreign key to FYPTopics
-        public int ProjectId { get; set; }
+        public string? ProjectId { get; set; }
         public Project? Project { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public int? CreatedBy { get; set; }
 
         // Navigation to UserGroups (students, supervisors, assessors)
         public ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();

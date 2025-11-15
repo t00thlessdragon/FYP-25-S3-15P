@@ -41,7 +41,7 @@
      <!-- ===== TAB: CONSTRAINTS ===== -->
 <div class="tab-pane fade @(tab=="constraints" ? "show active" : "")" id="tab-constraints">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">Project Constraints</h4>
+    <h4 class="mb-0">Program Constraints</h4>
     <div class="d-flex gap-2">
       <a href="javascript:void(0)" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#constraintAddModal">
   <i class="bi bi-plus-lg me-1"></i> Add & Update
@@ -58,8 +58,10 @@
 <form class="row g-2 align-items-center mb-3" id="fc-form">
   <div class="col-12 col-lg-3">
     <select class="form-select" id="fc-year">
-      <option value="__all__">Year: All</option>
-      <option value="@Model.Year" selected>Year: @Model.Year</option>
+      <option value="__all__" selected>Year: All</option>
+      @foreach (var r in Model.years){
+        <option value="@r">Year: @r</option>
+      }
     </select>
   </div>
   <div class="col-12 col-lg-3">
@@ -71,10 +73,10 @@
   <div class="col-12 col-lg-3">
     <select class="form-select" id="fc-session">
       <option value="__all__" selected>Session: All</option>
-      <option value="S1">Session: S1</option>
-      <option value="S2">Session: S2</option>
-      <option value="S3">Session: S3</option>
-      <option value="S4">Session: S4</option>
+      <option value="1">Session: S1</option>
+      <option value="2">Session: S2</option>
+      <option value="3">Session: S3</option>
+      <option value="4">Session: S4</option>
     </select>
   </div>
   <div class="col-12 col-lg-3">
@@ -98,6 +100,7 @@
           </th>
           <th style="width:12%;">Program Code</th>
           <th>Program Name</th>
+          <th>Year</th>
           <th style="width:10%;">Session</th>
           <th style="width:12%;">Status</th>
           <th style="width:14%;">Last Updated</th>
@@ -105,28 +108,28 @@
         </tr>
       </thead>
       <tbody>
-@foreach (var r in Model.Constraints)
-{
-    var statusClass = (r.Status ?? "").ToLower() == "override" ? "text-bg-primary" : "text-bg-secondary";
-    <tr data-code="@r.Code" data-name="@r.Name">
-        <td class="text-center"><input type="checkbox" class="rowCheckbox-constraints" /></td>
-        <td class="fw-semibold">@r.Code</td>
-        <td class="text-muted">@r.Name</td>
-        <td>@r.Session</td>
-        <td><span class="badge rounded-pill @statusClass">@r.Status</span></td>
-        <td>@(r.Updated == DateTime.MinValue ? "-" : r.Updated.ToString("dd MMM yyyy"))</td>
-        <td class="text-end actions-cell">
-            <span class="actions-wrap">
-                <button class="btn btn-dark btn-sm px-3 js-view-constraint"
-                        data-program="@r.Code" data-name="@r.Name" data-year="@Model.Year">
-                  View
-                </button>
-            </span>
-        </td>
-    </tr>
-}
-</tbody>
-
+        @foreach (var r in Model.Constraints)
+        {
+            var statusClass = (r.Status ?? "").ToLower() == "override" ? "text-bg-primary" : "text-bg-secondary";
+            <tr data-code="@r.Code" data-name="@r.Name" data-year="@r.Year" data-session="@r.Session">
+                <td class="text-center"><input type="checkbox" class="rowCheckbox-constraints" /></td>
+                <td class="fw-semibold">@r.Code</td>
+                <td class="text-muted">@r.Name</td>
+                <td>@r.Year</td>
+                <td>@($"S{r.Session}")</td>
+                <td><span class="badge rounded-pill @statusClass">@r.Status</span></td>
+                <td>@(r.Updated == DateTime.MinValue ? "-" : r.Updated.ToString("dd MMM yyyy"))</td>
+                <td class="text-end actions-cell">
+                    <span class="actions-wrap">
+                        <button class="btn btn-dark btn-sm px-3 js-view-constraint"
+                                data-program="@r.Code" data-name="@r.Name" data-year="@r.Year">
+                          View
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        }
+      </tbody>
     </table>
   </div>
 </div>
@@ -194,7 +197,6 @@
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   </div>
@@ -230,7 +232,7 @@
   <div class="col-12 col-md-6">
     <label class="form-label fw-semibold">Session:</label>
     <select id="ac-session" class="form-select">
-      <option value="" selected disabled>— Select session —</option>
+      <option value="" selected disabled>— Select session1 —</option>
     </select>
     <div class="invalid-feedback" id="ac-session-error">Session is required.</div>
   </div>
@@ -292,6 +294,17 @@
                   <div class="d-flex justify-content-center gap-3">
                     <div>Min: <input id="ac-team-min" class="form-control d-inline-block text-center" style="width:90px" value="4" disabled></div>
                     <div>Max: <input id="ac-team-max" class="form-control d-inline-block text-center" style="width:90px" value="6" disabled></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>        
+                <td>
+                  <h6 class="fw-bold">Preference Weights</h6>
+                  <small class="text-muted">Adjust scoring weights for each preference rank</small>
+                </td>
+                <td>
+                  <div id="weights-container" class="mt-2">
+                  <!-- dynamically filled by JS -->
                   </div>
                 </td>
               </tr>
@@ -1170,13 +1183,14 @@ dlg.addEventListener('shown.bs.modal', async () => {
 
 
   function two(n){ return n.toString().padStart(2,'0'); }
-  function makeId(idx){
-    @* const courseVal = (course.value || 'CSIT').toUpperCase(); *@
+  
+  @* function makeId(idx){
+    const courseVal = (course.value || 'CSIT').toUpperCase();
     const prog = programSel.value || 'FYP';
     const yy = (yearSel.value || '2025').slice(-2);
     const sess = (sessionSel.value || 'S1').toUpperCase();
     return `${prog}-${yy}-${sess}-${two(idx)}`;
-  }
+  } *@
 
   function rowCheckedRows(){
     return Array.from(tbody.querySelectorAll('tr'))
@@ -1439,7 +1453,7 @@ if (!prefTime.value) { setInvalid(prefTime, prefTimeErr, true); hasError = true;
   const yearSel = dlg.querySelector('#ac-year');
   const defCb   = dlg.querySelector('#ac-default');
   const ovCb    = dlg.querySelector('#ac-override');
-
+  const weightsContainer = dlg.querySelector('#weights-container');
   const supBox  = dlg.querySelector('#ac-sup');
   const assBox  = dlg.querySelector('#ac-ass');
   const rankBox = dlg.querySelector('#ac-rank');
@@ -1483,12 +1497,44 @@ if (!prefTime.value) { setInvalid(prefTime, prefTimeErr, true); hasError = true;
     [supBox, assBox, rankBox, teamMin, teamMax].forEach(el => el.disabled = !allow);
   }
 
+  function renderWeights(weights, isDefault = false) {
+        let html = `<table class="table table-sm table-bordered align-middle mt-2">
+                    <thead><tr><th>Rank</th><th>Weight</th></tr></thead><tbody>`;
+
+        for (const w of weights) {
+            html += `
+              <tr>
+                <td>Preference ${w.rankNo}</td>
+                <td>
+                  <input type="number" class="form-control form-control-sm weight-input"
+                         name="Weight_${w.rankNo}"
+                         value="${w.weightValue}"
+                         min="0" max="1000" />
+                </td>
+              </tr>`;
+        }
+
+        html += "</tbody></table>";
+
+        if (isDefault)
+            html += `<div class="alert alert-info py-1 small mt-2 mb-0">
+                        Default weights generated based on preference limit.
+                    </div>`;
+
+        weightsContainer.innerHTML = html;
+    }
+
   // Build year select with placeholder (so it's "empty" initially)
-  function buildYears(years = [2024, 2025, 2026]) {
+  @* function buildYears(years = [2024, 2025, 2026]) {
     yearSel.innerHTML =
       `<option value="" selected disabled>— Select year —</option>` +
       years.map(y => `<option value="${y}">${y}</option>`).join('');
-  }
+  } *@
+  
+
+
+
+
 
   // Data loads
   @* async function loadCourses() {
@@ -1499,79 +1545,173 @@ if (!prefTime.value) { setInvalid(prefTime, prefTimeErr, true); hasError = true;
       rows.map(r => `<option value="${r.code}" data-name="${r.name}">${r.code}</option>`).join('');
     nameBox.value = '';
   } *@
+  async function buildYears() {
+    if (!yearSel) return;
+
+    try {
+      // Fetch distinct years from the server
+      const res = await fetch('@Url.Action("GetAvailableYears","SubjectCoordinator")');
+      if (!res.ok) throw new Error("Failed to load years");
+
+      const years = await res.json();
+
+      // Build the dropdown list
+      yearSel.innerHTML =
+        `<option value="" selected disabled>— Select years —</option>` +
+        years.map(y => `<option value="${y}">${y}</option>`).join('');
+    } 
+    catch (err) {
+      console.error("Error loading years:", err);
+      yearSel.innerHTML =
+        `<option value="" disabled selected>⚠️ Failed to load years</option>`;
+    }
+  }
 
   async function loadProgram() {
     const res  = await fetch('@Url.Action("GetProgram","SubjectCoordinator")');
     const rows = await res.json();
     codeSel.innerHTML =
-      `<option value="" selected disabled>— Select course —</option>` +
-      rows.map(r => `<option value="${r.code}" data-name="${r.name}">${r.code}</option>`).join('');
+      `<option value="" selected disabled>— Select Program —</option>` +
+      rows.map(r => `<option value="${r.id}" data-name="${r.name}">${r.code}</option>`).join('');
     nameBox.value = '';
   }
 
-async function loadScaffold() {
-  if (!yearSel.value) return;
+  async function loadScaffold() {
+    if (!yearSel.value) return;
 
-  const y = parseInt(yearSel.value, 10);
-  const res = await fetch('@Url.Action("GetConstraintScaffold","SubjectCoordinator")' + `?year=${y}`);
-  if (!res.ok) {
-    console.error('Scaffold HTTP error', res.status, await res.text());
-    return;
+    const y = parseInt(yearSel.value, 10);
+    const res = await fetch('@Url.Action("GetConstraintScaffold","SubjectCoordinator")' + `?year=${y}`);
+    if (!res.ok) {
+      console.error('Scaffold HTTP error', res.status, await res.text());
+      return;
+    }
+
+    const d = await res.json();
+
+    const toNum = (v, fb) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : fb;
+    };
+
+    // sessions
+    const sessionNo = toNum(d.sessionNo, 3);
+    sessSel.innerHTML =
+      `<option value="" selected disabled>— Select session2 —</option>` +
+      Array.from({ length: sessionNo }, (_, i) => `<option value="${i+1}">S${i+1}</option>`).join('');
+
+    // values from DB
+    supBox.value  = toNum(d.sLoadCap, 1);
+    assBox.value  = toNum(d.aLoadCap, 2);
+    rankBox.value = toNum(d.prefRankLimit, 3);
+    teamMin.value = toNum(d.sMin, 4);
+    teamMax.value = toNum(d.sMax, 6);
+
+    // status toggles
+    defCb.checked = true;
+    ovCb.checked  = false;
+    if (!sessSel.value) {
+        weightsContainer.innerHTML = "<div class='text-muted'>Select a session first</div>";
+        return;
+    }
+    refreshConstraintsEnabled();
+
+    // clear validation styling
+    [codeSel, sessSel, yearSel].forEach(el =>
+      setInvalid(el, errors[el.id.split('-')[1]] ?? { style: {} }, false)
+    );
   }
 
-  const d = await res.json();
+async function loadScaffoldAftSession() {
+    if (!codeSel.value && !yearSel.value && !sessSel.value) return;
+    //Attempt to find constraint 
+    programId = codeSel?.value;
+    sessionNo = sessSel?.value;
+    year = yearSel?.value;
+    if (!sessionNo) {
+        weightsContainer.innerHTML = "<div class='text-muted'>Select a session first</div>";
+        return;
+    }
 
-  const toNum = (v, fb) => {
-    const n = Number(v);
-    return Number.isFinite(n) ? n : fb;
-  };
+    try {
+        const res = await fetch(`/SubjectCoordinator/GetPreferenceWeights?programId=${programId}&year=${year}&sessionNo=${sessionNo}`);
+        if (!res.ok) throw new Error("Failed to load");
+        
+        const toNum = (v, fb) => {
+          const n = Number(v);
+          return Number.isFinite(n) ? n : fb;
+        };
 
-  // sessions
-  const sessionNo = toNum(d.sessionNo, 3);
-  sessSel.innerHTML =
-    `<option value="" selected disabled>— Select session —</option>` +
-    Array.from({ length: sessionNo }, (_, i) => `<option value="${i+1}">S${i+1}</option>`).join('');
+        const data = await res.json();
+        // values from DB
+        supBox.value  = toNum(data.sLoadCap, 1);
+        assBox.value  = toNum(data.aLoadCap, 2);
+        rankBox.value = toNum(data.prefLimit, 3);
+        teamMin.value = toNum(data.sMin, 4);
+        teamMax.value = toNum(data.sMax, 6);
+        const existing = data.existingWeights || [];
+        const prefLimit = data.prefLimit || 3;
+        
+        // status toggles
+        if(data.isOverride){
+          defCb.checked = false;
+          ovCb.checked  = true;
+        }else{
+          defCb.checked = true;
+          ovCb.checked  = false;
+        }
+        
+        
+        if (existing.length > 0) {
+            renderWeights(existing);
+        } else {
+            // auto-generate default weights
+            const defaults = [];
+            for (let i = 1; i <= prefLimit; i++) {
+                defaults.push({
+                    rankNo: i,
+                    weightValue: Math.max(0, 110 - (i * 10)) // 100, 90, 80...
+                });
+            }
+            renderWeights(defaults, true);
+        }
+    } catch (err) {
+        weightsContainer.innerHTML = `<div class='text-danger'>Error loading weights: ${err.message}</div>`;
+    }
 
-  // values from DB
-  supBox.value  = toNum(d.sLoadCap, 1);
-  assBox.value  = toNum(d.aLoadCap, 2);
-  rankBox.value = toNum(d.prefRankLimit, 3);
-  teamMin.value = toNum(d.sMin, 4);
-  teamMax.value = toNum(d.sMax, 6);
 
-  // status toggles
-  defCb.checked = true;
-  ovCb.checked  = false;
+    
 
-  refreshConstraintsEnabled();
+    refreshConstraintsEnabled();
 
-  // clear validation styling
-  [codeSel, sessSel, yearSel].forEach(el =>
-    setInvalid(el, errors[el.id.split('-')[1]] ?? { style: {} }, false)
-  );
-}
-
-
+    // clear validation styling
+    [codeSel, sessSel, yearSel].forEach(el =>
+      setInvalid(el, errors[el.id.split('-')[1]] ?? { style: {} }, false)
+    );
+  }
 
 
   async function resetForNext() {
-  buildYears();
-  await loadProgram();
+    await buildYears();
+    await loadProgram();
 
-  // Preselect current year from server and pull defaults immediately
-  const defaultYear = '@Model.Year';        // e.g., 2025
-  if (defaultYear) {
-    yearSel.value = String(defaultYear);
-    await loadScaffold();                   
-  } else {
-    // if no server year, keep session blank
-    sessSel.innerHTML = `<option value="" selected disabled>— Select session —</option>`;
+    // Preselect current year from server and pull defaults immediately
+    const defaultYear = '@Model.curYear';        // e.g., 2025
+    if (defaultYear) {
+      yearSel.value = String(defaultYear);
+      await loadScaffold();                   
+    } else {
+      // if no server year, keep session blank
+      sessSel.innerHTML = `<option value="" selected disabled>— Select session —</option>`;
+    }
+
+    // Clear any validation styles and set enable/disable state
+    [codeSel, sessSel, yearSel].forEach(el => setInvalid(el, errors[el.id.split('-')[1]] ?? {style:{}}, false));
+    refreshConstraintsEnabled();
   }
 
-  // Clear any validation styles and set enable/disable state
-  [codeSel, sessSel, yearSel].forEach(el => setInvalid(el, errors[el.id.split('-')[1]] ?? {style:{}}, false));
-  refreshConstraintsEnabled();
-}
+
+
+  
 
   // Events
   codeSel.addEventListener('change', () => {
@@ -1585,64 +1725,78 @@ async function loadScaffold() {
     await loadScaffold();
   });
 
-  sessSel.addEventListener('change', () => setInvalid(sessSel, errors.sess, !sessSel.value));
+  sessSel.addEventListener('change', async () => {
+    setInvalid(sessSel, errors.sess, !sessSel.value)
+    await loadScaffoldAftSession();
+  });
 
   defCb.addEventListener('change', () => { if (defCb.checked) ovCb.checked = false; refreshConstraintsEnabled(); });
   ovCb.addEventListener('change',  () => { if (ovCb.checked) defCb.checked = false; refreshConstraintsEnabled(); });
 
   // SAVE
   // SAVE
-saveBtn.addEventListener('click', async () => {
-  if (!validateRequired()) return;
+  saveBtn.addEventListener('click', async () => {
+    if (!validateRequired()) return;
 
-  const ok = await showConfirm({
-    title: 'Save these constraints?',
-    text:  'This will create/update the course constraint for the selected year and session.',
-    okText: 'OK',
-    cancelText: 'Cancel'
+    const ok = await showConfirm({
+      title: 'Save these constraints?',
+      text:  'This will create/update the course constraint for the selected year and session.',
+      okText: 'OK',
+      cancelText: 'Cancel'
+    });
+    if (!ok) return;
+
+    const payload = {
+      programId:    codeSel.value,
+      year:          parseInt(yearSel.value, 10),
+      sessionNo:     parseInt(sessSel.value, 10),
+      isOverride:    ovCb.checked,
+      sLoadCap:      parseInt(supBox.value, 10),
+      aLoadCap:      parseInt(assBox.value, 10),
+      prefRankLimit: parseInt(rankBox.value, 10),
+      sMin:          parseInt(teamMin.value, 10),
+      sMax:          parseInt(teamMax.value, 10)
+    };
+
+    // --- new: collect weight inputs ---
+    const weightInputs = document.querySelectorAll(".weight-input");
+    const weightData = Array.from(weightInputs).map(inp => {
+        const rank = parseInt(inp.name.replace("Weight_", "")) || 0;
+        const val = parseInt(inp.value) || 0;
+        return { rankNo: rank, weightValue: val };
+    });
+
+    // add weights into the payload
+    payload.weights = weightData;
+
+    const res = await fetch('@Url.Action("SaveProgramConstraint","SubjectCoordinator")', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const t = await res.text();
+      await showNotify({ title: 'Save failed', text: t });
+      return;
+    }
+
+    // Auto-close the Add Constraint form, then show success popup
+    const addDlg = document.getElementById('constraintAddModal');
+    bootstrap.Modal.getInstance(addDlg)?.hide();
+
+    // optional: refresh the grid in the background
+    await resetForNext();
+
+    await showNotify({
+      title: 'Constraint saved',
+      text:  'Your course constraint has been saved successfully.',
+      onHidden: () => window.location.reload()
+    });
+
+    // Optionally force a reload of the grid behind:
+    // window.location = '@Url.Action("Projects","SubjectCoordinator")?tab=constraints';
   });
-  if (!ok) return;
-
-  const payload = {
-    programCode:    codeSel.value,
-    year:          parseInt(yearSel.value, 10),
-    sessionNo:     parseInt(sessSel.value, 10),
-    isOverride:    ovCb.checked,
-    sLoadCap:      parseInt(supBox.value, 10),
-    aLoadCap:      parseInt(assBox.value, 10),
-    prefRankLimit: parseInt(rankBox.value, 10),
-    sMin:          parseInt(teamMin.value, 10),
-    sMax:          parseInt(teamMax.value, 10)
-  };
-
-  const res = await fetch('@Url.Action("SaveProgramConstraint","SubjectCoordinator")', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-
-  if (!res.ok) {
-    const t = await res.text();
-    await showNotify({ title: 'Save failed', text: t });
-    return;
-  }
-
-  // Auto-close the Add Constraint form, then show success popup
-  const addDlg = document.getElementById('constraintAddModal');
-  bootstrap.Modal.getInstance(addDlg)?.hide();
-
-  // optional: refresh the grid in the background
-  await resetForNext();
-
-  await showNotify({
-    title: 'Constraint saved',
-    text:  'Your course constraint has been saved successfully.',
-    onHidden: () => window.location.reload()
-  });
-
-  // Optionally force a reload of the grid behind:
-  // window.location = '@Url.Action("Projects","SubjectCoordinator")?tab=constraints';
-});
 
 
   // Fresh form every time modal opens
@@ -1689,7 +1843,7 @@ saveBtn.addEventListener('click', async () => {
   if (!delBtn) return;
 
   const deleteUrl = '@Url.Action("DeleteProgramConstraints","SubjectCoordinator")';
-  const currentYear = '@Model.Year';
+  const currentYear = '@Model.curYear';
 
   function selectedRows() {
     return Array.from(document.querySelectorAll('#tab-constraints tbody tr'))
@@ -1704,8 +1858,14 @@ saveBtn.addEventListener('click', async () => {
     }
 
     const programCodes = rows.map(r => r.dataset.code).filter(Boolean);
+    const items = rows.map(r => ({
+    programCode: r.dataset.code,
+    year: Number(r.dataset.year),
+    sessionNo: r.dataset.session
+    }));
+
     const ok = await showConfirm({
-      title: `Delete ${programCodes.length} constraint${programCodes.length>1?'s':''}?`,
+      title: `Delete ${items.length} constraint${items.length>1?'s':''}?`,
       text:  'This action cannot be undone.',
       okText: 'Delete',
       cancelText: 'Cancel'
@@ -1713,13 +1873,27 @@ saveBtn.addEventListener('click', async () => {
     if (!ok) return;
 
     try {
-      const res = await fetch(deleteUrl, {
+      @* const res = await fetch(deleteUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           year: Number(currentYear),
           programCodes: programCodes
         })
+      }); *@
+      const payload = {
+          deleteConstraintsDtos: rows.map(r => ({
+              programCode: r.dataset.code,
+              year: Number(r.dataset.year),
+              sessionNo: r.dataset.session
+          }))
+      };
+      console.log("Deleting payload:", JSON.stringify(payload, null, 2));
+
+      const res = await fetch(deleteUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
       });
 
       if (!res.ok) {
@@ -1748,8 +1922,8 @@ saveBtn.addEventListener('click', async () => {
   const tbody     = document.querySelector('#tab-constraints tbody');
   if (!tbody) return;
 
-  const yearSel   = document.getElementById('fc-year');
-  const programSel = document.getElementById('fc-program');
+  const fcYearSel   = document.getElementById('fc-year');
+  const fcProgramSel = document.getElementById('fc-program');
   const sessSel   = document.getElementById('fc-session');
   const qBox      = document.getElementById('fc-search');
   const qBtn      = document.getElementById('fc-search-btn');
@@ -1768,7 +1942,7 @@ saveBtn.addEventListener('click', async () => {
         const opt = document.createElement('option');
         opt.value = code;
         opt.textContent = `Program: ${code}`;
-        programSel.appendChild(opt);
+        fcProgramSel.appendChild(opt);
       }
     });
   })();
@@ -1780,30 +1954,31 @@ saveBtn.addEventListener('click', async () => {
 
   // Main filter
   function applyFilter(){
-    const yVal  = yearSel?.value || '__all__';         
-    const cVal  = programSel?.value || '__all__';
+    const yVal  = fcYearSel?.value || '__all__';         
+    const cVal  = fcProgramSel?.value || '__all__';
     const sVal  = sessSel?.value || '__all__';
     const query = norm(qBox?.value);
 
     rows().forEach(r => {
+      const year = (r.dataset.year || '')
       const code = (r.dataset.code || '');
       const name = (r.dataset.name || '');
-      const sessionText = getSessionText(r); // e.g. "S1–S3"
-
+      const session = (r.dataset.session || '');
       // matchers
-      const okCourse  = (cVal === '__all__') || code.toUpperCase() === cVal.toUpperCase();
-      const okSession = (sVal === '__all__') || sessionText.includes(sVal); 
+      const okYear  = (yVal === '__all__') || year === yVal;
+      const okProgram  = (cVal === '__all__') || code.toUpperCase() === cVal.toUpperCase();
+      const okSession = (sVal === '__all__') || session === sVal;
       const okSearch  = !query || (norm(code).includes(query) || norm(name).includes(query));
 
-      const show = okCourse && okSession && okSearch; 
+      const show = okYear && okProgram && okSession && okSearch; 
       r.style.display = show ? '' : 'none';
     });
   }
 
   // Wire events
-  programSel.addEventListener('change', applyFilter);
+  fcProgramSel.addEventListener('change', applyFilter);
   sessSel.addEventListener('change', applyFilter);
-  yearSel.addEventListener('change', applyFilter); 
+  fcYearSel.addEventListener('change', applyFilter); 
   qBtn.addEventListener('click', applyFilter);
   qBox.addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); applyFilter(); }
@@ -1889,7 +2064,7 @@ saveBtn.addEventListener('click', async () => {
   const tbody      = document.querySelector('#tab-projects tbody');
   if (!tbody) return;
 
-  const programSel  = document.getElementById('pj-program');
+  const pjProgramSel  = document.getElementById('pj-program');
   //const moduleSel  = document.getElementById('pj-module');
   const sessionSel = document.getElementById('pj-session');
   const qBox       = document.getElementById('pj-search');
@@ -1934,7 +2109,7 @@ saveBtn.addEventListener('click', async () => {
     courseSet.forEach(c => {
       const opt = document.createElement('option');
       opt.value = c; opt.textContent = `Program: ${c}`;
-      programSel.appendChild(opt);
+      pjProgramSel.appendChild(opt);
     });
 
     // Modules
@@ -1946,7 +2121,7 @@ saveBtn.addEventListener('click', async () => {
   })();
 
   function applyFilter() {
-    const cVal = programSel?.value || '__all__';
+    const cVal = pjProgramSel?.value || '__all__';
     @* const mVal = moduleSel?.value || '__all__'; *@
     const sVal = sessionSel?.value || '__all__';
     const q    = norm(qBox?.value);
@@ -1972,7 +2147,7 @@ saveBtn.addEventListener('click', async () => {
   }
 
   // Wire events
-  programSel.addEventListener('change', applyFilter);
+  pjProgramSel.addEventListener('change', applyFilter);
   @* moduleSel.addEventListener('change', applyFilter); *@
   sessionSel.addEventListener('change', applyFilter);
   qBtn.addEventListener('click', applyFilter);
@@ -2042,5 +2217,49 @@ saveBtn.addEventListener('click', async () => {
   });
 })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sessionSelect = document.getElementById("ac-session"); // dropdown
+    const codeSelect = document.getElementById("ap-code");
+    const yearSelect = document.getElementById("ac-year");
+    const weightsContainer = document.getElementById("weights-container");
+@* 
+    sessionSelect?.addEventListener("change", async (e) => {
+        const sessionValue = e.target.value;
+        const programValue = codeSelect?.value;
+        const yearValue = yearSelect?.value;
+        if (!programConstraintId) {
+            weightsContainer.innerHTML = "<div class='text-muted'>Select a session first</div>";
+            return;
+        }
 
+        try {
+            const res = await fetch(`/SubjectCoordinator/GetPreferenceWeights?programId=${programValue}}&year=${yearValue}&sessionNo=${sessionValue}`);
+            if (!res.ok) throw new Error("Failed to load");
+
+            const data = await res.json();
+            const existing = data.existingWeights || [];
+            const prefLimit = data.prefLimit || 3;
+
+            if (existing.length > 0) {
+                renderWeights(existing);
+            } else {
+                // auto-generate default weights
+                const defaults = [];
+                for (let i = 1; i <= prefLimit; i++) {
+                    defaults.push({
+                        RankNo: i,
+                        WeightValue: Math.max(0, 110 - (i * 10)) // 100, 90, 80...
+                    });
+                }
+                renderWeights(defaults, true);
+            }
+        } catch (err) {
+            weightsContainer.innerHTML = `<div class='text-danger'>Error loading weights: ${err.message}</div>`;
+        }
+    }); *@
+
+    
+});
+</script>
 }

@@ -4,6 +4,7 @@ using FYP_25_S3_15P.Data;
 using FYP_25_S3_15P.Models;
 using FYP_25_S3_15P.Services;
 using Microsoft.AspNetCore.Identity;
+using FYP_25_S3_15P.Services.Allocation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<SmartDbContext>(options =>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<IAllocationEngine, GreedyAllocationEngine>();
 
 // ✅ Single default cookie scheme used everywhere
 builder.Services

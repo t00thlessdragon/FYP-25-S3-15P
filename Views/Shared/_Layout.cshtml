@@ -76,7 +76,13 @@
               Return to Dashboard &rarr;
             </a>
           }
-
+          @if (User.IsInRole("Subject Coordinator"))
+          {
+            <a asp-controller="SubjectCoordinator" asp-action="Projects"
+               class="small link-dark text-decoration-none nav-return-link mt-1">
+              Return to Dashboard &rarr;
+            </a>
+          }
         </div>
       }
       else

@@ -6,6 +6,55 @@
         <p class="text-muted mb-0">Displays current project and student allocation status.</p>
         <button class="btn btn-sm btn-outline-dark">Generate Report</button>
     </div>
+    <form asp-action="RunAllocation" asp-controller="SubjectCoordinator" method="post" class="mb-3 d-flex flex-column gap-3">
+
+    <div class="d-flex gap-3 align-items-end">
+        <!-- Year dropdown -->
+        <div>
+            <label class="form-label">Year</label>
+            <select id="yearSelect" class="form-select">
+                <option value="">Select Year</option>
+                @foreach (var y in ViewBag.Years)
+                {
+                    <option value="@y">@y</option>
+                }
+            </select>
+        </div>
+
+        <!-- Program dropdown -->
+        <div>
+            <label class="form-label">Program</label>
+            <select id="programSelect" class="form-select">
+                <option value="">Select Program</option>
+                @foreach (var p in ViewBag.Programs)
+                {
+                    <option value="@p.ID">@p.ProgramName</option>
+                }
+            </select>
+        </div>
+
+        <!-- Session dropdown -->
+        <div>
+            <label class="form-label">Session</label>
+            <select id="sessionSelect" name="programConstraintID" class="form-select">
+                <option value="">Select Session</option>
+                @foreach (var s in ViewBag.Sessions)
+                {
+                    <option value="@s.Id" data-program="@s.ProgramId" data-year="@s.Year">
+                        Session @s.SessionNo (ProgramID: @s.ProgramId)
+                    </option>
+                }
+            </select>
+        </div>
+
+        <button class="btn btn-primary">Run Auto Allocation</button>
+    </div>
+
+    @if (TempData["AllocationMessage"] is string msg)
+    {
+        <div class="alert alert-info mb-0">@msg</div>
+    }
+</form>
 
     <!-- Student Allocation Table -->
     <h5>Student Allocation</h5>
@@ -161,5 +210,28 @@
                 e.target.closest('.input-group').remove();
             }
         });
+
+        const yearSelect = document.getElementById('yearSelect');
+        const programSelect = document.getElementById('programSelect');
+        const sessionSelect = document.getElementById('sessionSelect');
+        const allSessions = Array.from(sessionSelect.options);
+
+        function filterSessions() {
+            const year = yearSelect.value;
+            const program = programSelect.value;
+
+            // Reset
+            sessionSelect.innerHTML = '<option value="">Select Session</option>';
+
+            // Filter
+            const filtered = allSessions.filter(opt =>
+                opt.dataset.year === year && opt.dataset.program === program
+            );
+
+            filtered.forEach(opt => sessionSelect.appendChild(opt.cloneNode(true)));
+        }
+
+        yearSelect.addEventListener('change', filterSessions);
+        programSelect.addEventListener('change', filterSessions);
     });
 </script>

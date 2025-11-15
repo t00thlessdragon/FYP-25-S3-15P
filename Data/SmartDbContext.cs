@@ -33,6 +33,10 @@ namespace FYP_25_S3_15P.Data
         public DbSet<StaffModules>   StaffModules   { get; set; } = default!;
         public DbSet<StudentModules> StudentModules { get; set; } = default!;
         public DbSet<UniSession> UniSession { get; set; }
+        public DbSet<AllocationRunDetail> AllocationRunDetails { get; set; }
+        public DbSet<AllocationRun> AllocationRuns { get; set; }
+        public DbSet<StudentPreference> StudentPreferences { get; set; }
+        public DbSet<PreferenceWeight> PreferenceWeights { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

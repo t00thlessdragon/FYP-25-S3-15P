@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using FYP_25_S3_15P.Data;       // SmartDbContext
 using FYP_25_S3_15P.Models;
 using FYP_25_S3_15P.ViewModels;
-
+using FYP_25_S3_15P.Services.Allocation;
 namespace FYP_25_S3_15P.Controllers
 {
 
@@ -32,9 +32,10 @@ namespace FYP_25_S3_15P.Controllers
     //     public int SMin { get; set; }
     //     public int SMax { get; set; }
     // }
+    
     public class SaveProgramConstraintDto
     {
-        public string ProgramCode { get; set; } = "";
+        public int programId { get; set; }
         public int Year { get; set; }
         public int SessionNo { get; set; }
         public bool IsOverride { get; set; }
@@ -43,52 +44,62 @@ namespace FYP_25_S3_15P.Controllers
         public int PrefRankLimit { get; set; }
         public int SMin { get; set; }
         public int SMax { get; set; }
+
+        public List<PreferenceWeightDto>? Weights { get; set; }
+    }
+    public class PreferenceWeightDto
+    {
+        public int RankNo { get; set; }
+        public int WeightValue { get; set; }
+    }
+
+    public class DeleteConstraintsListDto
+    {
+        public List<DeleteConstraintsDto> deleteConstraintsDtos { get; set; } = new();
+    }
+
+    public class DeleteConstraintsDto
+    {
+        public int Year { get; set; }
+        public string? ProgramCode { get; set; }
+        public int? SessionNo { get; set; }
     }
 
 
-    public class DeleteConstraintsDto
-{
-    public int Year { get; set; }
-    public List<string> ProgramCodes { get; set; } = new();
-    public int? SessionNo { get; set; }  
-}
+    public class CreateProjectsRequest
+    {
+        public string Programme { get; set; } = "";
+        public string Course { get; set; } = "";
+        public int Year { get; set; }
+        public int Session { get; set; }        // 1..3
+        public List<string> TemplateIds { get; set; } = new();
+        public string? PrefCloseAt { get; set; }
+    }
 
+    public class EditProjectDto
+    {
+        public string Id { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Programme { get; set; } = "";
+        public List<string> Modules { get; set; } = new();
+        public string Desc { get; set; } = "";
+    }
 
-public class CreateProjectsRequest
-{
-    public string Programme { get; set; } = "";
-    public string Course { get; set; } = "";
-    public int Year { get; set; }
-    public int Session { get; set; }        // 1..3
-    public List<string> TemplateIds { get; set; } = new();
-    public string? PrefCloseAt { get; set; }
-}
-
-public class EditProjectDto
-{
-    public string Id { get; set; } = "";
-    public string Title { get; set; } = "";
-    public string Programme { get; set; } = "";
-    public List<string> Modules { get; set; } = new();
-    public string Desc { get; set; } = "";
-}
-
-public class PublishProjectsRequest
-{
-    public List<string> Ids { get; set; } = new();
-}
+    public class PublishProjectsRequest
+    {
+        public List<string> Ids { get; set; } = new();
+    }
 
     public class SubjectCoordinatorController : Controller
     {
         private readonly SmartDbContext _db;
-        public SubjectCoordinatorController(SmartDbContext db) => _db = db;
+        private readonly IAllocationEngine _engine;
+        public SubjectCoordinatorController(SmartDbContext db, IAllocationEngine engine) {
+        _db = db;
+        _engine = engine;
+        }
 
-
-
-
-
-
-[HttpGet]
+        [HttpGet]
         public IActionResult GroupDetails(string groupId)
         {
             var vm = new ScGroupDetailsVm
@@ -129,7 +140,12 @@ public class PublishProjectsRequest
                                  .Select(u => u.UniID)
                                  .FirstAsync();
 
+            var curYear = DateTime.UtcNow.Year;
             var year = DateTime.UtcNow.Year;
+            //Get all year selection base on university constaint
+            var years = await _db.UniversityConstraints
+                                 .Select(u => u.Year)
+                                 .ToListAsync();
 
             // list rows from CourseConstraints (joined to Course)
             // var rows = await _db.CourseConstraints
@@ -150,20 +166,22 @@ public class PublishProjectsRequest
 
             // list rows from ProgramConstraint (joined to Program)
             var rows = await _db.ProgramConstraints
-                .Where(cc => cc.UniID == uniId && cc.Year == year)
+                .Where(cc => cc.UniID == uniId && cc.Year >= curYear)
                 .Join(_db.Programs,
                       cc => cc.ProgramId,
-                      c  => c.ID,
+                      c => c.ID,
                       (cc, c) => new ScConstraintRowVm
                       {
-                          Code    = c.ProgramCode,
-                          Name    = c.ProgramName,
-                          Session = $"S1–S{cc.SessionNo}",
-                          Status  = cc.IsOverride ? "Override" : "Default",
+                          Code = c.ProgramCode,
+                          Name = c.ProgramName,
+                          Session = cc.SessionNo,
+                          Status = cc.IsOverride ? "Override" : "Default",
+                          Year = cc.Year,
                           Updated = cc.UpdatedAt ?? cc.CreatedAt
                       })
                 .OrderBy(r => r.Code)
                 .ToListAsync();
+                
             var projectRows = await _db.Projects
             .OrderBy(p => p.ProjectId)
             .Select(p => new ScProjectsPageVm.ProjectRow
@@ -186,10 +204,11 @@ public class PublishProjectsRequest
 
                 var vm = new ScProjectsPageVm
                 {
-                    ActiveTab   = tab,
-                    Year        = year,
+                    ActiveTab = tab,
+                    curYear = curYear,
                     Constraints = rows,
-                    Projects    = projectRows,
+                    Projects = projectRows,
+                    years = years
                 };
 
                 return View(vm);
@@ -278,10 +297,22 @@ public IActionResult GetConstraintScaffold(int year)
     {
         var rows = _db.Programs
                     .OrderBy(c => c.ProgramCode)
-                    .Select(c => new { code = c.ProgramCode, name = c.ProgramName })
+                    .Select(c => new { id = c.ID,code = c.ProgramCode, name = c.ProgramName })
                     .ToList();
         return Json(rows);
     }
+    [HttpGet]
+    public async Task<IActionResult> GetAvailableYears()
+    {
+        var years = await _db.UniversityConstraints
+            .Select(u => u.Year)
+            .Distinct()
+            .OrderByDescending(y => y)
+            .ToListAsync();
+
+        return Json(years);
+    }
+
 
 
 
@@ -341,7 +372,7 @@ public IActionResult GetConstraintScaffold(int year)
 
             var uniId = await _db.Universities.Select(u => u.UniID).FirstAsync();
 
-            var program = await _db.Programs.FirstOrDefaultAsync(c => c.ProgramCode == dto.ProgramCode);
+            var program = await _db.Programs.FirstOrDefaultAsync(c => c.ID == dto.programId);
             if (program == null) return BadRequest("Program not found.");
 
             var pc = await _db.ProgramConstraints
@@ -375,6 +406,54 @@ public IActionResult GetConstraintScaffold(int year)
                 pc.SMax          = dto.SMax;
                 pc.IsOverride    = dto.IsOverride;
                 pc.UpdatedAt     = DateTime.UtcNow;
+            }
+
+            // Save the ProgramConstraint first to get pc.Id (for FK usage)
+            await _db.SaveChangesAsync();
+
+            // ✅ Step 2: Check if PreferenceWeights exist for this ProgramConstraint
+            var existingWeights = await _db.PreferenceWeights
+                .Where(w => w.ProgramConstraintID == pc.Id)
+                .ToListAsync();
+
+            if (existingWeights.Any())
+            {
+                // --- Update existing weights ---
+                foreach (var w in dto.Weights)
+                {
+                    var match = existingWeights.FirstOrDefault(x => x.RankNo == w.RankNo);
+                    if (match != null)
+                    {
+                        match.WeightValue = w.WeightValue;
+                        match.UpdatedAt = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        // New rank (added beyond previous limit)
+                        _db.PreferenceWeights.Add(new PreferenceWeight
+                        {
+                            ProgramConstraintID = pc.Id,
+                            RankNo = w.RankNo,
+                            WeightValue = w.WeightValue,
+                            CreatedAt = DateTime.UtcNow
+                        });
+                    }
+                }
+            }
+            else
+            {
+                // --- Create new weights for this ProgramConstraint ---
+                if (dto.Weights != null && dto.Weights.Count > 0)
+                {
+                    var newWeights = dto.Weights.Select(w => new PreferenceWeight
+                    {
+                        ProgramConstraintID = pc.Id,
+                        RankNo = w.RankNo,
+                        WeightValue = w.WeightValue,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                    _db.PreferenceWeights.AddRange(newWeights);
+                }
             }
 
             await _db.SaveChangesAsync();
@@ -451,118 +530,127 @@ public async Task<IActionResult> GetConstraintDetails(string programCode, int ye
     });
 }
 
-        // [HttpPost]
-        // [IgnoreAntiforgeryToken]
-        // public async Task<IActionResult> DeleteCourseConstraints([FromBody] DeleteConstraintsDto dto)
-        // {
-        //     if (dto == null || dto.Year <= 0 || dto.CourseCodes == null || dto.CourseCodes.Count == 0)
-        //         return BadRequest("Invalid payload.");
+// [HttpPost]
+// [IgnoreAntiforgeryToken]
+// public async Task<IActionResult> DeleteProgramConstraints([FromBody] DeleteConstraintsListDto dto)
+// {
+//     if (dto == null || dto.Year <= 0 || dto.ProgramCodes == null || dto.ProgramCodes.Count == 0)
+//         return BadRequest("Invalid payload.");
 
-        //     // normalize codes
-        //     var codes = dto.CourseCodes
-        //         .Where(c => !string.IsNullOrWhiteSpace(c))
-        //         .Select(c => c.Trim().ToUpperInvariant())
-        //         .Distinct()
-        //         .ToList();
+//     // normalize codes
+//     var codes = dto.ProgramCodes
+//         .Where(c => !string.IsNullOrWhiteSpace(c))
+//         .Select(c => c.Trim().ToUpperInvariant())
+//         .Distinct()
+//         .ToList();
 
-        //     try
-        //     {
-        //         // scope to current university (same pattern you used elsewhere)
-        //         var uniId = await _db.Universities.Select(u => u.UniID).FirstAsync();
+//     try
+//     {
+//         // scope to current university (same pattern you used elsewhere)
+//         var uniId = await _db.Universities.Select(u => u.UniID).FirstAsync();
 
-        //         // translate CourseCode -> CourseId
-        //         var courseIds = await _db.Courses
-        //             .Where(c => codes.Contains(c.CourseCode.ToUpper()))
-        //             .Select(c => c.ID)
-        //             .ToListAsync();
+//         // translate ProgramCode -> ProgramId
+//         var programIds = await _db.Programs
+//             .Where(p => codes.Contains(p.ProgramCode.ToUpper()))
+//             .Select(p => p.ID)
+//             .ToListAsync();
 
-        //         if (courseIds.Count == 0)
-        //             return NotFound("No matching courses.");
+//         if (programIds.Count == 0)
+//             return NotFound("No matching courses.");
 
-        //         // build delete query on CourseConstraints
-        //         var q = _db.CourseConstraints
-        //                    .Where(x => x.UniID == uniId
-        //                             && x.Year == dto.Year
-        //                             && courseIds.Contains(x.CourseId));
+//         // build delete query on CourseConstraints
+//         var q = _db.ProgramConstraints
+//                    .Where(x => x.UniID == uniId
+//                             && x.Year == dto.Year
+//                             && programIds.Contains(x.ProgramId));
 
-        //         if (dto.SessionNo.HasValue)
-        //             q = q.Where(x => x.SessionNo == dto.SessionNo.Value);
+//         if (dto.SessionNo.HasValue)
+//             q = q.Where(x => x.SessionNo == dto.SessionNo.Value);
 
-        //         var rows = await q.ToListAsync();
-        //         if (rows.Count == 0)
-        //             return NotFound("No matching constraints.");
+//         var rows = await q.ToListAsync();
+//         if (rows.Count == 0)
+//             return NotFound("No matching constraints.");
 
-        //         _db.CourseConstraints.RemoveRange(rows);
-        //         await _db.SaveChangesAsync();
+//         _db.ProgramConstraints.RemoveRange(rows);
+//         await _db.SaveChangesAsync();
 
-        //         return Ok(new { deleted = rows.Count });
-        //     }
-        //     catch (DbUpdateException ex)
-        //     {
-        //         return StatusCode(500, $"Cannot delete because of related data: {ex.GetBaseException().Message}");
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return StatusCode(500, ex.GetBaseException().Message);
-        //     }
-        // }
-
+//         return Ok(new { deleted = rows.Count });
+//     }
+//     catch (DbUpdateException ex)
+//     {
+//         return StatusCode(500, $"Cannot delete because of related data: {ex.GetBaseException().Message}");
+//     }
+//     catch (Exception ex)
+//     {
+//         return StatusCode(500, ex.GetBaseException().Message);
+//     }
+// }
 [HttpPost]
-[IgnoreAntiforgeryToken]
-public async Task<IActionResult> DeleteProgramConstraints([FromBody] DeleteConstraintsDto dto)
+public async Task<IActionResult> DeleteProgramConstraints([FromBody] DeleteConstraintsListDto dto)
 {
-    if (dto == null || dto.Year <= 0 || dto.ProgramCodes == null || dto.ProgramCodes.Count == 0)
-        return BadRequest("Invalid payload.");
-
-    // normalize codes
-    var codes = dto.ProgramCodes
-        .Where(c => !string.IsNullOrWhiteSpace(c))
-        .Select(c => c.Trim().ToUpperInvariant())
-        .Distinct()
-        .ToList();
+    if (dto?.deleteConstraintsDtos == null || !dto.deleteConstraintsDtos.Any())
+        return BadRequest("Invalid request payload.");
 
     try
     {
-        // scope to current university (same pattern you used elsewhere)
+        // current uni
         var uniId = await _db.Universities.Select(u => u.UniID).FirstAsync();
 
-        // translate ProgramCode -> ProgramId
-        var programIds = await _db.Programs
-            .Where(p => codes.Contains(p.ProgramCode.ToUpper()))
-            .Select(p => p.ID)
-            .ToListAsync();
+        // Normalize input
+        var normalized = dto.deleteConstraintsDtos
+            .Where(i =>
+                !string.IsNullOrWhiteSpace(i.ProgramCode) &&
+                i.Year > 0 &&
+                i.SessionNo > 0)
+            .Select(i => new {
+                ProgramCode = i.ProgramCode.Trim().ToUpperInvariant(),
+                i.Year,
+                i.SessionNo
+            })
+            .ToList();
 
-        if (programIds.Count == 0)
-            return NotFound("No matching courses.");
+        if (!normalized.Any())
+            return BadRequest("No valid items found.");
 
-        // build delete query on CourseConstraints
-        var q = _db.ProgramConstraints
-                   .Where(x => x.UniID == uniId
-                            && x.Year == dto.Year
-                            && programIds.Contains(x.ProgramId));
+        // Get program info once
+        var allProgramCodes = normalized.Select(i => i.ProgramCode).Distinct().ToList();
+        var programMap = await _db.Programs
+            .Where(p => allProgramCodes.Contains(p.ProgramCode.ToUpper()))
+            .ToDictionaryAsync(p => p.ProgramCode.ToUpper(), p => p.ID);
 
-        if (dto.SessionNo.HasValue)
-            q = q.Where(x => x.SessionNo == dto.SessionNo.Value);
+        var toDelete = new List<ProgramConstraint>();
 
-        var rows = await q.ToListAsync();
-        if (rows.Count == 0)
-            return NotFound("No matching constraints.");
+        foreach (var item in normalized)
+        {
+            if (!programMap.TryGetValue(item.ProgramCode, out var programId))
+                continue;
 
-        _db.ProgramConstraints.RemoveRange(rows);
+            var pc = await _db.ProgramConstraints.FirstOrDefaultAsync(x =>
+                x.ProgramId == programId &&
+                x.Year == item.Year &&
+                x.SessionNo == item.SessionNo);
+
+            if (pc != null)
+                toDelete.Add(pc);
+        }
+
+        if (!toDelete.Any())
+            return NotFound("No matching constraints found.");
+
+        _db.ProgramConstraints.RemoveRange(toDelete);
         await _db.SaveChangesAsync();
 
-        return Ok(new { deleted = rows.Count });
+        return Ok(new { deleted = toDelete.Count });
     }
     catch (DbUpdateException ex)
     {
-        return StatusCode(500, $"Cannot delete because of related data: {ex.GetBaseException().Message}");
+        return StatusCode(500, $"Cannot delete due to linked data: {ex.GetBaseException().Message}");
     }
     catch (Exception ex)
     {
         return StatusCode(500, ex.GetBaseException().Message);
     }
 }
-
 // GET: load templates into the modal (filters + pagination)
 [HttpGet]
 public async Task<IActionResult> GetProjectTemplates(
@@ -1455,12 +1543,146 @@ public async Task<IActionResult> CreateTemplate([FromForm] TemplateRowVm vm)
             res.Add(sb.ToString());
             return res.ToArray();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPreferenceWeights(int programId, int year, int sessionNo)
+        {
+            //Check for existing program constraints
+            var constraint = await _db.ProgramConstraints
+                .FirstOrDefaultAsync(x => x.ProgramId == programId && x.Year == year && x.SessionNo == sessionNo);
+            
+            //Check send back default value if no constraint found
+            if (constraint == null)
+            {
+                // return no weights + prefLimit from University constraint defaults
+                var uni = await _db.UniversityConstraints
+                    .FirstOrDefaultAsync(u => u.Year == year);
+
+                if (uni == null)
+                {
+                    return NotFound();
+                }
+                else
+                {  
+                    return Json(new
+                    {
+                        sessionNo = uni.SessionNo,
+                        sLoadCap = uni.SLoadCap,
+                        aLoadCap = uni.ALoadCap,
+                        prefLimit = uni.PrefRankLimit,
+                        sMin = uni.SMin,
+                        sMax = uni.SMax,
+                        isOverride = false,
+                        existingWeights = new List<object>()
+                    });
+                }
+            }
+            else
+            {
+                // 3. Retrieve weights
+                var weights = await _db.PreferenceWeights
+                    .Where(w => w.ProgramConstraintID == constraint.Id)
+                    .OrderBy(w => w.RankNo)
+                    .Select(w => new { w.RankNo, w.WeightValue })
+                    .ToListAsync();
+                 // Return combined info
+                return Json(new
+                {
+                    sessionNo = constraint.SessionNo,
+                    sLoadCap = constraint.SLoadCap,
+                    aLoadCap = constraint.ALoadCap,
+                    prefLimit = constraint.PrefRankLimit,
+                    sMin = constraint.SMin,
+                    sMax = constraint.SMax,
+                    isOverride = constraint.IsOverride,
+                    existingWeights = weights
+                });
+
+            }
+        }
+
+
         [HttpGet]
         [IgnoreAntiforgeryToken]
-        public IActionResult Allocation(string tab = "summary")
+        public async Task<IActionResult> Allocation(string tab = "summary")
         {
             ViewBag.ActiveTab = tab;
+
+            // --- Load dropdown data ---
+            var programs = await _db.Programs
+                .Select(p => new { p.ID, p.ProgramName })
+                .ToListAsync();
+
+            var years = await _db.ProgramConstraints
+                .Select(c => c.Year)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .ToListAsync();
+
+            // By default, load all sessions (you’ll filter them in the UI with JS)
+            var sessions = await _db.ProgramConstraints
+                .Select(c => new { c.Id, c.ProgramId, c.Year, c.SessionNo })
+                .OrderBy(c => c.SessionNo)
+                .ToListAsync();
+
+            ViewBag.Programs = programs;
+            ViewBag.Years = years;
+            ViewBag.Sessions = sessions;
+
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RunAllocation(int programConstraintID)
+        {
+            //Retrieve constraints base on programConstraint ID
+            var programConstraints = await _db.ProgramConstraints
+                .Where(x => x.Id == programConstraintID)
+                .OrderByDescending(x => x.Id)
+                .FirstOrDefaultAsync();
+
+            //Retrieve Role records
+            var targetRoles = new[] { "Assessor", "Supervisor", "Student" };
+
+            var roles = await _db.Roles
+                .Where(r => targetRoles.Contains(r.Name))
+                .ToDictionaryAsync(r => r.Name, r => r.RoleId);
+
+            var preferenceWeights = await _db.PreferenceWeights
+                .Where(w => w.ProgramConstraintID == programConstraintID)
+                .Select(w => new PreferenceWeightDto
+                {
+                    RankNo = w.RankNo,
+                    WeightValue = w.WeightValue
+                })
+                .OrderBy(w => w.RankNo)
+                .ToListAsync();
+
+            var p = new AllocationParameters(
+                ProgramConstraintID: programConstraintID,
+                MaxGroupSize: programConstraints?.SMax ?? 5,
+                MinGroupSize: programConstraints?.SMin ?? 3,
+                SupervisorLoadCap: programConstraints?.SLoadCap ?? 4,
+                AssessorLoadCap: programConstraints?.ALoadCap ?? 4,
+                PreferenceLimit: programConstraints?.PrefRankLimit ?? 3,
+                WModMatchSup: 10,
+                WModMatchAss: 10,
+                // Role IDs: adjust to your system constants
+                RoleIdStudent: roles["Student"],
+                RoleIdSupervisor: roles["Supervisor"],
+                RoleIdAssessor: roles["Assessor"],    // <-- set correctly for your data
+                Year: programConstraints?.Year ?? 2025,
+                SessionNo: programConstraints.SessionNo,
+                PreferenceWeightDtos: preferenceWeights
+            );
+
+            var result = await _engine.RunAsync(p);
+
+            TempData["AllocationMessage"] = result.Conflicts.Count == 0
+                ? $"Allocation completed. Run #{result.RunId}. AvgPrefScore: {result.AvgPreferenceScore:F1}"
+                : $"Allocation partial. Run #{result.RunId}. Conflicts: {string.Join("; ", result.Conflicts.Select(c => c.Detail))}";
+
+            return RedirectToAction("Allocation", new { tab = "summary" });
         }
     }
 }
