@@ -1684,5 +1684,181 @@ public async Task<IActionResult> CreateTemplate([FromForm] TemplateRowVm vm)
 
             return RedirectToAction("Allocation", new { tab = "summary" });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllAllocationRuns()
+        {
+            var runs = await _db.AllocationRuns
+                .OrderByDescending(r => r.StartedAt)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.ProgramConstraintID,
+
+                    // Join with ProgramConstraints
+                    Constraint = _db.ProgramConstraints
+                        .Where(pc => pc.Id == r.ProgramConstraintID)
+                        .Select(pc => new
+                        {
+                            pc.Year,
+                            pc.SessionNo,
+                            pc.ProgramId
+                        })
+                        .FirstOrDefault(),
+
+                    r.StartedAt,
+                    r.FinishedAt,
+                    r.Status,
+                    AvgScore = r.AvgPreferenceScore,
+                    r.UnassignedStudents
+                })
+                .ToListAsync();
+
+            // Post-process to include Program Name
+            var output = new List<object>();
+
+            foreach (var run in runs)
+            {
+                string programName = "-";
+
+                if (run.Constraint != null)
+                {
+                    var program = await _db.Programs
+                        .Where(p => p.ID == run.Constraint.ProgramId)
+                        .Select(p => p.ProgramName)
+                        .FirstOrDefaultAsync();
+
+                    programName = program ?? "-";
+                }
+
+                output.Add(new
+                {
+                    run.Id,
+                    Year = run.Constraint?.Year ?? 0,
+                    ProgramName = programName,
+                    Session = run.Constraint?.SessionNo ?? 0,
+                    StartedAt = run.StartedAt.ToString("dd/MM/yyyy h:mmtt"),
+                    FinishedAt = run.FinishedAt == null ? "-" :
+                                run.FinishedAt.Value.ToString("dd/MM/yyyy h:mmtt"),
+                    run.Status,
+                    run.AvgScore,
+                    Unassigned = run.UnassignedStudents
+                });
+            }
+
+            return Json(output);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllocationRunDetails(int runId)
+        {
+            var run = await _db.AllocationRuns.FirstOrDefaultAsync(r => r.Id == runId);
+            if (run == null)
+                return NotFound("Run not found.");
+
+            // Load details directly from AllocationRunDetails
+            var details = await _db.AllocationRunDetails
+                .Where(d => d.RunId == runId)
+                .Select(d => new
+                {
+                    d.UserId,
+                    d.RoleId,
+                    d.GroupId,
+                    d.ProjectId,
+                    d.PreferenceRank,
+                    d.Score,
+                    d.MatchedModules,
+
+                    UserName = d.User.Name,
+                    UserEmail = d.User.Email,
+
+                    ProjectTitle = _db.Projects
+                        .Where(p => p.ProjectId == d.ProjectId)
+                        .Select(p => p.Title)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            var grouped = details
+                .GroupBy(p => new { p.ProjectId, p.ProjectTitle })
+                .Select(pg => new
+                {
+                    ProjectId = pg.Key.ProjectId,
+                    ProjectTitle = pg.Key.ProjectTitle,
+
+                    Groups = pg
+                        .GroupBy(g => g.GroupId)
+                        .Select(gx => new
+                        {
+                            GroupId = gx.Key,
+                            Members = gx.Select(x => new
+                            {
+                                x.UserId,
+                                x.UserName,
+                                x.UserEmail,
+                                x.RoleId,
+                                x.PreferenceRank,
+                                x.Score,
+                                x.MatchedModules
+                            })
+                        })
+                });
+
+            return Json(grouped);
+        }
+
+        // [HttpPost]
+        // public async Task<IActionResult> ConfirmAllocationRun([FromBody] dynamic body)
+        // {
+        //     int runId = Convert.ToInt32(body.runId);
+
+        //     var runDetails = await _db.AllocationRunDetails
+        //         .Where(x => x.RunId == runId)
+        //         .ToListAsync();
+
+        //     if (!runDetails.Any())
+        //         return BadRequest("No allocation details found for this run.");
+
+        //     // Group personnel by GroupId
+        //     var grouped = runDetails
+        //         .GroupBy(d => d.GroupId)
+        //         .ToList();
+
+        //     foreach (var g in grouped)
+        //     {
+        //         // Find the project from the first record in this group
+        //         string projectId = g.First().ProjectId;
+
+        //         // Supervisor / Assessor
+        //         var supervisor = g.FirstOrDefault(x => x.RoleId == 5); // YOUR DB: RoleId 5 = Supervisor
+        //         var assessor = g.FirstOrDefault(x => x.RoleId == 4);   // RoleId 4 = Assessor
+
+        //         // Create or update Groups table
+        //         var existingGroup = await _db.Groups.FirstOrDefaultAsync(x => x.Id == g.Key);
+
+        //         if (existingGroup == null)
+        //         {
+        //             existingGroup = new Group
+        //             {
+        //                 Id = g.Key,
+        //                 ProjectId = projectId,
+        //                 CreatedAt = DateTime.UtcNow,
+        //                 CreatedBy = "System"
+        //             };
+        //             _db.Groups.Add(existingGroup);
+        //         }
+
+        //         if (supervisor != null)
+        //             existingGroup. = supervisor.UserId;
+
+        //         if (assessor != null)
+        //             existingGroup.AssessorId = assessor.UserId;
+
+        //         existingGroup.UpdatedAt = DateTime.UtcNow;
+        //     }
+
+        //     await _db.SaveChangesAsync();
+        //     return Ok(new { success = true });
+        // }
+
+
     }
 }

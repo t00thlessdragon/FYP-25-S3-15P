@@ -234,6 +234,16 @@ namespace FYP_25_S3_15P.Services.Allocation
 
         foreach (var group in allGroups)
         {
+            // Count students in this group for this run
+            int studentCount = await _db.AllocationRunDetails
+                .CountAsync(d =>
+                    d.GroupId == group.Id &&
+                    d.RoleId == ap.RoleIdStudent &&
+                    d.RunId == run.Id);
+
+            //  Skip empty groups
+            if (studentCount == 0)
+                continue;
             // Assign supervisor with lowest current load (under cap)
             var availableSup = supervisorLoad
                 .Where(s => s.Value < ap.SupervisorLoadCap)

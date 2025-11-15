@@ -63,34 +63,31 @@
             <thead class="table-light">
                 <tr>
                     <th>No</th>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
-                    <th>Current Project</th>
-                    <th>Allocation Status</th>
+                    <th>Year</th>
+                    <th>Program</th>
+                    <th>Session</th>
+                    <th>Total Student</th>
+                    <th>Allocated</th>
+                    <th>Unallocation</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>UOW45678</td>
-                    <td>Tommy Lee</td>
-                    <td>A Smart Project Allocation System</td>
-                    <td><span class="badge bg-success">Allocated</span></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>UOW98756</td>
-                    <td>Peter Pan</td>
-                    <td>-</td>
-                    <td><span class="badge bg-danger">Unallocated</span></td>
+                    <td>2025</td>
+                    <td>Computer Science & Data</td>
+                    <td>1</td>
+                    <td>1000</td>
+                    <td>800</td>
+                    <td>200</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <!-- Project Allocation Table -->
-    <h5>Project Allocation</h5>
-    <div class="table-responsive">
+    <h5>Project Allocation Runs</h5>
+    @* <div class="table-responsive">
         <table class="table table-bordered align-middle">
             <thead class="table-light">
                 <tr>
@@ -123,8 +120,73 @@
                 </tr>
             </tbody>
         </table>
+    </div> *@
+
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Year</th>
+                    <th>Program</th>
+                    <th>Session</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                    <th>Avg Score</th>
+                    <th>No. of Unassigned Student</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="runsTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>2025</td>
+                    <td>Computer Science & Data</td>
+                    <td>S1</td>
+                    <td>15/10/2025 2.20PM</td>
+                    <td>15/10/2025 7.20PM</td>
+                    <td>In progress</td>
+                    <th>500</th>
+                    <th>10</th>
+                    <td>
+                        <button class="btn btn-sm btn-outline-success">Approve</button>
+                        <button class="btn btn-sm btn-outline-danger">Reject</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
+
+<!-- Allocation Run Detail Modal -->
+<div class="modal fade" id="allocationRunDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Allocation Run Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="allocationRunDetailContainer">
+          <p class='text-muted'>Loading...</p>
+        </div>
+        <div class="modal-footer">
+                <button id="btn-save-allocation" class="btn btn-success" data-run="">Save Allocation</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 
 <!-- Adjust Project Allocation Modal -->
 <div class="modal fade" id="adjustAllocationModal" tabindex="-1" aria-labelledby="adjustAllocationLabel" aria-hidden="true">
@@ -184,6 +246,7 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        loadAllRuns();
         // Open modal on Adjust button click
         document.querySelectorAll('.btn-outline-primary').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -233,5 +296,183 @@
 
         yearSelect.addEventListener('change', filterSessions);
         programSelect.addEventListener('change', filterSessions);
+
+        async function loadAllRuns() {
+            const tbody = document.getElementById("runsTableBody");
+            tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted">Loading...</td></tr>`;
+
+            try {
+                const res = await fetch('/SubjectCoordinator/GetAllAllocationRuns');
+                const runs = await res.json();
+
+                tbody.innerHTML = "";
+
+                if (runs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted">No allocation runs found.</td></tr>`;
+                    return;
+                }
+
+                let i = 1;
+                for (const r of runs) {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${i++}</td>
+                            <td>${r.year}</td>
+                            <td>${r.programName}</td>
+                            <td>S${r.session}</td>
+                            <td>${r.startedAt}</td>
+                            <td>${r.finishedAt}</td>
+                            <td>${r.status}</td>
+                            <td>${r.avgScore}</td>
+                            <td>${r.unassigned}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm js-view-run" data-run="${r.id}">View</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+            } catch (error) {
+                tbody.innerHTML = `<tr><td colspan="10" class="text-danger text-center">Error loading data</td></tr>`;
+            }
+        }
     });
+
+document.addEventListener("click", async function (e) {
+    const btn = e.target.closest(".js-view-run");
+    if (!btn) return;
+
+    const runId = btn.dataset.run;
+
+     // Store runId into the Save button
+    document.getElementById("btn-save-allocation").dataset.run = runId;
+
+    const container = document.getElementById("allocationRunDetailContainer");
+    container.innerHTML = "<p class='text-muted'>Loading...</p>";
+
+    const modal = new bootstrap.Modal(document.getElementById('allocationRunDetailModal'));
+    modal.show();
+
+    try {
+        const res = await fetch(`/SubjectCoordinator/GetAllocationRunDetails?runId=${runId}`);
+        if (!res.ok) {
+            container.innerHTML = `<div class='text-danger'>Failed to load details.</div>`;
+            return;
+        }
+
+        const data = await res.json();
+        renderRunDetails(container, data);
+
+    } catch (err) {
+        container.innerHTML = `<div class='text-danger'>Error: ${err.message}</div>`;
+    }
+});
+
+document.getElementById("btn-save-allocation").addEventListener("click", async () => {
+    const btn = document.getElementById("btn-save-allocation");
+    const runId = btn.dataset.run;
+
+    if (!runId) {
+        alert("Run ID missing.");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = "Saving...";
+
+    try {
+        const res = await fetch(`/SubjectCoordinator/ConfirmAllocationRun`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ runId: Number(runId) })
+        });
+
+        if (!res.ok) {
+            const txt = await res.text();
+            alert("Error: " + txt);
+            btn.disabled = false;
+            btn.innerHTML = "Save Allocation";
+            return;
+        }
+
+        alert("Allocation saved successfully!");
+        btn.innerHTML = "Saved!";
+    }
+    catch (err) {
+        alert("Error: " + err.message);
+        btn.innerHTML = "Save Allocation";
+        btn.disabled = false;
+    }
+});
+
+function roleName(roleId) {
+    if (roleId == 6) return "Student";
+    if (roleId == 5) return "Supervisor";
+    if (roleId == 4) return "Assessor";
+    return "Unknown";
+}
+
+
+
+function renderRunDetails(container, data) {
+    if (!data || data.length === 0) {
+        container.innerHTML = "<p>No allocation data found for this run.</p>";
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(project => {
+        html += `
+        <div class="mb-4">
+            <h4>${project.projectId} — ${project.projectTitle}</h4>
+        `;
+
+        project.groups.forEach(group => {
+            html += `
+            <div class="card mb-3">
+              <div class="card-header">
+                <strong>Group ${group.groupId}</strong>
+              </div>
+              <div class="card-body p-2">
+                <table class="table table-sm table-bordered mb-0">
+                  <thead>
+                    <tr>
+                      <th>User</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Preference Rank</th>
+                      <th>Score</th>
+                      <th>Matched Modules</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+            `;
+
+            group.members.forEach(m => {
+                html += `
+                  <tr>
+                    <td>${m.userName}</td>
+                    <td>${m.userEmail}</td>
+                    <td>${roleName(m.roleId)}</td>
+                    <td>${m.preferenceRank ?? "-"}</td>
+                    <td>${m.score}</td>
+                    <td>${m.matchedModules}</td>
+                  </tr>
+                `;
+            });
+
+            html += `
+                  </tbody>
+                </table>
+              </div>
+            </div>`;
+        });
+
+        html += "</div>";
+    });
+
+    container.innerHTML = html;
+}
+
 </script>
